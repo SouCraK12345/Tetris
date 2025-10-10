@@ -586,7 +586,7 @@ let rotate_position = [0, -2, 1, -14, 25, 0, -1, 2, 23, -10, 0, 2, -1, 14, 23, 0
     -23, 0, -1, -13, 24, 23, 0, -1, 11, -24, -25, 0, 1, -11, 24, 25, 0, 1, 13, -24, -23, 0, -1,
     -13, 24, 23,];
 let mino_color = ["#00ffff", "#ffe600", "#33ff00", "#ff0000", "#0012ff", "#ff9100", "#ad00ff"];
-let ghost_mino_color = ["#004d4d", "#4d4500", "#0f4d00", "#4d0000", "#00084d", "#4d2700", "#34004d"];
+let ghost_mino_color = ["#007979ff", "#807300ff", "#197e00ff", "#740000ff", "#031297ff", "#703800ff", "#62008fff"];
 
 canvas.style.display = "none";
 document.querySelector(".details").style.display = "none";
