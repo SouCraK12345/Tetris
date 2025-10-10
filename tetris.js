@@ -1,3 +1,6 @@
+document.querySelector(".hard-drop").volume = 0.6;
+document.querySelector(".t-spin").volume = 0.7;
+
 // ----関数----
 
 function mainloop() {
@@ -71,6 +74,8 @@ function game() {
         key_down[0] = 1;
         rockdown();
         shaking_y += 3;
+        document.querySelector(".hard-drop").currentTime = 0;
+        document.querySelector(".hard-drop").play();
     } else {
         if (key_list[0] === false) {
             key_down[0] = 0;
@@ -374,7 +379,13 @@ function line_delete() {
     if (t_spined) {
         rewrite_attackType("T-Spin<br>" + ["", "Single", "Double", "Triple"][deleted_lines])
         BTB++;
+        if(BTB > 1){
+            document.querySelector(".btb").currentTime = 0;
+            document.querySelector(".btb").play();
+        }
         attack += deleted_lines * 2 + (BTB > 1);
+        document.querySelector(".t-spin").currentTime = 0;
+        document.querySelector(".t-spin").play();
     } else {
         if (deleted_lines > 0) {
             rewrite_attackType(["", "Single", "Double", "Triple", "Tetris"][deleted_lines])
@@ -382,6 +393,12 @@ function line_delete() {
                 BTB = 0;
             } else {
                 BTB++;
+                document.querySelector(".tetris").currentTime = 0;
+                document.querySelector(".tetris").play();
+                if(BTB > 1){
+                    document.querySelector(".btb").currentTime = 0;
+                    document.querySelector(".btb").play();
+                }
             }
             attack += deleted_lines - 1 + (deleted_lines == 4) + (BTB > 1);
         }
@@ -405,6 +422,10 @@ function line_delete() {
     }
     if (deleted_lines) {
         REN += 1;
+        if(REN > 4){
+            document.querySelector(".tetris").currentTime = 0;
+            document.querySelector(".tetris").play();
+        }
         attack += REN_attack[REN]
         if (REN > 4) {
             score += 3750;
@@ -507,7 +528,7 @@ function bgm() {
 
 // ----初期設定----
 // 変数セット
-const keyname = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c"];
+const keyname = [" ", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c"];
 let key_list = Array(7).fill(false);
 let key_down = Array(7).fill(0);
 // イベント
