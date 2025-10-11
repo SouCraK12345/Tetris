@@ -629,6 +629,9 @@ canvas.style.display = "none";
 document.querySelector(".details").style.display = "none";
 document.querySelectorAll(".tile-card").forEach((e) => {
     e.addEventListener("click", function () {
+        if (e.children[0].innerText == "Setting"){
+            return document.querySelector(".setting-dialog").showModal();
+        }
         gamemode = e.children[0].innerText;
         canvas.style.display = "block";
         draw()

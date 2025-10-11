@@ -2,225 +2,330 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <style>
-   
-        label#attack_type, .left {
-            height: 10%;
-            position: absolute;
-            left: 10%;
-            /* ここを追加 */
-            transform: translateX(-50%);
-            /* ここを追加 */
-        }
-        label#attack_type{
-            top: 45%;
-        }
-        canvas {
-            height: 80%;
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            /* ここを追加 */
-            transform: translateX(-50%);
-            /* ここを追加 */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tetris</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    label#attack_type,
+    .left {
+      height: 10%;
+      position: absolute;
+      left: 10%;
+      /* ここを追加 */
+      transform: translateX(-50%);
+      /* ここを追加 */
+    }
 
-        body {
-            background-color: wheat;
-        }
+    label#attack_type {
+      top: 45%;
+    }
 
-        #\#attack_type {
-            color: yellowgreen;
-            font-weight: bold;
-            font-family: "Russo One", sans-serif;
-            font-size: 3rem;
-            -webkit-text-stroke: 0.5px black;
-            animation: fadeOut 2s forwards;
-            animation-fill-mode: both;
-            text-align: center;
-        }
+    canvas {
+      height: 80%;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      /* ここを追加 */
+      transform: translateX(-50%);
+      /* ここを追加 */
+    }
 
-        @keyframes fadeOut {
-            0% {
-                opacity: 1;
-            }
+    body {
+      background-color: wheat;
+    }
 
-            50% {
-                opacity: 1;
-            }
+    #\#attack_type {
+      color: yellowgreen;
+      font-weight: bold;
+      font-family: "Russo One", sans-serif;
+      font-size: 3rem;
+      -webkit-text-stroke: 0.5px black;
+      animation: fadeOut 2s forwards;
+      animation-fill-mode: both;
+      text-align: center;
+    }
 
-            100% {
-                opacity: 0;
-            }
-        }
-        
-        .tile-card {
-          width: 500px;
-          /* カード全体の幅 */
-          height: 80px;
-          /* カード全体の高さ */
-          border-radius: 8px;
-          /* 角を丸くする */
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          /* 影を追加 */
-          display: flex;
-          /* 子要素を中央に配置するためにflexboxを使用 */
-          align-items: center;
-          /* 垂直方向中央揃え */
-          justify-content: center;
-          /* 水平方向中央揃え (コンテンツが少ない場合) */
-          overflow: hidden;
-          /* コンテンツがはみ出さないように */
-          box-sizing: border-box;
-          /* paddingとborderをwidth/heightに含める */
-          margin: 10px auto;
-        }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
 
-        .tile-content {
-          padding: 15px;
-          /* コンテンツの内側の余白 */
-          text-align: left;
-          /* テキストを中央揃え */
-          width: 80%;
-          color: #333;
-          /* テキストの色 */
-          font-family: "Russo One", sans-serif;
-          /* フォントの指定 */
-        }
+      50% {
+        opacity: 1;
+      }
 
-        .tile-content h3 {
-          margin-top: 0;
-          margin-bottom: 5px;
-          font-size: 3em;
-        }
+      100% {
+        opacity: 0;
+      }
+    }
 
-        .Ultra {
-          background-color: #a85432; /* カードの背景色 */
-        }
+    .tile-card {
+      width: 500px;
+      /* カード全体の幅 */
+      height: 80px;
+      /* カード全体の高さ */
+      border-radius: 8px;
+      /* 角を丸くする */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* 影を追加 */
+      display: flex;
+      /* 子要素を中央に配置するためにflexboxを使用 */
+      align-items: center;
+      /* 垂直方向中央揃え */
+      justify-content: center;
+      /* 水平方向中央揃え (コンテンツが少ない場合) */
+      overflow: hidden;
+      /* コンテンツがはみ出さないように */
+      box-sizing: border-box;
+      /* paddingとborderをwidth/heightに含める */
+      margin: 10px auto;
+    }
 
-        .Forty-Line {
-          background-color: #45a156; /* カードの背景色 */
-        }
+    .tile-content {
+      padding: 15px;
+      /* コンテンツの内側の余白 */
+      text-align: left;
+      /* テキストを中央揃え */
+      width: 80%;
+      color: #333;
+      /* テキストの色 */
+      font-family: "Russo One", sans-serif;
+      /* フォントの指定 */
+    }
 
-        .Marathon {
-          background-color: #cfd457; /* カードの背景色 */
-        }
-        
-        .tile-card-container{
-            margin: 0 auto;
-        }
-        .title{
-          padding: 15px;
-          /* コンテンツの内側の余白 */
-          text-align: left;
-          /* テキストを中央揃え */
-          color: #333;
-          /* テキストの色 */
-          font-family: "Russo One", sans-serif;
-          /* フォントの指定 */
-          margin-top: 0;
-          margin-bottom: 5px;
-          font-size: 3em;
-          text-align: center;
-        }
-        .wipe-in-box {
-            position: absolute;
-            left: 0px;
-            top: calc(50% - 40px);
-          font-family: "Russo One", sans-serif;
-          font-size: 2.5em;
-          width: 100%;
-          height: 40px;
-          color: white;
-          padding: 50px 0;
-          text-align: center;
-          justify-content: center;
-          align-items: center;
+    .tile-content h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 3em;
+    }
 
-          /* 初期状態では非表示 */
-          clip-path: inset(0 50% 0 50%); /* 左右から中央に50%ずつクリップ */
-          opacity: 0; /* アニメーション開始前に一瞬表示されるのを防ぐ */
-        }
-        .boxWipein{
-          animation: boxWipeIn 5s forwards ease-out; /* 2秒かけてアニメーション、終了状態を保持 */
-        }
-        /* アニメーション開始と同時に不透明にする */
-        .wipe-in-box.is-animated {
-          opacity: 1;
-        }
-        @keyframes boxWipeIn {
-          0% {
-            clip-path: inset(0 50% 0 50%); /* 左右から中央に50%ずつクリップ */
-            opacity: 0;
-          background-color: #4CAF50; /* ボックスの背景色 */
-          height: 40px;
-          }
-          1% { /* ほぼ0%の時点でopacityを1にする */
-            opacity: 1;
-          background-color: #4CAF50; /* ボックスの背景色 */
-          height: 40px;
-          }
-          8% {
-            clip-path: inset(0 10% 0 10%); /* 全体を表示 */
-            opacity: 1;
-          background-color: #4CAF50; /* ボックスの背景色 */
-          height: 40px;
-          }
-          72% {
-            clip-path: inset(0 0% 0 0%); /* 全体を表示 */
-            opacity: 1;
-            color: #FFFFFF;
-          background-color: #4CAF50; /* ボックスの背景色 */
-          top: calc(50% - 40px);
-          height: 40px;
-          }
-          80% {
-            clip-path: inset(0 0% 0 0%); /* 全体を表示 */
-            opacity: 1;
-          background-color: #000000; /* ボックスの背景色 */
-            color: #000000;
-          top: 0px;
-          height: calc(100% - 100px);
-          }
-          100%{
-            clip-path: inset(0 0% 0 0%); /* 全体を表示 */
-            opacity: 0;
-          background-color: #000000; /* ボックスの背景色 */
-            color: #000000;
-          top: 0px;
-          height: calc(100% - 100px);
-          }
-        }
-        
-        
-        @keyframes FloatIn{
-          0%{
-            transform: translateY(20px);
-            opacity: 0;
-          }
-          100%{
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
+    .Ultra {
+      background-color: #a85432;
+      /* カードの背景色 */
+    }
 
-        .result{
-          font-family: "Russo One", sans-serif;
-          margin: 0 auto;
-          width: 100%;
-          display: none;
-        }
-        
-        .FloatIn{
-          animation: FloatIn 0.3s forwards;
-        }
-    </style>
+    .Forty-Line {
+      background-color: #45a156;
+      /* カードの背景色 */
+    }
+
+    .Marathon {
+      background-color: #cfd457;
+      /* カードの背景色 */
+    }
+
+    .Setting {
+      background-color: #797979;
+      /* カードの背景色 */
+    }
+
+    .tile-card-container {
+      margin: 0 auto;
+    }
+
+    .title {
+      padding: 15px;
+      /* コンテンツの内側の余白 */
+      text-align: left;
+      /* テキストを中央揃え */
+      color: #333;
+      /* テキストの色 */
+      font-family: "Russo One", sans-serif;
+      /* フォントの指定 */
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 3em;
+      text-align: center;
+    }
+
+    .wipe-in-box {
+      position: absolute;
+      left: 0px;
+      top: calc(50% - 40px);
+      font-family: "Russo One", sans-serif;
+      font-size: 2.5em;
+      width: 100%;
+      height: 40px;
+      color: white;
+      padding: 50px 0;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+
+      /* 初期状態では非表示 */
+      clip-path: inset(0 50% 0 50%);
+      /* 左右から中央に50%ずつクリップ */
+      opacity: 0;
+      /* アニメーション開始前に一瞬表示されるのを防ぐ */
+    }
+
+    .boxWipein {
+      animation: boxWipeIn 5s forwards ease-out;
+      /* 2秒かけてアニメーション、終了状態を保持 */
+    }
+
+    /* アニメーション開始と同時に不透明にする */
+    .wipe-in-box.is-animated {
+      opacity: 1;
+    }
+
+    @keyframes boxWipeIn {
+      0% {
+        clip-path: inset(0 50% 0 50%);
+        /* 左右から中央に50%ずつクリップ */
+        opacity: 0;
+        background-color: #4CAF50;
+        /* ボックスの背景色 */
+        height: 40px;
+      }
+
+      1% {
+        /* ほぼ0%の時点でopacityを1にする */
+        opacity: 1;
+        background-color: #4CAF50;
+        /* ボックスの背景色 */
+        height: 40px;
+      }
+
+      8% {
+        clip-path: inset(0 10% 0 10%);
+        /* 全体を表示 */
+        opacity: 1;
+        background-color: #4CAF50;
+        /* ボックスの背景色 */
+        height: 40px;
+      }
+
+      72% {
+        clip-path: inset(0 0% 0 0%);
+        /* 全体を表示 */
+        opacity: 1;
+        color: #FFFFFF;
+        background-color: #4CAF50;
+        /* ボックスの背景色 */
+        top: calc(50% - 40px);
+        height: 40px;
+      }
+
+      80% {
+        clip-path: inset(0 0% 0 0%);
+        /* 全体を表示 */
+        opacity: 1;
+        background-color: #000000;
+        /* ボックスの背景色 */
+        color: #000000;
+        top: 0px;
+        height: calc(100% - 100px);
+      }
+
+      100% {
+        clip-path: inset(0 0% 0 0%);
+        /* 全体を表示 */
+        opacity: 0;
+        background-color: #000000;
+        /* ボックスの背景色 */
+        color: #000000;
+        top: 0px;
+        height: calc(100% - 100px);
+      }
+    }
+
+
+    @keyframes FloatIn {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .result {
+      font-family: "Russo One", sans-serif;
+      margin: 0 auto;
+      width: 100%;
+      display: none;
+    }
+
+    .FloatIn {
+      animation: FloatIn 0.3s forwards;
+    }
+
+    .slider-container {
+      width: 80%;
+      /* スライダーの幅 */
+      max-width: 400px;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      /* デフォルトのスタイルを無効にする */
+      width: 100%;
+      height: 10px;
+      /* スライダーバーの高さ */
+      background: #d3d3d3;
+      /* スライダーバーの背景色 */
+      outline: none;
+      /* フォーカス時のアウトラインを削除 */
+      opacity: 0.7;
+      /* 不透明度 */
+      -webkit-transition: 0.2s;
+      /* ホバー時のトランジション */
+      transition: opacity 0.2s;
+      border-radius: 5px;
+      /* 角を丸くする */
+    }
+
+    .slider:hover {
+      opacity: 1;
+      /* ホバー時に不透明度を上げる */
+    }
+
+    /* スライダーのつまみのスタイル */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      /* つまみの幅 */
+      height: 20px;
+      /* つまみの高さ */
+      border-radius: 50%;
+      /* 円形にする */
+      background: #4caf50;
+      /* つまみの色 */
+      cursor: pointer;
+      /* カーソルをポインターにする */
+    }
+
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4caf50;
+      cursor: pointer;
+    }
+
+    .slider-value {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .setting-dialog{
+      width: 400px;
+      max-width: 80%;
+    }
+    
+    .center{
+      margin: 0 auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -234,70 +339,96 @@
     <audio src="bgm-ultra.mp3" class="bgm-ultra"></audio>
     <audio src="bgm-40line.m4a" class="bgm-40line" loop></audio>
   </div>
-    <label id="attack_type"></label>
-    <div class="details">
-        <label class="left APM" style="bottom: 30%;">APM: 0.0</label>
-        <label class="left PPS" style="bottom: calc(30% - 20px);">PPS: 0.0</label>
-        <label class="left LINES" style="bottom: calc(30% - 40px);">Lines: 0</label>
-        <label class="left REN" style="bottom: calc(30% - 60px);">REN: 0</label>
-        <label class="left SCORE" style="bottom: calc(30% - 80px);">Score: 0</label>
-        <label class="left TIME" style="bottom: calc(30% - 100px);">Time: 0</label>
-    </div>
-    <canvas id="tetris">お使いのブラウザではhtmlのcanvasが対応していません。</canvas>
-    <div class="tile-card-container">
-        <h3 class="title">Menu</h3>
-        <button class="tile-card Ultra">
-          <div class="tile-content">
-            <h3>Ultra</h3>
-          </div>
-        </button>
-        <button class="tile-card Forty-Line">
-          <div class="tile-content">
-            <h3>40 Line</h3>
-          </div>
-        </button>
-
-        <button class="tile-card Marathon">
-          <div class="tile-content">
-            <h3>Marathon</h3>
-          </div>
-        </button>
-    </div>
-    <div class="wipe-in-box-container">
-      <div class="wipe-in-box">
-        Finish!
+  <label id="attack_type"></label>
+  <div class="details">
+    <label class="left APM" style="bottom: 30%;">APM: 0.0</label>
+    <label class="left PPS" style="bottom: calc(30% - 20px);">PPS: 0.0</label>
+    <label class="left LINES" style="bottom: calc(30% - 40px);">Lines: 0</label>
+    <label class="left REN" style="bottom: calc(30% - 60px);">REN: 0</label>
+    <label class="left SCORE" style="bottom: calc(30% - 80px);">Score: 0</label>
+    <label class="left TIME" style="bottom: calc(30% - 100px);">Time: 0</label>
+  </div>
+  <canvas id="tetris">お使いのブラウザではhtmlのcanvasが対応していません。</canvas>
+  <div class="tile-card-container">
+    <h3 class="title">Menu</h3>
+    <button class="tile-card Ultra">
+      <div class="tile-content">
+        <h3>Ultra</h3>
       </div>
+    </button>
+    <button class="tile-card Forty-Line">
+      <div class="tile-content">
+        <h3>40 Line</h3>
+      </div>
+    </button>
+
+    <button class="tile-card Marathon">
+      <div class="tile-content">
+        <h3>Marathon</h3>
+      </div>
+    </button>
+
+    <button class="tile-card Setting">
+      <div class="tile-content">
+        <h3>Setting</h3>
+      </div>
+    </button>
+  </div>
+  <div class="wipe-in-box-container">
+    <div class="wipe-in-box">
+      Finish!
     </div>
-    <div class="result">
-      <h3 class="title">Result</h3>
-      <table style="margin:0 auto;font-size: 1.2em;">
-        <tr>
-          <th>APM</th>
-          <td class="result-apm">0</td>
-        </tr>
-        <tr>
-          <th>Attack</th>
-          <td class="result-attack">0</td>
-        </tr>
-        <tr>
-          <th>PPS</th>
-          <td class="result-pps">0</td>
-        </tr>
-        <tr>
-          <th>Lines</th>
-          <td class="result-lines">0</td>
-        </tr>
-        <tr>
-          <th>Score</th>
-          <td class="result-score">0</td>
-        </tr>
-        <tr>
-          <th>Time</th>
-          <td class="result-time">0</td>
-        </tr>
-      </table>
+  </div>
+  <div class="result">
+    <h3 class="title">Result</h3>
+    <table style="margin:0 auto;font-size: 1.2em;">
+      <tr>
+        <th>APM</th>
+        <td class="result-apm">0</td>
+      </tr>
+      <tr>
+        <th>Attack</th>
+        <td class="result-attack">0</td>
+      </tr>
+      <tr>
+        <th>PPS</th>
+        <td class="result-pps">0</td>
+      </tr>
+      <tr>
+        <th>Lines</th>
+        <td class="result-lines">0</td>
+      </tr>
+      <tr>
+        <th>Score</th>
+        <td class="result-score">0</td>
+      </tr>
+      <tr>
+        <th>Time</th>
+        <td class="result-time">0</td>
+      </tr>
+    </table>
+  </div>
+  <dialog class="setting-dialog">
+    <h2 style="width: 100%; text-align: center;">設定</h2>
+    <div class="slider-container center">
+      <input type="range" min="1" max="10" value="10" class="slider" id="arr" />
+      <p class="slider-value">ARR: <span id="arr-label">0</span></p>
     </div>
-    <script src="tetris.js"></script>
+
+    <div class="slider-container center">
+      <input type="range" min="0" max="20" value="6" class="slider" id="das" />
+      <p class="slider-value">DAS: <span id="das-label">6</span></p>
+    </div>
+
+    <div class="slider-container center">
+      <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
+      <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
+    </div>
+    <button style="width: 100%;" onclick="document.querySelector('.setting-dialog').close()">閉じる</button>
+  </dialog>
+  
+  <script src="tetris.js"></script>
+  <script src="setting.js"></script>
 </body>
 
 </html>
