@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザー登録</title>
+</head>
+
+<body>
+    <h1>ユーザー登録</h1>
+    ユーザー名<input type="email" class="username">
+    パスワード<input type="password" class="password">
+    <button onclick="submit()">登録</button>
+    <script>
+        function submit() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            const body = JSON.stringify({
+                username: document.querySelector(".username").value,
+                password: document.querySelector(".password").value,
+                type: "regist",
+            });
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert("登録に成功しました");
+                } else {
+                    alert(`Error: ${xhr.status}`);
+                }
+            };
+            xhr.send(body);
+        }
+    </script>
+</body>
+
+</html>
