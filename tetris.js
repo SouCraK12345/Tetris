@@ -453,7 +453,7 @@ function rewrite_attackType(text) {
     node.innerHTML = "<span id='#attack_type'>" + text + "</span>";
 }
 function restart() {
-    document.querySelector(".bgm-ultra").currentTime = 0;
+    document.querySelector(".bgm-ultra").currentTime = 0.5;
     map = Array(12).fill(1);
     for (let i = 0; i < 30; i++) {
         map.push(1);
@@ -533,7 +533,7 @@ function Finish() {
 }
 function bgm() {
     if (gamemode == "Ultra") {
-        document.querySelector(".bgm-ultra").currentTime = 0;
+        document.querySelector(".bgm-ultra").currentTime = 0.5;
         document.querySelector(".bgm-ultra").play();
     }
     if (gamemode == "40 Line") {
@@ -640,6 +640,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
             mainloop();
+            setInterval(sendData,150);
             bgm()
         }, 1000);
     })

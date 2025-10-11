@@ -24,3 +24,7 @@ slider3.oninput = function () {
   output3.innerHTML = this.value
   SDF = this.value;
 }
+
+document.querySelector(".user-name").oninput = ()=>{
+  user_name = document.querySelector(".user-name").value;
+}

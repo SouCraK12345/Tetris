@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
@@ -424,11 +424,13 @@
       <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
       <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
     </div>
+    <span style="width: 20%">名前: </span><input type="text" style="width: 80%; margin: 10px 0;" class="user-name">
     <button style="width: 100%;" onclick="document.querySelector('.setting-dialog').close()">閉じる</button>
   </dialog>
   
   <script src="tetris.js"></script>
   <script src="setting.js"></script>
+  <script src="connection.js" type="module"></script>
 </body>
 
 </html>
