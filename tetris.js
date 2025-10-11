@@ -1,5 +1,5 @@
 document.querySelector(".hard-drop").volume = 0.6;
-document.querySelector(".t-spin").volume = 0.7;
+// document.querySelector(".t-spin").volume = 0.7;
 
 // ----関数----
 
@@ -89,6 +89,8 @@ function game() {
                     mino_set();
                     let v1 = enable(-1);
                     if (v1 === 1) {
+                        document.querySelector(".move").currentTime = 0;
+                        document.querySelector(".move").play();
                         tet_x -= 1;
                         rockdown_f = 0;
                     }
@@ -107,6 +109,8 @@ function game() {
                     mino_set();
                     let v1 = enable(1);
                     if (v1 === 1) {
+                        document.querySelector(".move").currentTime = 0;
+                        document.querySelector(".move").play();
                         tet_x += 1;
                         rockdown_f = 0;
                     }
@@ -126,7 +130,7 @@ function game() {
                     tet_y -= 1;
                     G = 0;
                 } else {
-                    rockdown_f += 3 / SDF;
+                    // rockdown_f += 3 / SDF;
                 }
             }
         }
@@ -135,6 +139,8 @@ function game() {
         if (key_list[4] === true) {
             if (key_down[4] === 0) {
                 rotate(-1);
+                document.querySelector(".move").currentTime = 0;
+                document.querySelector(".move").play();
             }
             key_down[4] = 1;
         } else {
@@ -145,6 +151,8 @@ function game() {
         if (key_list[5] === true) {
             if (key_down[5] === 0) {
                 rotate(1);
+                document.querySelector(".move").currentTime = 0;
+                document.querySelector(".move").play();
             }
             key_down[5] = 1;
         } else {
@@ -389,7 +397,7 @@ function line_delete() {
     } else {
         if (deleted_lines > 0) {
             rewrite_attackType(["", "Single", "Double", "Triple", "Tetris"][deleted_lines])
-            if (deleted_lines < 3) {
+            if (deleted_lines < 4) {
                 BTB = 0;
             } else {
                 BTB++;
@@ -421,6 +429,8 @@ function line_delete() {
         }
     }
     if (deleted_lines) {
+        document.querySelector(".line-delete").currentTime = 0;
+        document.querySelector(".line-delete").play();
         REN += 1;
         if(REN > 4){
             document.querySelector(".tetris").currentTime = 0;
@@ -462,6 +472,7 @@ function restart() {
     start_time = new Date();
     attack = 0;
     blocks = 0;
+    BTB = 0;
     REN = 0;
     score = 0;
     lines = 0;
@@ -517,6 +528,7 @@ function Finish() {
         document.querySelector(".result-lines").innerText = lines;
         document.querySelector(".result-score").innerText = score;
         document.querySelector(".result-time").innerText = time;
+        document.querySelector(".bgm-40line").pause();
     }, 5200);
 }
 function bgm() {
@@ -524,11 +536,15 @@ function bgm() {
         document.querySelector(".bgm-ultra").currentTime = 0;
         document.querySelector(".bgm-ultra").play();
     }
+    if (gamemode == "40 Line") {
+        document.querySelector(".bgm-40line").currentTime = 0;
+        document.querySelector(".bgm-40line").play();
+    }
 }
 
 // ----初期設定----
 // 変数セット
-const keyname = [" ", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c"];
+const keyname = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c"];
 let key_list = Array(7).fill(false);
 let key_down = Array(7).fill(0);
 // イベント
@@ -621,7 +637,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
             mainloop();
-            document.querySelector(".bgm-ultra").play();
+            bgm()
         }, 1000);
     })
 })
