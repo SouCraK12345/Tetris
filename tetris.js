@@ -658,7 +658,9 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
             mainloop();
-            sendData_interval = setInterval(sendData, 150);
+            if (gamemode != "Watch") {
+                sendData_interval = setInterval(sendData, 150);
+            }
             bgm()
         }, 1000);
     })
