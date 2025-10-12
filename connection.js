@@ -20,7 +20,7 @@ const db = getDatabase(app);
 // 書き込み（例: ボタン押したら送信）
 function sendData() {
     const text = map.slice(0, 200);
-    if (user_name != "") {
+    if (user_name) {
         set(ref(db, "messages/" + user_name), {
             message: text,
             time: Date.now()
