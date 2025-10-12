@@ -633,6 +633,8 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             return document.querySelector(".setting-dialog").showModal();
         }
         gamemode = e.children[0].innerText;
+        document.querySelector(".header-title").innerHTML = gamemode;
+        document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
         draw()
         document.querySelector(".tile-card-container").style.display = "none"

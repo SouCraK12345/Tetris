@@ -9,6 +9,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
   <style>
+    .header {
+      font-family: "Russo One", sans-serif;
+      background: linear-gradient(to right, #2cb53e, #2ca00f);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-title {
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    .login-button {
+      background-color: #9183dd;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
     label#attack_type,
     .left {
       height: 10%;
@@ -317,18 +344,29 @@
       text-align: center;
     }
 
-    .setting-dialog{
+    .setting-dialog {
       width: 400px;
       max-width: 80%;
     }
-    
-    .center{
+
+    dialog.login {
+      background-color: #292929;
+      color: #fff;
+      padding: 40px;
+    }
+
+    .center {
       margin: 0 auto;
     }
   </style>
 </head>
 
 <body>
+  <div class="header">
+    <div class="header-title">Online Tetris</div>
+    <label class="user-name-label"></label>
+    <button class="login-button" onclick='document.querySelector(".login").showModal()'>Login</button>
+  </div>
   <div hidden>
     <audio src="sound/hard-drop.mp3" class="hard-drop"></audio>
     <audio src="sound/t-spin.mp3" class="t-spin"></audio>
@@ -424,12 +462,20 @@
       <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
       <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
     </div>
-    <span style="width: 20%">名前: </span><input type="text" style="width: 80%; margin: 10px 0;" class="user-name">
+    
     <button style="width: 100%;" onclick="document.querySelector('.setting-dialog').close()">閉じる</button>
   </dialog>
-  
+  <dialog class="login">
+    <h1 class="title" style="color: white;">Login</h1>
+    <p>ユーザー名: <input class="username" type="email" style="width:fit-content"></p>
+    <p>パスワード: <input class="password" type="password" style="width:fit-content"></p>
+    <button style="width: 100%" onclick="login()" class="login-button">ログイン</button>
+    <a href="regist.html" style="width: 100%; text-align: center; display: block; color: white; margin: 20px 0;">ユーザー登録</a>
+  </dialog>
+
   <script src="tetris.js"></script>
   <script src="setting.js"></script>
+  <script src="login.js"></script>
   <script src="connection.js" type="module"></script>
 </body>
 
