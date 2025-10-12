@@ -144,6 +144,11 @@
       /* カードの背景色 */
     }
 
+    .Watch {
+      background-color: #327ea8;
+      /* カードの背景色 */
+    }
+
     .Setting {
       background-color: #797979;
       /* カードの背景色 */
@@ -406,6 +411,12 @@
       </div>
     </button>
 
+    <button class="tile-card Watch">
+      <div class="tile-content">
+        <h3>Watch</h3>
+      </div>
+    </button>
+
     <button class="tile-card Setting">
       <div class="tile-content">
         <h3>Setting</h3>
@@ -445,7 +456,9 @@
         <td class="result-time">0</td>
       </tr>
     </table>
+    <button style="width: 100px; display: block; margin:0 auto;" onclick="back_to_menu()">もどる</button>
   </div>
+  <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
   <dialog class="setting-dialog">
     <h2 style="width: 100%; text-align: center;">設定</h2>
     <div class="slider-container center">
@@ -462,15 +475,17 @@
       <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
       <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
     </div>
-    
+
     <button style="width: 100%;" onclick="document.querySelector('.setting-dialog').close()">閉じる</button>
   </dialog>
   <dialog class="login">
     <h1 class="title" style="color: white;">Login</h1>
     <p>ユーザー名: <input class="username" type="email" style="width:fit-content" autocorrect="on"></p>
-    <p>パスワード: <input class="password" type="password" style="width:fit-content" autocorrect="on" autocomplete="current-password"></p>
-    <button style="width: 100%" onclick="login()" class="login-button">ログイン</button>
-    <a href="regist.html" style="width: 100%; text-align: center; display: block; color: white; margin: 20px 0;">ユーザー登録</a>
+    <p>パスワード: <input class="password" type="password" style="width:fit-content" autocorrect="on"
+        autocomplete="current-password"></p>
+    <button style="width: 100%" onclick="login()" class="login-submit">ログイン</button>
+    <a href="regist.html"
+      style="width: 100%; text-align: center; display: block; color: white; margin: 20px 0;">ユーザー登録</a>
   </dialog>
 
   <script src="tetris.js"></script>

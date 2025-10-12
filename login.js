@@ -1,5 +1,5 @@
 function login() {
-    document.querySelector(".login-button").disabled = true;
+    document.querySelector(".login-submit").disabled = true;
     document.querySelector(".username").disabled = true;
     document.querySelector(".password").disabled = true;
 
@@ -25,7 +25,7 @@ function login() {
         } else {
             alert(`Error: ${xhr.status}`);
         }
-        document.querySelector(".login-button").disabled = false;
+        document.querySelector(".login-submit").disabled = false;
         document.querySelector(".username").disabled = false;
         document.querySelector(".password").disabled = false;
     };

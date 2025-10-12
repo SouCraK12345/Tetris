@@ -4,6 +4,16 @@ document.querySelector(".hard-drop").volume = 0.6;
 // ----関数----
 
 function mainloop() {
+    if (gamemode == "Watch") {
+        requestAnimationFrame(mainloop);
+        try {
+            document.querySelector(".user").max = Object.keys(cloudData).length - 1;
+            map = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].message;
+            document.querySelector(".header-title").innerHTML = "Watch(" + Object.keys(cloudData)[document.querySelector(".user").value] + ")";
+            draw();
+        } catch (e) { }
+        return false;
+    }
     if (game()) {
         draw();
         requestAnimationFrame(mainloop);
@@ -251,12 +261,14 @@ function draw() {
     }
     ctx.restore()
 
-    document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
-    document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
-    document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
-    document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
-    document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
-    document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
+    if (gamemode != "Watch") {
+        document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
+        document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
+        document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
+        document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
+        document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
+        document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
+    }
 }
 function mino_set() {
     if (tet_type !== "") {
@@ -387,7 +399,7 @@ function line_delete() {
     if (t_spined) {
         rewrite_attackType("T-Spin<br>" + ["", "Single", "Double", "Triple"][deleted_lines])
         BTB++;
-        if(BTB > 1){
+        if (BTB > 1) {
             document.querySelector(".btb").currentTime = 0;
             document.querySelector(".btb").play();
         }
@@ -403,7 +415,7 @@ function line_delete() {
                 BTB++;
                 document.querySelector(".tetris").currentTime = 0;
                 document.querySelector(".tetris").play();
-                if(BTB > 1){
+                if (BTB > 1) {
                     document.querySelector(".btb").currentTime = 0;
                     document.querySelector(".btb").play();
                 }
@@ -432,7 +444,7 @@ function line_delete() {
         document.querySelector(".line-delete").currentTime = 0;
         document.querySelector(".line-delete").play();
         REN += 1;
-        if(REN > 4){
+        if (REN > 4) {
             document.querySelector(".tetris").currentTime = 0;
             document.querySelector(".tetris").play();
         }
@@ -463,7 +475,7 @@ function restart() {
         map.push(1);
     }
     next = [];
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < 3; i++) {
         gene_next();
     }
     tet_type = "";
@@ -510,6 +522,7 @@ function formatSecondsToMinutes(totalSeconds) {
 }
 
 function Finish() {
+    clearInterval(sendData_interval)
     document.querySelector(".details").style.display = "none";
     let apm = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
     let pps = Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10;
@@ -595,9 +608,7 @@ let game_mode = "";
 
 // ネクスト生成
 let next = [];
-for (i = 0; i < 100; i++) {
-    gene_next();
-}
+
 
 // 盤面セット
 let map = Array(12).fill(1);
@@ -629,22 +640,40 @@ canvas.style.display = "none";
 document.querySelector(".details").style.display = "none";
 document.querySelectorAll(".tile-card").forEach((e) => {
     e.addEventListener("click", function () {
-        if (e.children[0].innerText == "Setting"){
+        if (e.children[0].innerText.includes("Setting")) {
             return document.querySelector(".setting-dialog").showModal();
         }
         gamemode = e.children[0].innerText;
+        if (gamemode.includes("Watch")) {
+            document.querySelector(".user").style.display = "block";
+            gamemode = "Watch";
+        }
         document.querySelector(".header-title").innerHTML = gamemode;
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
-        draw()
+        restart();
+        draw();
         document.querySelector(".tile-card-container").style.display = "none"
         setTimeout(function () {
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
             mainloop();
-            setInterval(sendData,150);
+            sendData_interval = setInterval(sendData, 150);
             bgm()
         }, 1000);
     })
 })
 
+function back_to_menu() {
+    gamemode = "";
+    document.querySelector(".header-title").innerHTML = "Online Tetris";
+    if (!user_name) {
+        document.querySelector(".login-button").style.display = "block";
+    }
+    canvas.style.display = "none";
+    document.querySelector(".tile-card-container").style.display = "block";
+    document.querySelector(".result").style.display = "none";
+    document.querySelector(".wipe-in-box").classList.remove("boxWipein");
+}
+
+let user_name, sendData_interval;
