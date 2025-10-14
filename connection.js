@@ -24,6 +24,25 @@ function sendData() {
         if (user_name) {
             set(ref(db, "messages/" + user_name), {
                 message: text,
+                next: next,
+                hold: hold,
+                attack: attack,
+                blocks: blocks,
+                lines: lines,
+                REN: REN,
+                score: score,
+                start_time: start_time.getTime(),
+                time: Date.now()
+            });
+        }
+    } catch (e) { };
+}
+
+function sendRequest(address) {
+    try {
+        if (user_name) {
+            set(ref(db, "requests/" + address), {
+                from: user_name,
                 time: Date.now()
             });
         }
@@ -33,13 +52,21 @@ function sendData() {
 // 読み込み（リアルタイムで更新）
 const msgRef = ref(db, "messages/");
 onValue(msgRef, (snapshot) => {
+    document.querySelector(".Watch").disabled = false;
     window.cloudData = snapshot.val();
     // const data = snapshot.val();
     // document.getElementById("output").innerText =
     // data ? `${data.message} (${new Date(data.time).toLocaleTimeString()})` : "データなし";
 });
 
+const msgRef2 = ref(db, "requests/");
+onValue(msgRef2, (snapshot) => {
+    window.requests = snapshot.val();
+});
+
 let cloudData;
+let requests;
 
 // グローバル関数化
 window.sendData = sendData;
+window.sendRequest = sendRequest;

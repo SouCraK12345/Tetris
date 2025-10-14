@@ -149,6 +149,11 @@
       /* カードの背景色 */
     }
 
+    .Watch:disabled {
+      background-color: #20516b;
+      /* カードの背景色 */
+    }
+
     .Setting {
       background-color: #797979;
       /* カードの背景色 */
@@ -363,6 +368,46 @@
     .center {
       margin: 0 auto;
     }
+
+    .long-button {
+      width: 200px;
+      /* ボタンの幅を200pxに設定 */
+      padding: 15px 30px;
+      /* 上下左右のパディングを調整 */
+      background-color: #4CAF50;
+      /* 背景色 */
+      color: white;
+      /* 文字色 */
+      border: none;
+      /* ボーダーをなくす */
+      border-radius: 8px;
+      /* 角を丸くする */
+      font-size: 18px;
+      /* フォントサイズ */
+      cursor: pointer;
+      /* マウスオーバー時にカーソルをポインターにする */
+      text-align: center;
+      /* テキストを中央揃えにする */
+      display: block;
+      /* ブロック要素にして幅が反映されるようにする */
+    }
+
+    /* ホバー時のスタイル */
+    .long-button:hover {
+      background-color: #45a049;
+    }
+
+    /* アクティブ時のスタイル (クリック時) */
+    .long-button:active {
+      background-color: #3e8e41;
+    }
+
+    .request{
+      position: absolute;
+      bottom: 10px;
+      left: calc(50% - 100px);
+      display: none;
+    }
   </style>
 </head>
 
@@ -411,7 +456,7 @@
       </div>
     </button>
 
-    <button class="tile-card Watch">
+    <button class="tile-card Watch" disabled="true">
       <div class="tile-content">
         <h3>Watch</h3>
       </div>
@@ -459,6 +504,7 @@
     <button style="width: 100px; display: block; margin:0 auto;" onclick="back_to_menu()">もどる</button>
   </div>
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
+  <button class="long-button request">対戦する!</button>
   <dialog class="setting-dialog">
     <h2 style="width: 100%; text-align: center;">設定</h2>
     <div class="slider-container center">

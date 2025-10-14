@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request</title>
+</head>
+<body>
+    <button class="Watch" hidden></button>
+    <input class="user-name">
+    <div class="request-list"></div>
+    <script type="module" src="connection.js"></script>
+    <script>
+        let username_input = document.querySelector(".user-name")
+        username_input.oninput = function(){
+            user_name = document.querySelector(".user-name").value;
+        }
+        username_input.addEventListener("keydown",username_enter)
+        let request_list = document.querySelector("div.request-list");
+        setInterval(check_request,1000)
+        function check_request(){
+            request_list.innerHTML = "";
+            try{
+                for(var i in requests){
+                    var new_value = document.createElement("p")
+                    new_value.innerHTML = `${requests[i].from} -> ${i} '(${parseInt(new Date() - requests[i].time) / 1000}秒前)`;
+                    request_list.appendChild(new_value);
+                }
+            }catch(e){}
+        }
+        function username_enter(e){
+            if (e.key === "Enter") {
+                sendRequest(username_input.value);
+                username_input.value = "";
+            }
+            return false;
+        }
+
+    </script>
+</body>
+</html>

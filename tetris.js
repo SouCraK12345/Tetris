@@ -7,11 +7,23 @@ function mainloop() {
     if (gamemode == "Watch") {
         requestAnimationFrame(mainloop);
         try {
+            for (var i in cloudData) {
+                if (cloudData[i].time + 5000 < Date.now()) {
+                    delete cloudData[i]
+                }
+            }
             document.querySelector(".user").max = Object.keys(cloudData).length - 1;
             map = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].message;
+            next = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].next;
+            hold = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].hold;
+            REN = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].REN;
+            attack = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].attack;
+            blocks = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].blocks;
+            score = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].score;
+            start_time = new Date(cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].start_time);
             document.querySelector(".header-title").innerHTML = "Watch(" + Object.keys(cloudData)[document.querySelector(".user").value] + ")";
-            draw();
         } catch (e) { }
+        draw();
         return false;
     }
     if (game()) {
@@ -221,7 +233,19 @@ function draw() {
     ctx.fillStyle = "#222222";
     ctx.fillRect(11.5 * size, 3 * size, 9 * size, 18 * size);
     ctx.fillRect(20.6 * size, 3 * size, 3.4 * size, 13 * size);
-    ctx.fillRect(8.1 * size, 3 * size, 3.3 * size, 2.9 * size);
+    ctx.fillRect(8.1 * size, 3
+         * size, 3.3 * size, 2.9 * size);
+    if(gamemode == "Watch" && Object.keys(cloudData).length == 0){
+        ctx.font = "20px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("ほかのプレイヤーがいません",480,370);
+        ctx.restore()
+        document.querySelector(".request").style.display = "none";
+        return false;
+    }else if(gamemode == "Watch"){
+        document.querySelector(".request").style.display = "block";
+    }
 
     // 盤面上のミノ描画
     let v1 = 10;
@@ -261,14 +285,12 @@ function draw() {
     }
     ctx.restore()
 
-    if (gamemode != "Watch") {
-        document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
-        document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
-        document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
-        document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
-        document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
-        document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
-    }
+    document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
+    document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
+    document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
+    document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
+    document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
+    document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
 }
 function mino_set() {
     if (tet_type !== "") {
@@ -522,7 +544,7 @@ function formatSecondsToMinutes(totalSeconds) {
 }
 
 function Finish() {
-    clearInterval(sendData_interval)
+    setTimeout(function(){clearInterval(sendData_interval)},200)
     document.querySelector(".details").style.display = "none";
     let apm = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
     let pps = Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10;
@@ -647,6 +669,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         if (gamemode.includes("Watch")) {
             document.querySelector(".user").style.display = "block";
             gamemode = "Watch";
+            document.querySelector(".user").focus()
         }
         document.querySelector(".header-title").innerHTML = gamemode;
         document.querySelector(".login-button").style.display = "none";
@@ -662,7 +685,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
                 sendData_interval = setInterval(sendData, 150);
             }
             bgm()
-        }, 1000);
+        }, gamemode == "Watch" ? 0 : 1000);
     })
 })
 
