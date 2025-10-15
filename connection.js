@@ -61,7 +61,13 @@ onValue(msgRef, (snapshot) => {
 
 const msgRef2 = ref(db, "requests/");
 onValue(msgRef2, (snapshot) => {
-    window.requests = snapshot.val();
+    var data = snapshot.val();
+    for (const key in data) {
+        if (Date.now() - data[key].time > 30000) {
+            delete data[key];
+        }
+    }
+    window.requests = data;
 });
 
 let cloudData;

@@ -4,18 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request</title>
+    <style>
+        .notification-banner {
+        display: none;
+        position: fixed; /* 画面に固定 */
+        top: 20px; /* 上から20px */
+        /* right: 20px; */ /* ここはアニメーションで制御するため削除またはコメントアウト */
+        transform: translateX(100%); /* 初期位置：画面右端の外側 */
+        background-color: #4caf50; /* 背景色（緑） */
+        color: white; /* 文字色 */
+        padding: 0; /* 内側の余白 */
+        border-radius: 8px; /* 角を丸くする */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影 */
+        /* display: flex; Flexboxを使って内容を配置 */
+        align-items: center; /* 垂直方向中央揃え */
+        z-index: 1000; /* 他の要素より手前に表示 */
+        max-width: 300px; /* 最大幅 */
+        }
+
+        .notification-banner.show {
+        display: block;
+        /* アニメーションを追加 */
+        animation: slideInFromRight 0.5s ease forwards;
+        /* slideInFromRight: アニメーション名 */
+        /* 0.5s: アニメーションの時間 */
+        /* ease-out: 始まりは速く、終わりはゆっくり */
+        /* forwards: アニメーション終了時の状態を保持 */
+        }
+
+        .notification-banner.hidden {
+        animation: slideOutToRight 0.5s ease forwards;
+        }
+
+        .notification-banner p {
+        margin: 0;
+        flex-grow: 1; /* メッセージが残りのスペースを占める */
+        }
+
+        .close-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        margin-left: 15px; /* メッセージとの間にスペース */
+        }
+
+        .close-button:hover {
+        color: #f0f0f0;
+        }
+
+        /* アニメーションの定義 */
+        @keyframes slideInFromRight {
+        from {
+            transform: translateX(100%); /* 完全に右外 */
+            right: 20px; /* 右端からの距離 */
+        }
+        to {
+            transform: translateX(0); /* 通常の位置 */
+            right: 20px; /* 右端からの距離 */
+        }
+        }
+
+        @keyframes slideOutToRight {
+        from {
+            transform: translateX(0);
+            right: 20px;
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            right: 20px;
+            opacity: 0;
+        }
+        }
+
+        p.message-text{
+        margin: 10px;
+        }
+
+        /* プログレスバーのコンテナ */
+        .progress-bar {
+        position: absolute; /* 親要素の`container`を基準に配置 */
+        bottom: 0; /* 親要素の底に配置 */
+        left: 0; /* 親要素の左に配置 */
+        width: 100%;
+        height: 10px;
+        background-color: #4caf50;
+        }
+
+        /* プログレスバーの進捗部分 */
+        .progress-fill {
+        height: 100%;
+        width: 100%;
+        background-color: #fffb00;
+        transition: width 1s linear;
+        }
+
+    </style>
 </head>
 <body>
     <button class="Watch" hidden></button>
     <input class="user-name">
+    <input class="user-name-to">
     <div class="request-list"></div>
+    <div class="notification-banner" id="myNotificationBanner">
+        <p class="message-text"><label class="request-from"></label><br>から対戦を申し込まれました!</p>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%;"></div>
+        </div>
+    </div>
     <script type="module" src="connection.js"></script>
     <script>
         let username_input = document.querySelector(".user-name")
+        let username_to_input = document.querySelector(".user-name-to")
+        let request_time;
+        let progress_bar_value;
         username_input.oninput = function(){
             user_name = document.querySelector(".user-name").value;
         }
-        username_input.addEventListener("keydown",username_enter)
+        username_to_input.addEventListener("keydown",username_enter)
         let request_list = document.querySelector("div.request-list");
         setInterval(check_request,1000)
         function check_request(){
@@ -25,17 +133,46 @@
                     var new_value = document.createElement("p")
                     new_value.innerHTML = `${requests[i].from} -> ${i} '(${parseInt(new Date() - requests[i].time) / 1000}秒前)`;
                     request_list.appendChild(new_value);
+                    if(i == user_name){
+                        request_time = requests[i].time;
+                        const banner = document.getElementById("myNotificationBanner");
+                        banner.classList.add("show"); // hiddenクラスを追加
+                        decrease_progress_bar();
+                    }
                 }
             }catch(e){}
         }
         function username_enter(e){
             if (e.key === "Enter") {
-                sendRequest(username_input.value);
-                username_input.value = "";
+                sendRequest(username_to_input.value);
+                username_to_input.value = "";
             }
             return false;
         }
+        function decrease_progress_bar(){
+            progress_bar_value = 30 - parseInt(new Date() - request_time) / 1000;
+            console.log(progress_bar_value);
+            document.querySelector(".progress-fill").style.width = `${progress_bar_value/30*100}%`;
+            if(progress_bar_value < 0){
+                return closeNotification();
+            }
+            setTimeout(decrease_progress_bar,1000)
+        }
+        function closeNotification() {
+            const banner = document.getElementById("myNotificationBanner")
+            banner.classList.add("hidden") // hiddenクラスを追加
 
+            // アニメーションが終わったら要素を完全に非表示にする
+            banner.addEventListener(
+                "animationend",
+                () => {
+                if (banner.classList.contains("hidden")) {
+                banner.classList.remove("hidden","show");
+                }
+                },
+                { once: true },
+            ) // 一度だけ実行されるように設定
+        }
     </script>
 </body>
 </html>
