@@ -4,6 +4,11 @@ document.querySelector(".hard-drop").volume = 0.6;
 // ----関数----
 
 function mainloop() {
+    if (battle_started && solo) {
+        Finish(false);
+        gamemode = "battle";
+        return false;
+    }
     if (gamemode == "Watch") {
         requestAnimationFrame(mainloop);
         try {
@@ -234,16 +239,16 @@ function draw() {
     ctx.fillRect(11.5 * size, 3 * size, 9 * size, 18 * size);
     ctx.fillRect(20.6 * size, 3 * size, 3.4 * size, 13 * size);
     ctx.fillRect(8.1 * size, 3
-         * size, 3.3 * size, 2.9 * size);
-    if(gamemode == "Watch" && Object.keys(cloudData).length == 0){
+        * size, 3.3 * size, 2.9 * size);
+    if (gamemode == "Watch" && Object.keys(cloudData).length == 0) {
         ctx.font = "20px sans-serif";
         ctx.textAlign = "center";
         ctx.fillStyle = "#ffffff";
-        ctx.fillText("ほかのプレイヤーがいません",480,370);
+        ctx.fillText("ほかのプレイヤーがいません", 480, 370);
         ctx.restore()
         document.querySelector(".request").style.display = "none";
         return false;
-    }else if(gamemode == "Watch"){
+    } else if (gamemode == "Watch") {
         document.querySelector(".request").style.display = "block";
     }
 
@@ -543,28 +548,36 @@ function formatSecondsToMinutes(totalSeconds) {
     return `${paddedMinutes}:${formattedSeconds}`;
 }
 
-function Finish() {
-    setTimeout(function(){clearInterval(sendData_interval)},200)
-    document.querySelector(".details").style.display = "none";
-    let apm = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
-    let pps = Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10;
-    let time = ((new Date() - start_time) / 1000);
-    draw();
-    document.querySelector(".wipe-in-box").classList.add("boxWipein");
-    setTimeout(function () {
+function Finish(bool = true) {
+    if (bool) {
+        setTimeout(function () { clearInterval(sendData_interval) }, 200)
+        document.querySelector(".details").style.display = "none";
+        let apm = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
+        let pps = Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10;
+        let time = ((new Date() - start_time) / 1000);
+        draw();
+        document.querySelector(".wipe-in-box").classList.add("boxWipein");
+        setTimeout(function () {
+            canvas.style.display = "none";
+        }, 4000);
+        setTimeout(function () {
+            document.querySelector(".result").style.display = "block";
+            document.querySelector(".result").classList.add("FloatIn");
+            document.querySelector(".result-apm").innerText = apm;
+            document.querySelector(".result-attack").innerText = attack;
+            document.querySelector(".result-pps").innerText = pps;
+            document.querySelector(".result-lines").innerText = lines;
+            document.querySelector(".result-score").innerText = score;
+            document.querySelector(".result-time").innerText = time;
+            bgm_stop();
+        }, 5200);
+    } else {
         canvas.style.display = "none";
-    }, 4000);
-    setTimeout(function () {
-        document.querySelector(".result").style.display = "block";
-        document.querySelector(".result").classList.add("FloatIn");
-        document.querySelector(".result-apm").innerText = apm;
-        document.querySelector(".result-attack").innerText = attack;
-        document.querySelector(".result-pps").innerText = pps;
-        document.querySelector(".result-lines").innerText = lines;
-        document.querySelector(".result-score").innerText = score;
-        document.querySelector(".result-time").innerText = time;
-        document.querySelector(".bgm-40line").pause();
-    }, 5200);
+        document.querySelector(".details").style.display = "none";
+        document.querySelector(".user").style.display = "none";
+        document.querySelector(".request").style.display = "none";
+        bgm_stop();
+    }
 }
 function bgm() {
     if (gamemode == "Ultra") {
@@ -575,6 +588,10 @@ function bgm() {
         document.querySelector(".bgm-40line").currentTime = 0;
         document.querySelector(".bgm-40line").play();
     }
+}
+function bgm_stop() {
+    document.querySelector(".bgm-ultra").pause();
+    document.querySelector(".bgm-40line").pause();
 }
 
 // ----初期設定----
@@ -587,6 +604,13 @@ document.addEventListener("keydown", (event) => {
     let v1 = keyname.indexOf(event.key);
     if (v1 !== -1) {
         key_list[v1] = true;
+    }
+    if (event.key == " ") {
+        key_list[0] = true;
+    }
+    if (event.key == "r") {
+        const banner = document.getElementById("myNotificationBanner");
+        banner.click();
     }
     if (event.key == "f") {
         restart();
@@ -627,6 +651,8 @@ let start_time = new Date();
 let REN_attack = [0, 0, 1, 1, 2, 2, 23, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5];
 let score = 0;
 let game_mode = "";
+let battle_started = false;
+let solo = true;
 
 // ネクスト生成
 let next = [];
