@@ -621,6 +621,9 @@ document.addEventListener("keyup", (event) => {
     if (v1 !== -1) {
         key_list[v1] = false;
     }
+    if (event.key == " ") {
+        key_list[0] = false;
+    }
 });
 let size = 30;
 let canvas = document.getElementById("tetris");
