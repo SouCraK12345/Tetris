@@ -38,6 +38,8 @@ function mainloop() {
 }
 
 function game() {
+
+    waiting_damage += 1;
     // キーイベントの処理（JSの他の場所でセットアップされているべき）
     // キー処理は key_list と key_down 配列を更新すると仮定
 
@@ -186,6 +188,11 @@ function game() {
             key_down[5] = 0;
         }
     }
+    if (virtual_enemy_hp < 0) {
+        console.log("You win!");
+        Finish();
+        return false;
+    }
     if ((new Date() - start_time) / 1000 > 100 && gamemode == "Ultra") {
         Finish();
         return false;
@@ -290,6 +297,17 @@ function draw() {
     }
     ctx.restore()
 
+    // ダメージ
+    ctx.fillStyle = "#575757";
+    ctx.fillRect(20, 600, 20, - 20 * damage);
+    // enemy HP
+    if (virtual_enemy_hp > 0 && gamemode == "VirtualBattle") {
+        ctx.fillStyle = "#95ff64ff";
+        ctx.fillRect(530, 640, 20, - 20 * virtual_enemy_hp);
+        ctx.fillStyle = "#ff6464ff";
+        ctx.fillRect(530, 640  - 20 * virtual_enemy_hp, 20, 20 * attack_to_enemy);
+    }
+
     document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
     document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
     document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
@@ -386,6 +404,7 @@ function line_delete() {
     let isFirst = true;
     let deleted_lines = 0;
     let t_spined = false;
+    let attack_before = attack;
     while (i < 24) {
         // 行スライスを取得（壁を除く）
         let rowStart = (i + 1) * 12 + 1;
@@ -484,8 +503,41 @@ function line_delete() {
         }
     } else {
         REN = -1;
+        rising();
     }
     lines += deleted_lines;
+    damage -= (attack - attack_before);
+    if (damage < 0) {
+        damage = 0;
+        attack_to_enemy += (attack - attack_before) - damage;
+    }
+}
+function _for_rising_(value) {
+    map.splice(12, 0, value);
+}
+function rising() {
+    if (waiting_damage < 30) {
+        return;
+    }
+    let random_number = Math.floor(Math.random() * 10);
+    for (let i = 0; i < damage; i++) {
+        document.querySelector(".damage").currentTime = 0;
+        document.querySelector(".damage").play();
+        shaking_x += 10;
+        _for_rising_(1);
+        if (phase == 1) {
+            random_number = Math.floor(Math.random() * 10);
+        }
+        for (let j = 0; j < 10; j++) {
+            if (j == random_number) {
+                _for_rising_(0);
+            } else {
+                _for_rising_(9);
+            }
+        }
+        _for_rising_(1);
+    }
+    damage = 0;
 }
 function rewrite_attackType(text) {
     let node = document.querySelector("label#attack_type");
@@ -515,6 +567,11 @@ function restart() {
     REN = 0;
     score = 0;
     lines = 0;
+    attack_to_enemy = 0;
+    damage = 0;
+    virtual_enemy_hp = 20;
+    clearInterval(attack_interval);
+    if(gamemode == "VirtualBattle") attack_interval = damage_interval();
 }
 function formatSecondsToMinutes(totalSeconds) {
 
@@ -549,6 +606,7 @@ function formatSecondsToMinutes(totalSeconds) {
 }
 
 function Finish(bool = true) {
+    clearInterval(attack_interval);
     if (bool) {
         setTimeout(function () { clearInterval(sendData_interval) }, 200)
         document.querySelector(".details").style.display = "none";
@@ -627,7 +685,7 @@ document.addEventListener("keyup", (event) => {
 });
 let size = 30;
 let canvas = document.getElementById("tetris");
-canvas.width = 18 * size;
+canvas.width = 20 * size;
 canvas.height = 24 * size;
 let ctx = canvas.getContext("2d");
 ctx.scale(1, 1);
@@ -656,6 +714,25 @@ let score = 0;
 let game_mode = "";
 let battle_started = false;
 let solo = true;
+let phase = 0;
+let damage = 0;
+let attack_to_enemy = 0;
+let attack_interval = null;
+let waiting_damage = 0;
+let virtual_enemy_hp = 20;
+
+function damage_interval() {
+    return setInterval(function () {
+        damage += Math.floor(Math.random() * 5) + 1
+        waiting_damage = 0;
+        virtual_enemy_hp -= attack_to_enemy;
+        attack_to_enemy = 0;
+        virtual_enemy_hp += 3;
+        if (virtual_enemy_hp > 20) {
+            virtual_enemy_hp = 20;
+        }
+    }, 4000);
+}
 
 // ネクスト生成
 let next = [];
@@ -684,7 +761,7 @@ let rotate_position = [0, -2, 1, -14, 25, 0, -1, 2, 23, -10, 0, 2, -1, 14, 23, 0
     13, -24, -23, 0, -1, -13, 24, 23, 0, -1, 11, -24, -25, 0, 1, -11, 24, 25, 0, 1, 13, -24,
     -23, 0, -1, -13, 24, 23, 0, -1, 11, -24, -25, 0, 1, -11, 24, 25, 0, 1, 13, -24, -23, 0, -1,
     -13, 24, 23,];
-let mino_color = ["#00ffff", "#ffe600", "#33ff00", "#ff0000", "#0012ff", "#ff9100", "#ad00ff"];
+let mino_color = ["#00ffff", "#ffe600", "#33ff00", "#ff0000", "#0012ff", "#ff9100", "#ad00ff", "#575757ff"];
 let ghost_mino_color = ["#007979ff", "#807300ff", "#197e00ff", "#740000ff", "#031297ff", "#703800ff", "#62008fff"];
 
 canvas.style.display = "none";
