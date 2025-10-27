@@ -1,4 +1,6 @@
 document.querySelector(".hard-drop").volume = 0.6;
+document.querySelector(".bgm-virtualbattle").volume = 0.8;
+document.querySelector(".virtualbattle-clear").volume = 0.8;
 // document.querySelector(".t-spin").volume = 0.7;
 
 // ----関数----
@@ -188,9 +190,11 @@ function game() {
             key_down[5] = 0;
         }
     }
-    if (virtual_enemy_hp < 0) {
-        console.log("You win!");
+    if (virtual_enemy_hp < 1) {
         Finish();
+        document.querySelector(".bgm-virtualbattle").pause();
+        document.querySelector(".virtualbattle-clear").currentTime = 0;
+        document.querySelector(".virtualbattle-clear").play();
         return false;
     }
     if ((new Date() - start_time) / 1000 > 100 && gamemode == "Ultra") {
@@ -646,6 +650,10 @@ function bgm() {
         document.querySelector(".bgm-40line").currentTime = 0;
         document.querySelector(".bgm-40line").play();
     }
+    if (gamemode == "VirtualBattle") {
+        document.querySelector(".bgm-virtualbattle").currentTime = 0;
+        document.querySelector(".bgm-virtualbattle").play();
+    }
 }
 function bgm_stop() {
     document.querySelector(".bgm-ultra").pause();
@@ -709,7 +717,7 @@ let attack = 0;
 let blocks = 0;
 let lines = 0;
 let start_time = new Date();
-let REN_attack = [0, 0, 1, 1, 2, 2, 23, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5];
+let REN_attack = [0, 0, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5];
 let score = 0;
 let game_mode = "";
 let battle_started = false;
