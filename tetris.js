@@ -309,7 +309,7 @@ function draw() {
         ctx.fillStyle = "#95ff64ff";
         ctx.fillRect(530, 640, 20, - 20 * virtual_enemy_hp);
         ctx.fillStyle = "#ff6464ff";
-        ctx.fillRect(530, 640  - 20 * virtual_enemy_hp, 20, 20 * attack_to_enemy);
+        ctx.fillRect(530, 640 - 20 * virtual_enemy_hp, 20, 20 * attack_to_enemy);
     }
 
     document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
@@ -575,7 +575,7 @@ function restart() {
     damage = 0;
     virtual_enemy_hp = 20;
     clearInterval(attack_interval);
-    if(gamemode == "VirtualBattle") attack_interval = damage_interval();
+    if (gamemode == "VirtualBattle") attack_interval = damage_interval();
 }
 function formatSecondsToMinutes(totalSeconds) {
 
@@ -728,6 +728,7 @@ let attack_to_enemy = 0;
 let attack_interval = null;
 let waiting_damage = 0;
 let virtual_enemy_hp = 20;
+let virtualbattle_apm = 40;
 
 function damage_interval() {
     return setInterval(function () {
@@ -739,7 +740,7 @@ function damage_interval() {
         if (virtual_enemy_hp > 20) {
             virtual_enemy_hp = 20;
         }
-    }, 4000);
+    }, 60 / (virtualbattle_apm / 3) * 1000);
 }
 
 // ネクスト生成

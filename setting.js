@@ -24,3 +24,11 @@ slider3.oninput = function () {
   output3.innerHTML = this.value
   SDF = this.value;
 }
+var slider4 = document.getElementById("virtualbattle-apm")
+var output4 = document.getElementById("virtualbattle-apm-label")
+output4.innerHTML = slider4.value
+
+slider4.oninput = function () {
+  output4.innerHTML = this.value
+  virtualbattle_apm = this.value;
+}
