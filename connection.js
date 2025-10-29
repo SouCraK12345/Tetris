@@ -89,6 +89,7 @@ function accept(from, to) {
 }
 
 function start_match_dialog(from, to) {
+    back_to_menu();
     document.querySelector(".battle-start").currentTime = 0;
     document.querySelector(".battle-start").play();
     setTimeout(function () {
@@ -112,8 +113,25 @@ function start_match_dialog(from, to) {
     setTimeout(function () {
         let dialog = document.querySelector(".match-start-dialog");
         dialog.classList.add("hide");
+        setTimeout(function () {
+            dialog.classList.remove("show");
+            dialog.classList.remove("hide");
+        }, 1000);
     }, 2700)
     setTimeout(vsBoomPlay, 4000)
+    setTimeout(function () {
+        document.querySelector("#MatchUserCardRight").classList.add("slideOutToRight");
+        document.querySelector("#MatchUserCardRight").classList.remove("right");
+        document.querySelector("#MatchUserCardLeft").classList.add("slideOutToLeft");
+        document.querySelector("#MatchUserCardLeft").classList.remove("left");
+        let fixed_dialog = document.querySelector(".fixed-background-in-div");
+        fixed_dialog.classList.add("hide");
+        setTimeout(function () {
+            fixed_dialog.classList.remove("show");
+            fixed_dialog.classList.remove("hide");
+            fixed_dialog.style.dispaly = "none";
+        }, 1000);
+    }, 8000);
 }
 const vsBoomStage = document.getElementById('vsBoom-stage');
 const vsBoomText = document.getElementById('vsBoom-text');
