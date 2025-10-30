@@ -69,6 +69,7 @@ function game() {
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
+            document.querySelector(".bgm-virtualbattle").pause();
             return false;
         }
     }
