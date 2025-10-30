@@ -1,5 +1,5 @@
 /* 対戦開始エフェクト */
-body{margin:0;height:100%;overflow:hidden;font-family:sans-serif}.vsBoom-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;overflow:visible;pointer-events:none;z-index:9999}.vsBoom-text{font-size:clamp(48px,12vw,140px);font-weight:900;color:#fff;letter-spacing:0.04em;transform-origin:center;filter:drop-shadow(0 6px 18px rgba(255,80,30,0.25));position:relative;padding:200px;display:none}.vsBoom-text::before{content:"";position:absolute;inset:50%;transform:translate(-50%,-50%) scale(0);width:20vmin;height:20vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,220,140,0.95) 0%,rgba(255,130,60,0.6) 35%,rgba(255,80,30,0.12) 60%,transparent 70%);z-index:-2}.vsBoom-text::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;transform:translate(-50%,-50%) scale(0);background:transparent;box-shadow:0 -140px currentColor,0 140px currentColor,140px 0 currentColor,-140px 0 currentColor,100px -100px currentColor,-100px -100px currentColor,100px 100px currentColor,-100px 100px currentColor;color:rgba(255,200,80,0.95);z-index:-1;border-radius:1px;opacity:0}.vsBoom-sparks span{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(-50%,-50%) scale(0);background:rgba(255,210,130,0.95);opacity:0;filter:blur(0.6px)}@keyframes vsBoom-popShrink{0%{transform:scale(0.2) rotate(-720deg);opacity:0;filter:blur(6px)}50%{transform:scale(1.6) rotate(4deg);opacity:1;filter:blur(0)}100%{transform:scale(1) rotate(0deg)}}@keyframes vsBoom-flash{0%{transform:translate(-50%,-50%) scale(0);opacity:1}20%{transform:translate(-50%,-50%) scale(1.6);opacity:0.9}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}@keyframes vsBoom-rays{0%{transform:translate(-50%,-50%) scale(0);opacity:1}30%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(1.18);opacity:0}}@keyframes vsBoom-sparkMove{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(var(--vsdx),var(--vsdy)) scale(0.9);opacity:0}}.vsBoom-stage.animate .vsBoom-text::before{animation:vsBoom-flash 600ms ease-out 400ms forwards}.vsBoom-stage.animate .vsBoom-text::after{animation:vsBoom-rays 600ms cubic-bezier(0.2,0.9,0.3,1) 420ms forwards}.vsBoom-stage.animate .vsBoom-sparks span{animation:vsBoom-sparkMove 700ms cubic-bezier(0.15,0.9,0.3,1) 420ms forwards}.vsBoom-text.show{display:block;animation:vsBoom-popShrink 800ms cubic-bezier(0.2,0.9,0.3,1) forwards}.match-user-card-container{width:100%;height:100%;margin:0;padding:0;display:flex;flex-direction:left;overflow:hidden}.match-user-card{position:absolute;background:#333;color:white;font-family:"Stick",sans-serif;width:50%;height:100%;font-size:2rem;justify-content:center;align-items:center;display:none}.match-user-card.left{clip-path:polygon(0 0,100% 0,90% 100%,0 100%);animation:MatchUserCardLeft 0.5s forwards;display:flex}.match-user-card.right{clip-path:polygon(10% 0,100% 0,100% 100%,0 100%);animation:MatchUserCardRight 0.5s forwards;display:flex}@keyframes MatchUserCardLeft{0%{left:-50%}100%{left:0%}}@keyframes MatchUserCardRight{0%{left:100%}100%{left:50%}}.match-start-dialog{clip-path:polygon(0 2%,98% 0,100% 98%,2% 100%);position:absolute;background-color:#ccc;color:black;width:400px;height:250px;font-family:"Stick",sans-serif;font-weight:400;font-style:normal;font-size:2rem;justify-content:center;align-items:center;display:none;z-index:1}.match-start-dialog.show{display:flex;animation:MatchStartDialogShow 0.25s ease-in forwards}.match-start-dialog.hide{display:flex;animation:MatchStartDialogHide 0.25s ease-in forwards}@keyframes MatchStartDialogShow{0%{top:calc(50% - 150px);left:calc(50% - 200px);opacity:0}100%{top:calc(50% - 125px);left:calc(50% - 200px);opacity:1}}@keyframes MatchStartDialogHide{0%{top:calc(50% - 125px);left:calc(50% - 200px);opacity:1}100%{top:calc(50% - 100px);left:calc(50% - 200px);opacity:0}}.fixed-background-in-div{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000}.fixed-background-in-div.show{display:block;animation:FadeInBackground 3s ease-in forwards}@keyframes FadeInBackground{0%{opacity:0}10%{opacity:0.5}90%{opacity:0.5}100%{opacity:1}}
+body{margin:0;height:100%;overflow-x:hidden;font-family:sans-serif}.vsBoom-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;overflow:visible;pointer-events:none;z-index:9999}.vsBoom-text{font-size:clamp(48px,12vw,140px);font-weight:900;color:#fff;letter-spacing:0.04em;transform-origin:center;filter:drop-shadow(0 6px 18px rgba(255,80,30,0.25));position:relative;padding:200px;display:none}.vsBoom-text::before{content:"";position:absolute;inset:50%;transform:translate(-50%,-50%) scale(0);width:20vmin;height:20vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,220,140,0.95) 0%,rgba(255,130,60,0.6) 35%,rgba(255,80,30,0.12) 60%,transparent 70%);z-index:-2}.vsBoom-text::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:2px;transform:translate(-50%,-50%) scale(0);background:transparent;box-shadow:0 -140px currentColor,0 140px currentColor,140px 0 currentColor,-140px 0 currentColor,100px -100px currentColor,-100px -100px currentColor,100px 100px currentColor,-100px 100px currentColor;color:rgba(255,200,80,0.95);z-index:-1;border-radius:1px;opacity:0}.vsBoom-sparks span{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;transform:translate(-50%,-50%) scale(0);background:rgba(255,210,130,0.95);opacity:0;filter:blur(0.6px)}@keyframes vsBoom-popShrink{0%{transform:scale(0.2) rotate(-720deg);opacity:0;filter:blur(6px)}50%{transform:scale(1.6) rotate(4deg);opacity:1;filter:blur(0)}100%{transform:scale(1) rotate(0deg)}}@keyframes vsBoom-flash{0%{transform:translate(-50%,-50%) scale(0);opacity:1}20%{transform:translate(-50%,-50%) scale(1.6);opacity:0.9}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}@keyframes vsBoom-rays{0%{transform:translate(-50%,-50%) scale(0);opacity:1}30%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(1.18);opacity:0}}@keyframes vsBoom-sparkMove{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(var(--vsdx),var(--vsdy)) scale(0.9);opacity:0}}.vsBoom-stage.animate .vsBoom-text::before{animation:vsBoom-flash 600ms ease-out 400ms forwards}.vsBoom-stage.animate .vsBoom-text::after{animation:vsBoom-rays 600ms cubic-bezier(0.2,0.9,0.3,1) 420ms forwards}.vsBoom-stage.animate .vsBoom-sparks span{animation:vsBoom-sparkMove 700ms cubic-bezier(0.15,0.9,0.3,1) 420ms forwards}.vsBoom-text.show{display:block;animation:vsBoom-popShrink 800ms cubic-bezier(0.2,0.9,0.3,1) forwards}.match-user-card-container{width:100%;height:100%;margin:0;padding:0;display:flex;flex-direction:left;overflow:hidden}.match-user-card{position:absolute;background:#333;color:white;font-family:"Stick",sans-serif;width:50%;height:100%;font-size:2rem;justify-content:center;align-items:center;display:none}.match-user-card.left{clip-path:polygon(0 0,100% 0,90% 100%,0 100%);animation:MatchUserCardLeft 0.5s forwards;display:flex}.match-user-card.right{clip-path:polygon(10% 0,100% 0,100% 100%,0 100%);animation:MatchUserCardRight 0.5s forwards;display:flex}@keyframes MatchUserCardLeft{0%{left:-50%}100%{left:0%}}@keyframes MatchUserCardRight{0%{left:100%}100%{left:50%}}.match-start-dialog{clip-path:polygon(0 2%,98% 0,100% 98%,2% 100%);position:absolute;background-color:#ccc;color:black;width:400px;height:250px;font-family:"Stick",sans-serif;font-weight:400;font-style:normal;font-size:2rem;justify-content:center;align-items:center;display:none;z-index:1}.match-start-dialog.show{display:flex;animation:MatchStartDialogShow 0.25s ease-in forwards}.match-start-dialog.hide{display:flex;animation:MatchStartDialogHide 0.25s ease-in forwards}@keyframes MatchStartDialogShow{0%{top:calc(50% - 150px);left:calc(50% - 200px);opacity:0}100%{top:calc(50% - 125px);left:calc(50% - 200px);opacity:1}}@keyframes MatchStartDialogHide{0%{top:calc(50% - 125px);left:calc(50% - 200px);opacity:1}100%{top:calc(50% - 100px);left:calc(50% - 200px);opacity:0}}.fixed-background-in-div{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000}.fixed-background-in-div.show{display:block;animation:FadeInBackground 3s ease-in forwards}@keyframes FadeInBackground{0%{opacity:0}10%{opacity:0.5}90%{opacity:0.5}100%{opacity:1}}
 .notification-banner { display: none; position: fixed; top: 20px; transform: translateX(100%); background-color: #4caf50; color: white; padding: 0; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); align-items: center; z-index: 1000; max-width: 300px; } .notification-banner.show { display: block; animation: slideInFromRight 0.5s ease forwards; } .notification-banner.hidden { animation: slideOutToRight 0.5s ease forwards; } .notification-banner p { margin: 0; flex-grow: 1; } .close-button { background: none; border: none; color: white; font-size: 20px; cursor: pointer; margin-left: 15px; } .close-button:hover { color: #f0f0f0; } @keyframes slideInFromRight { from { transform: translateX(100%); right: 20px; } to { transform: translateX(0); right: 20px; } } @keyframes slideOutToRight { from { transform: translateX(0); right: 20px; opacity: 1; } to { transform: translateX(100%); right: 20px; opacity: 0; } } p.message-text { margin: 10px; } .progress-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 10px; background-color: #4caf50; } .progress-fill { height: 100%; width: 100%; background-color: #fffb00; transition: width 1s linear; } .notification-banner::after { font-family: 'Russo One', sans-serif; content: "R"; position: absolute; top: 0; right: 10px; width: 65px; height: 65px; pointer-events: none; font-size: 65px; opacity: 0.3; text-align: right; }
 @keyframes slideOutToRight {
     from {
@@ -149,7 +149,6 @@ body {
     /* 垂直方向中央揃え */
     justify-content: center;
     /* 水平方向中央揃え (コンテンツが少ない場合) */
-    overflow: hidden;
     /* コンテンツがはみ出さないように */
     box-sizing: border-box;
     /* paddingとborderをwidth/heightに含める */
@@ -247,6 +246,7 @@ body {
     /* 左右から中央に50%ずつクリップ */
     opacity: 0;
     /* アニメーション開始前に一瞬表示されるのを防ぐ */
+    background-color: #4CAF50;
 }
 
 .boxWipein {
@@ -264,7 +264,6 @@ body {
         clip-path: inset(0 50% 0 50%);
         /* 左右から中央に50%ずつクリップ */
         opacity: 0;
-        background-color: #4CAF50;
         /* ボックスの背景色 */
         height: 40px;
     }
@@ -272,7 +271,6 @@ body {
     1% {
         /* ほぼ0%の時点でopacityを1にする */
         opacity: 1;
-        background-color: #4CAF50;
         /* ボックスの背景色 */
         height: 40px;
     }
@@ -281,7 +279,6 @@ body {
         clip-path: inset(0 10% 0 10%);
         /* 全体を表示 */
         opacity: 1;
-        background-color: #4CAF50;
         /* ボックスの背景色 */
         height: 40px;
     }
@@ -291,7 +288,6 @@ body {
         /* 全体を表示 */
         opacity: 1;
         color: #FFFFFF;
-        background-color: #4CAF50;
         /* ボックスの背景色 */
         top: calc(50% - 40px);
         height: 40px;
@@ -301,9 +297,8 @@ body {
         clip-path: inset(0 0% 0 0%);
         /* 全体を表示 */
         opacity: 1;
-        background-color: #000000;
         /* ボックスの背景色 */
-        color: #000000;
+        color: rgba(0, 0, 0, 0);
         top: 0px;
         height: calc(100% - 100px);
     }
@@ -312,9 +307,8 @@ body {
         clip-path: inset(0 0% 0 0%);
         /* 全体を表示 */
         opacity: 0;
-        background-color: #000000;
         /* ボックスの背景色 */
-        color: #000000;
+        color: #ffffff00;
         top: 0px;
         height: calc(100% - 100px);
     }

@@ -63,6 +63,14 @@ function game() {
         if (next.length < 21) {
             gene_next();
         }
+        mino_set();
+        if (enable(0) === 0) {
+            Finish();
+            document.querySelector(".wipe-in-box").innerHTML = "Failure...";
+            document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
+            bgm_stop();
+            return false;
+        }
     }
 
     // ホールド処理
@@ -612,6 +620,8 @@ function formatSecondsToMinutes(totalSeconds) {
 function Finish(bool = true) {
     clearInterval(attack_interval);
     if (bool) {
+        document.querySelector(".wipe-in-box").innerHTML = "Finish!";
+        document.querySelector(".wipe-in-box").style.background = "#4CAF50";
         setTimeout(function () { clearInterval(sendData_interval) }, 200)
         document.querySelector(".details").style.display = "none";
         let apm = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
