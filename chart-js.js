@@ -1,4 +1,5 @@
 let player_stats = [];
+let myChart = null;
 
 function fetch_player_stats() {
   (function () {
@@ -21,8 +22,11 @@ function fetch_player_stats() {
     xhr.send(body);
   })();
   function draw_graph() {
+    try{
+      myChart.destroy();
+    }catch(e){}
     var ctx = document.getElementById("myLineChart");
-    var myLineChart = new Chart(ctx, {
+    myChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: [...Array(player_stats.length).keys()].map(i => i + 1),
@@ -34,10 +38,10 @@ function fetch_player_stats() {
             backgroundColor: "rgba(0,0,0,0)"
           },
           {
-            label: 'PPS',
+            label: 'PPS (x40)',
             data: player_stats.map(data => data[4] * 40),
             borderColor: "rgba(0,0,255,1)",
-            backgroundColor: "rgba(0,0,0,0)"
+            backgroundColor: "rgba(0,0,0,0)",
           }
         ],
       },
