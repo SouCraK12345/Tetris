@@ -65,7 +65,7 @@ function game() {
         }
         mino_set();
         if (enable(0) === 0) {
-            Finish(true,false);
+            Finish(true, false);
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
@@ -644,34 +644,37 @@ function Finish(bool = true, clear = true) {
             document.querySelector(".result-time").innerText = time;
             bgm_stop();
         }, 5200);
-        (function () {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            const body = JSON.stringify({
-                type: "data",
-                data: [
-                    user_name,
-                    gamemode,
-                    document.querySelector(".APM").innerHTML.replace("APM: ", ""),
-                    document.querySelector(".PPS").innerHTML.replace("PPS: ", ""),
-                    document.querySelector(".SCORE").innerHTML.replace("Score: ", ""),
-                    document.querySelector(".LINES").innerHTML.replace("Lines: ", ""),
-                    document.querySelector(".TIME").innerHTML.replace("Time: ", ""),
-                    clear,
-                    virtualbattle_apm,
-                ],
-            });
-            xhr.onload = () => {
-                console.log(xhr)
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log(xhr.responseText);
-                } else {
-                    alert(`Error: ${xhr.status}`);
-                }
-            };
-            xhr.send(body);
-        })();
+        if (user_name != "") {
+            (function () {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                const body = JSON.stringify({
+                    type: "data",
+                    data: [
+                        user_name,
+                        gamemode,
+                        document.querySelector(".APM").innerHTML.replace("APM: ", ""),
+                        document.querySelector(".PPS").innerHTML.replace("PPS: ", ""),
+                        document.querySelector(".SCORE").innerHTML.replace("Score: ", ""),
+                        document.querySelector(".LINES").innerHTML.replace("Lines: ", ""),
+                        document.querySelector(".TIME").innerHTML.replace("Time: ", ""),
+                        clear,
+                        virtualbattle_apm,
+                    ],
+                });
+                xhr.onload = () => {
+                    console.log(xhr)
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log(xhr.responseText);
+                        fetch_player_stats();
+                    } else {
+                        alert(`Error: ${xhr.status}`);
+                    }
+                };
+                xhr.send(body);
+            })();
+        }
     } else {
         document.querySelector(".details").style.display = "none";
         document.querySelector(".user").style.display = "none";
@@ -829,7 +832,8 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         canvas.style.display = "block";
         restart();
         draw();
-        document.querySelector(".tile-card-container").style.display = "none"
+        document.querySelector(".tile-card-container").style.display = "none";
+        document.querySelector(".chart-container").style.display = "none";
         setTimeout(function () {
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
@@ -850,6 +854,7 @@ function back_to_menu() {
     }
     canvas.style.display = "none";
     document.querySelector(".tile-card-container").style.display = "block";
+    document.querySelector(".chart-container").style.display = "block";
     document.querySelector(".result").style.display = "none";
     document.querySelector(".wipe-in-box").classList.remove("boxWipein");
 }
