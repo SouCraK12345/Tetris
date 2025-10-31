@@ -15,9 +15,6 @@ function fetch_player_stats() {
         console.log(JSON.parse(xhr.responseText));
         player_stats = JSON.parse(xhr.responseText);
 
-        try {
-          myChart.destroy();
-        } catch (e) { }
         draw_graph();
       } else {
         alert(`Error: ${xhr.status}`);
