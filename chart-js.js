@@ -32,12 +32,12 @@ function fetch_player_stats() {
       data: {
         labels: [...Array(player_stats.length).keys()].map(i => i + 1),
         datasets: [
-          // {
-          //   label: 'APM',
-          //   data: player_stats.map(data => data[3]),
-          //   borderColor: "rgba(255,0,0,1)",
-          //   backgroundColor: "rgba(0,0,0,0)"
-          // },
+          {
+            label: 'APM',
+            data: player_stats.map(data => data[3]),
+            borderColor: "rgba(255,0,0,1)",
+            backgroundColor: "rgba(0,0,0,0)"
+          },
           // {
           //   label: 'PPS (x40)',
           //   data: player_stats.map(data => data[4] * 40),
