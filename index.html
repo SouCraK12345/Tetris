@@ -80,6 +80,11 @@
     <label class="left-label SCORE" style="bottom: calc(30% - 80px);">Score: 0</label>
     <label class="left-label TIME" style="bottom: calc(30% - 100px);">Time: 0</label>
   </div>
+  <div id="chart-container">
+    <canvas id="myLineChart"></canvas>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+  <script src="chart-js.js"></script>
   <canvas id="tetris">お使いのブラウザではhtmlのcanvasが対応していません。</canvas>
   <div class="tile-card-container">
     <h3 class="title">Menu</h3>
@@ -173,7 +178,7 @@
     </div>
     <hr>
     <div style="width: 100%; text-align: center;">Virtual Battle</div>
-    
+
     <div class="slider-container center">
       <input type="range" min="20" max="200" value="40" class="slider" id="virtualbattle-apm" />
       <p class="slider-value">APM: <span id="virtualbattle-apm-label">75</span></p>
