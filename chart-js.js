@@ -34,16 +34,16 @@ function fetch_player_stats() {
         datasets: [
           {
             label: 'APM',
-            data: player_stats.map(data => data[3]),
+            data: player_stats.map(data => data[2]),
             borderColor: "rgba(255,0,0,1)",
             backgroundColor: "rgba(0,0,0,0)"
           },
-          // {
-          //   label: 'PPS (x40)',
-          //   data: player_stats.map(data => data[4] * 40),
-          //   borderColor: "rgba(0,0,255,1)",
-          //   backgroundColor: "rgba(0,0,0,0)",
-          // }
+          {
+            label: 'PPS (x40)',
+            data: player_stats.map(data => data[3] * 40),
+            borderColor: "rgba(0,0,255,1)",
+            backgroundColor: "rgba(0,0,0,0)",
+          }
         ],
       },
       options: {
