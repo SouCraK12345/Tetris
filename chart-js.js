@@ -13,7 +13,11 @@ function fetch_player_stats() {
     xhr.onload = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
         console.log(JSON.parse(xhr.responseText));
-        player_stats = JSON.parse(xhr.responseText)
+        player_stats = JSON.parse(xhr.responseText);
+
+        try {
+          myChart.destroy();
+        } catch (e) { }
         draw_graph();
       } else {
         alert(`Error: ${xhr.status}`);
@@ -22,9 +26,6 @@ function fetch_player_stats() {
     xhr.send(body);
   })();
   function draw_graph() {
-    try{
-      myChart.destroy();
-    }catch(e){}
     var ctx = document.getElementById("myLineChart");
     myChart = new Chart(ctx, {
       type: 'line',
