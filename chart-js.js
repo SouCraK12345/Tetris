@@ -23,6 +23,9 @@ function fetch_player_stats() {
     xhr.send(body);
   })();
   function draw_graph() {
+    if (myChart != null) {
+      myChart.destroy();
+    }
     var ctx = document.getElementById("myLineChart");
     myChart = new Chart(ctx, {
       type: 'line',
