@@ -65,8 +65,8 @@ function fetch_player_stats() {
   }
 }
 
-setTimeout(() => {
-  if (user_name != "") {
-    fetch_player_stats();
-  }
-}, 1000);
+// setTimeout(() => {
+//   if (user_name != "") {
+//     fetch_player_stats();
+//   }
+// }, 1000);
