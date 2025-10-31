@@ -719,7 +719,7 @@ document.addEventListener("keydown", (event) => {
         const banner = document.getElementById("myNotificationBanner");
         banner.click();
     }
-    if (event.key == "f") {
+    if (event.key == "f" && document.querySelector("input.retry").checked) {
         restart();
     }
 });
@@ -834,6 +834,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         draw();
         document.querySelector(".tile-card-container").style.display = "none";
         document.querySelector("#chart-container").style.display = "none";
+        document.querySelector("#psb-body").style.display = "none";
         setTimeout(function () {
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
@@ -855,6 +856,7 @@ function back_to_menu() {
     canvas.style.display = "none";
     document.querySelector(".tile-card-container").style.display = "block";
     document.querySelector("#chart-container").style.display = "block";
+    document.querySelector("#psb-body").style.display = "flex";
     document.querySelector(".result").style.display = "none";
     document.querySelector(".wipe-in-box").classList.remove("boxWipein");
 }

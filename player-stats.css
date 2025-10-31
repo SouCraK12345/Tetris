@@ -1,0 +1,86 @@
+#psb-body {
+    font-family: system-ui;
+    /* background: #0f172a; */
+    color: #000000;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    right: 0;
+    width: calc(50% - 40px);
+    top: 50%;
+}
+
+#psb-matches {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#psb-details {
+    flex-grow: 1;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease
+}
+
+#psb-details.psb-visible {
+    opacity: 1;
+    transform: translateY(0)
+}
+
+#psb-matches h1 {
+    font-size: 20px;
+    margin-bottom: 12px
+}
+
+.psb-match-btn {
+    background: #a5afc5;
+    border: 0;
+    padding: 10px;
+    border-radius: 8px;
+    color: #000000;
+    margin: 5px;
+    cursor: pointer;
+    display: block;
+    width: 250px;
+    text-align: center
+}
+
+.psb-match-btn:hover {
+    background: #90b1ff
+}
+
+.psb-btn-type {
+    display: block;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.psb-btn-sub {
+    display: block;
+    font-size: 12px;
+    opacity: 0.8
+}
+
+.psb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px
+}
+
+.psb-table th,
+.psb-table td {
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    font-size: 13px
+}
+
+.psb-win-true {
+    color: #00a73a
+}
+
+.psb-win-false {
+    color: #c91414
+}

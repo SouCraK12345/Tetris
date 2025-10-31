@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="player-stats.css">
 </head>
 
 <body>
@@ -176,6 +177,12 @@
       <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
       <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
     </div>
+    <div class="toggle_button">
+      リトライ
+      <input id="toggle" class="toggle_input retry" type='checkbox' checked />
+      <label for="toggle" class="toggle_label"></label>
+    </div>
+
     <hr>
     <div style="width: 100%; text-align: center;">Virtual Battle</div>
 
@@ -195,6 +202,10 @@
     <a href="regist.html"
       style="width: 100%; text-align: center; display: block; color: white; margin: 20px 0;">ユーザー登録</a>
   </dialog>
+
+
+  <div id="psb-body">
+  </div>
 
   <script src="tetris.js"></script>
   <script src="setting.js"></script>
