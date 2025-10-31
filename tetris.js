@@ -65,7 +65,7 @@ function game() {
         }
         mino_set();
         if (enable(0) === 0) {
-            Finish();
+            Finish(true,false);
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
@@ -618,7 +618,7 @@ function formatSecondsToMinutes(totalSeconds) {
     return `${paddedMinutes}:${formattedSeconds}`;
 }
 
-function Finish(bool = true) {
+function Finish(bool = true, clear = true) {
     clearInterval(attack_interval);
     if (bool) {
         document.querySelector(".wipe-in-box").innerHTML = "Finish!";
@@ -644,8 +644,35 @@ function Finish(bool = true) {
             document.querySelector(".result-time").innerText = time;
             bgm_stop();
         }, 5200);
+        (function () {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            const body = JSON.stringify({
+                type: "data",
+                data: [
+                    user_name,
+                    gamemode,
+                    document.querySelector(".APM").innerHTML.replace("APM: ", ""),
+                    document.querySelector(".PPS").innerHTML.replace("PPS: ", ""),
+                    document.querySelector(".SCORE").innerHTML.replace("Score: ", ""),
+                    document.querySelector(".LINES").innerHTML.replace("Lines: ", ""),
+                    document.querySelector(".TIME").innerHTML.replace("Time: ", ""),
+                    clear,
+                    virtualbattle_apm,
+                ],
+            });
+            xhr.onload = () => {
+                console.log(xhr)
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                } else {
+                    alert(`Error: ${xhr.status}`);
+                }
+            };
+            xhr.send(body);
+        })();
     } else {
-        canvas.style.display = "none";
         document.querySelector(".details").style.display = "none";
         document.querySelector(".user").style.display = "none";
         document.querySelector(".request").style.display = "none";

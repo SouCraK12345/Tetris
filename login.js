@@ -16,6 +16,7 @@ function login() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.responseText == "ログイン完了") {
                 user_name = document.querySelector(".username").value;
+                localStorage.setItem("user_name", user_name);
                 document.querySelector(".login").close();
                 document.querySelector(".login-button").style.display = "none";
                 document.querySelector(".user-name-label").innerHTML = user_name;
@@ -30,4 +31,14 @@ function login() {
         document.querySelector(".password").disabled = false;
     };
     xhr.send(body);
+}
+document.querySelector("body > div.header > label").addEventListener("click", function () {
+    confirm("ログアウトしますか？") && (localStorage.removeItem("user_name"), location.reload());
+});
+user_name_ls = localStorage.getItem("user_name");
+if (user_name_ls) {
+    user_name = user_name_ls;
+    // document.querySelector(".login").close();
+    document.querySelector(".login-button").style.display = "none";
+    document.querySelector(".user-name-label").innerHTML = user_name;
 }

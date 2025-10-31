@@ -1,7 +1,7 @@
 
 setInterval(check_request, 100)
 function check_request() {
-    // try {
+    try {
     for (var i in requests) {
         if (requests[i].time + 30000 < new Date()) {
             delete requests[i];
@@ -24,7 +24,7 @@ function check_request() {
     if (!battle_started) {
         isAccepted(sendTo);
     }
-    // } catch (e) { }
+    } catch (e) { }
 }
 
 function decrease_progress_bar() {

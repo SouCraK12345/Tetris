@@ -209,7 +209,8 @@ body {
 }
 
 .tile-card-container {
-    margin: 0 auto;
+    /* margin: 0 auto; */
+    width: 50%;
 }
 
 .title {
