@@ -14,19 +14,22 @@ function fetch_player_stats() {
       if (xhr.readyState == 4 && xhr.status == 200) {
         console.log(JSON.parse(xhr.responseText));
         player_stats = JSON.parse(xhr.responseText);
+        document.querySelector("#psb-body").innerHTML = `
+      <div id="psb-matches">
+      </div>
+      <div id="psb-details"></div>
+      `;
 
         draw_graph();
+        setTimeout(() => {
+          document.querySelector("#psb-matches").scrollTo(0, -1000)
+        });
       } else {
         alert(`Error: ${xhr.status}`);
       }
     };
     xhr.send(body);
 
-    document.querySelector("#psb-body").innerHTML = `
-    <div id="psb-matches">
-    </div>
-    <div id="psb-details"></div>
-    `;
   })();
   function draw_graph() {
     const matchesDiv = document.getElementById('psb-matches');
@@ -82,6 +85,8 @@ function fetch_player_stats() {
         ],
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         title: {
           display: true,
           text: '最近のデータ'

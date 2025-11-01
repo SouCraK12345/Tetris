@@ -857,6 +857,7 @@ function back_to_menu() {
     document.querySelector(".tile-card-container").style.display = "block";
     document.querySelector("#chart-container").style.display = "block";
     document.querySelector("#psb-body").style.display = "flex";
+    document.querySelector("#psb-matches").scrollTo(0, -1000)
     document.querySelector(".result").style.display = "none";
     document.querySelector(".wipe-in-box").classList.remove("boxWipein");
 }

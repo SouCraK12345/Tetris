@@ -858,10 +858,10 @@ dialog.login {
 
 #chart-container {
     width: calc(50% - 40px);
+    height: 40%;
     position: absolute;
-    right: 0;
-    top: 10%;
     margin: 20px;
+    left: 50%;
 }
 
 .toggle_input {
