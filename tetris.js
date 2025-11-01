@@ -532,15 +532,17 @@ function rising() {
     if (waiting_damage < 30) {
         return;
     }
-    let random_number = Math.floor(Math.random() * 10);
+    let random_number = last_hole;
     for (let i = 0; i < damage; i++) {
         document.querySelector(".damage").currentTime = 0;
         document.querySelector(".damage").play();
         shaking_x += 10;
         _for_rising_(1);
-        if (phase == 1) {
+        if (phase == 1 || serial_hole >= serial_hole_max) {
             random_number = Math.floor(Math.random() * 10);
+            serial_hole = 0;
         }
+        serial_hole += 1;
         for (let j = 0; j < 10; j++) {
             if (j == random_number) {
                 _for_rising_(0);
@@ -550,6 +552,7 @@ function rising() {
         }
         _for_rising_(1);
     }
+    last_hole = random_number;
     damage = 0;
 }
 function rewrite_attackType(text) {
@@ -770,6 +773,9 @@ let attack_interval = null;
 let waiting_damage = 0;
 let virtual_enemy_hp = 20;
 let virtualbattle_apm = 40;
+let last_hole = 4;
+let serial_hole = 0;
+let serial_hole_max = 5;
 
 function damage_interval() {
     return setInterval(function () {
