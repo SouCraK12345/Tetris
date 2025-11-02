@@ -920,3 +920,56 @@ dialog.login {
     height: 35px;
     margin: auto;
 }
+
+
+.challange-container {
+    position: absolute;
+    top: 50%;
+    width: 250px;
+    display: none;
+    background-color: darkkhaki;
+    flex-wrap: wrap;
+    font-size: 20px;
+    font-family: 'Russo One';
+}
+
+.challange-container.show {
+    display: flex;
+    animation: SlideInFromRight 0.6s ease-out forwards;
+}
+
+.challange-container.hide {
+    display: flex;
+    animation: SlideOutToRight 0.6s ease-in forwards;
+}
+
+@keyframes SlideInFromRight {
+    0% {
+        right: -250px;
+    }
+
+    100% {
+        right: 0;
+    }
+}
+
+@keyframes SlideOutToRight {
+    0% {
+        right: 0;
+    }
+
+    100% {
+        right: -250px;
+    }
+}
+
+img.challange-win {
+    height: 40px;
+    margin: 5px;
+    transform: rotate(5deg);
+}
+
+img.challange-lose {
+    height: 25px;
+    margin: 5px;
+}

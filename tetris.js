@@ -877,6 +877,5 @@ function back_to_menu() {
     document.querySelector(".wipe-in-box").classList.remove("boxWipein");
     RatingSystem.update();
 }
-RatingSystem.update();
 
 let user_name, sendData_interval;
