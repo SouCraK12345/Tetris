@@ -8,7 +8,7 @@ document.querySelector(".virtualbattle-clear").volume = 0.8;
 function mainloop() {
     if (battle_started && solo) {
         Finish(false);
-        gamemode = "battle";
+        gamemode = "Batttle";
         return false;
     }
     if (gamemode == "Watch") {
@@ -33,6 +33,7 @@ function mainloop() {
         draw();
         return false;
     }
+    if (!solo && battle_started) { get_enemy_data(); }
     if (game()) {
         draw();
         requestAnimationFrame(mainloop);
@@ -66,6 +67,7 @@ function game() {
         mino_set();
         if (enable(0) === 0) {
             Finish(true, false);
+            isGameover = true;
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
@@ -589,6 +591,9 @@ function restart() {
     attack_to_enemy = 0;
     damage = 0;
     virtual_enemy_hp = 20;
+    last_hole = Math.floor(Math.random() * 10);
+    last_attack = 0;
+    let isGameover = false;
     clearInterval(attack_interval);
     if (gamemode == "VirtualBattle") attack_interval = damage_interval();
 }
@@ -626,10 +631,11 @@ function formatSecondsToMinutes(totalSeconds) {
 
 function Finish(bool = true, clear = true) {
     clearInterval(attack_interval);
+    sendData();
+    setTimeout(function () { clearInterval(sendData_interval) }, 200)
     if (bool) {
         document.querySelector(".wipe-in-box").innerHTML = "Finish!";
         document.querySelector(".wipe-in-box").style.background = "#4CAF50";
-        setTimeout(function () { clearInterval(sendData_interval) }, 200)
         document.querySelector(".details").style.display = "none";
         let apm = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
         let pps = Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10;
@@ -782,6 +788,8 @@ let virtualbattle_apm = 40;
 let last_hole = 4;
 let serial_hole = 0;
 let serial_hole_max = 5;
+let last_attack = 0;
+let isGameover = false;
 
 function damage_interval() {
     return setInterval(function () {
@@ -869,13 +877,15 @@ function back_to_menu() {
         document.querySelector(".login-button").style.display = "block";
     }
     canvas.style.display = "none";
-    document.querySelector(".tile-card-container").style.display = "block";
-    document.querySelector("#chart-container").style.display = "block";
-    document.querySelector("#psb-body").style.display = "flex";
-    document.querySelector("#psb-matches").scrollTo(0, -1000)
-    document.querySelector(".result").style.display = "none";
-    document.querySelector(".wipe-in-box").classList.remove("boxWipein");
-    RatingSystem.update();
+    if (!battle_started) {
+        document.querySelector(".tile-card-container").style.display = "block";
+        document.querySelector("#chart-container").style.display = "block";
+        document.querySelector("#psb-body").style.display = "flex";
+        document.querySelector("#psb-matches").scrollTo(0, -1000)
+        document.querySelector(".result").style.display = "none";
+        document.querySelector(".wipe-in-box").classList.remove("boxWipein");
+        RatingSystem.update();
+    }
 }
 
 let user_name, sendData_interval;

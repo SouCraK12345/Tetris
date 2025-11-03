@@ -27,6 +27,10 @@ const RatingSystem = {
         return localStorage.getItem(key);
     },
     setItem: function (key, value) {
+        clearInterval(receive_interval);
+        receive_interval = setInterval(() => {
+            RatingSystem.receive();
+        }, 10000);
         localStorage.setItem(key, value);
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
@@ -41,6 +45,10 @@ const RatingSystem = {
     },
     update: function () {
         if (localStorage["win-count"] >= 5 || localStorage["lose-count"] >= 3) {
+            document.querySelector(".challange-result").showModal();
+            document.querySelector(".challange-result .win-count").innerText = localStorage["win-count"];
+            document.querySelector(".challange-result .lose-count").innerText = localStorage["lose-count"];
+            document.querySelector(".challange-result .point").innerText = Math.round(localStorage["point"]) + "pt";
             this.setItem("win-count", "0");
             this.setItem("lose-count", "0");
             this.setItem("total-point", Number(this.getItem("total-point")) + Number(this.getItem("point")));
@@ -78,9 +86,10 @@ function draw_challange() {
         }, { once: true });
     }, 3000);
 }
-
+let receive_interval;
 document.addEventListener("DOMContentLoaded", () => {
-    setInterval(() => {
+    if (!user_name) return;
+    receive_interval = setInterval(() => {
         RatingSystem.receive();
     }, 10000);
     RatingSystem.receive("first");

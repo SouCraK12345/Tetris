@@ -32,6 +32,7 @@ function sendData() {
             REN: REN,
             score: score,
             start_time: start_time.getTime(),
+            hp: isGameover ? 0 : 1,
             time: Date.now()
         });
     }
@@ -97,12 +98,12 @@ function start_match_dialog(from, to) {
         document.querySelector(".show-card").play();
     }, 3800);
     if (from == user_name) {
-        enemy_name = to;
+        window.enemy_name = to;
     } else {
-        enemy_name = from;
+        window.enemy_name = from;
     }
     document.querySelector("#MatchUserCardLeft").innerText = user_name;
-    document.querySelector("#MatchUserCardRight").innerText = enemy_name;
+    document.querySelector("#MatchUserCardRight").innerText = window.enemy_name;
     document.querySelector(".accept_dialog").close();
     setTimeout(function () {
         let dialog = document.querySelector(".match-start-dialog");
@@ -124,6 +125,8 @@ function start_match_dialog(from, to) {
         document.querySelector("#MatchUserCardRight").classList.remove("right");
         document.querySelector("#MatchUserCardLeft").classList.add("slideOutToLeft");
         document.querySelector("#MatchUserCardLeft").classList.remove("left");
+        document.querySelector("#vsBoom-text").classList.remove("show");
+        document.querySelector(".battle-start").pause();
         let fixed_dialog = document.querySelector(".fixed-background-in-div");
         fixed_dialog.classList.add("hide");
         setTimeout(function () {
@@ -131,6 +134,20 @@ function start_match_dialog(from, to) {
             fixed_dialog.classList.remove("hide");
             fixed_dialog.style.dispaly = "none";
         }, 1000);
+
+        solo = false;
+        canvas.style.display = "block";
+        restart();
+        draw();
+        setTimeout(function () {
+            document.querySelector(".details").style.display = "block";
+            start_time = new Date();
+            mainloop();
+            if (gamemode != "Watch") {
+                sendData_interval = setInterval(sendData, 150);
+            }
+            bgm()
+        }, gamemode == "Watch" ? 0 : 1000);
     }, 8000);
 }
 const vsBoomStage = document.getElementById('vsBoom-stage');
@@ -149,8 +166,8 @@ function vsBoomPlay() {
 function isAccepted(from) {
     try {
         if (window.requests[from].accepted) {
-            start_match_dialog(from, user_name);
             battle_started = true;
+            start_match_dialog(from, user_name);
             return true;
         } else {
             return false;
@@ -158,6 +175,20 @@ function isAccepted(from) {
     } catch (e) {
         return false;
     }
+}
+
+function get_enemy_data() {
+    // try {
+    let enemy_data = window.cloudData[window.enemy_name];
+    damage += enemy_data.attack - last_attack;
+    virtual_enemy_hp = enemy_data.hp;
+    if (enemy_data.attack - last_attack > 0) {
+        waiting_damage = 0;
+    }
+    last_attack = enemy_data.attack;
+    // } catch (e) {
+    //     return null;
+    // }
 }
 
 let cloudData;
@@ -172,3 +203,5 @@ window.sendRequest = sendRequest;
 window.accept = accept;
 window.isAccepted = isAccepted;
 window.sendTo = sendTo;
+window.enemy_name = enemy_name;
+window.get_enemy_data = get_enemy_data;
