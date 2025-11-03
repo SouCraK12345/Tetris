@@ -8,7 +8,7 @@ document.querySelector(".virtualbattle-clear").volume = 0.8;
 function mainloop() {
     if (battle_started && solo) {
         Finish(false);
-        gamemode = "Batttle";
+        gamemode = "Battle";
         return false;
     }
     if (gamemode == "Watch") {
@@ -709,6 +709,10 @@ function bgm() {
     if (gamemode == "VirtualBattle") {
         document.querySelector(".bgm-virtualbattle").currentTime = 0;
         document.querySelector(".bgm-virtualbattle").play();
+    }
+    if (gamemode == "Battle") {
+        document.querySelector(".bgm-battle").currentTime = 0;
+        document.querySelector(".bgm-battle").play();
     }
 }
 function bgm_stop() {
