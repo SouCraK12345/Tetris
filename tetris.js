@@ -72,6 +72,7 @@ function game() {
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
             document.querySelector(".bgm-virtualbattle").pause();
+            document.querySelector(".bgm-battle").pause();
             return false;
         }
     }
@@ -204,11 +205,14 @@ function game() {
     if (virtual_enemy_hp < 1) {
         Finish();
         document.querySelector(".bgm-virtualbattle").pause();
+        document.querySelector(".bgm-battle").pause();
         document.querySelector(".virtualbattle-clear").currentTime = 0;
         document.querySelector(".virtualbattle-clear").play();
-        RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
-        RatingSystem.setItem("win-count", String(Number(RatingSystem.getItem("win-count")) + 1));
-        RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + 50));
+        if (gamemode == "Battle") {
+            RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
+            RatingSystem.setItem("win-count", String(Number(RatingSystem.getItem("win-count")) + 1));
+            RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + 50));
+        }
         return false;
     }
     if ((new Date() - start_time) / 1000 > 100 && gamemode == "Ultra") {
@@ -656,7 +660,7 @@ function Finish(bool = true, clear = true) {
             document.querySelector(".result-time").innerText = time;
             bgm_stop();
         }, 5200);
-        if (gamemode == "VirtualBattle") {
+        if (gamemode == "Battle") {
             RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + Math.sqrt(attack)));
         }
         if (user_name != "") {
@@ -851,7 +855,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             gamemode = "Watch";
             document.querySelector(".user").focus()
         }
-        if (gamemode == "VirtualBattle") {
+        if (gamemode == "Battle") {
             RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) + 1));
         }
         document.querySelector(".header-title").innerHTML = gamemode;

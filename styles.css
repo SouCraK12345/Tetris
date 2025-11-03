@@ -509,6 +509,7 @@ canvas#tetris {
     /* ここを追加 */
     transform: translateX(-50%);
     /* ここを追加 */
+    z-index: -1;
 }
 
 body {

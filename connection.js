@@ -147,7 +147,7 @@ function start_match_dialog(from, to) {
                 sendData_interval = setInterval(sendData, 150);
             }
             bgm()
-        }, gamemode == "Watch" ? 0 : 1000);
+        }, 2000);
     }, 8000);
 }
 const vsBoomStage = document.getElementById('vsBoom-stage');
