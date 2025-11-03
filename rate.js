@@ -17,6 +17,12 @@ const RatingSystem = {
                 if (e == "first") {
                     this.update();
                 }
+                if (!(RatingSystem.getItem("win-count") && RatingSystem.getItem("lose-count") && RatingSystem.getItem("point") && RatingSystem.getItem("total-point"))) {
+                    RatingSystem.setItem("win-count", "0");
+                    RatingSystem.setItem("lose-count", "0");
+                    RatingSystem.setItem("point", "0");
+                    RatingSystem.setItem("total-point", "0");
+                }
             } else {
                 alert(`Error: ${xhr.status}`);
             }
@@ -94,9 +100,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 10000);
     RatingSystem.receive("first");
 });
-if (!(RatingSystem.getItem("win-count") && RatingSystem.getItem("lose-count") && RatingSystem.getItem("point") && RatingSystem.getItem("total-point"))) {
-    RatingSystem.setItem("win-count", "0");
-    RatingSystem.setItem("lose-count", "0");
-    RatingSystem.setItem("point", "0");
-    RatingSystem.setItem("total-point", "0");
-}

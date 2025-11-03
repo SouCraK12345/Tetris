@@ -137,6 +137,7 @@ function start_match_dialog(from, to) {
 
         solo = false;
         canvas.style.display = "block";
+        RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) + 1));
         restart();
         draw();
         setTimeout(function () {

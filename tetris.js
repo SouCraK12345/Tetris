@@ -856,7 +856,6 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             document.querySelector(".user").focus()
         }
         if (gamemode == "Battle") {
-            RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) + 1));
         }
         document.querySelector(".header-title").innerHTML = gamemode;
         document.querySelector(".login-button").style.display = "none";
