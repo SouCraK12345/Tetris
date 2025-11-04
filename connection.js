@@ -215,8 +215,6 @@ const RatingSystem = {
             localStorage.setItem("point", "0");
             RatingSystem.setItem("total-point", "0");
         }
-        this.update();
-        draw_challange();
     },
     getItem: function (key) {
         return localStorage.getItem(key);
