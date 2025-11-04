@@ -15,7 +15,7 @@ function mainloop() {
         requestAnimationFrame(mainloop);
         try {
             for (var i in cloudData) {
-                if (cloudData[i].time + 5000 < Date.now()) {
+                if (cloudData[i].time + 5000 < new Date(getServerTime()).getTime()) {
                     delete cloudData[i]
                 }
             }
