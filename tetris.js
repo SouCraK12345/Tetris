@@ -635,9 +635,11 @@ function formatSecondsToMinutes(totalSeconds) {
 
 function Finish(bool = true, clear = true) {
     clearInterval(attack_interval);
-    sendData();
     setTimeout(function () { clearInterval(sendData_interval) }, 200)
     if (bool) {
+        setTimeout(function () {
+            battle_started = false;
+        }, 5000)
         document.querySelector(".wipe-in-box").innerHTML = "Finish!";
         document.querySelector(".wipe-in-box").style.background = "#4CAF50";
         document.querySelector(".details").style.display = "none";
@@ -663,7 +665,7 @@ function Finish(bool = true, clear = true) {
         if (gamemode == "Battle") {
             RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + Math.sqrt(attack)));
         }
-        if (user_name != "") {
+        if (user_name) {
             (function () {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
@@ -699,6 +701,8 @@ function Finish(bool = true, clear = true) {
         document.querySelector(".user").style.display = "none";
         document.querySelector(".request").style.display = "none";
         bgm_stop();
+        attack = 0; isGameover = false;
+        sendData();
     }
 }
 function bgm() {
@@ -738,11 +742,11 @@ document.addEventListener("keydown", (event) => {
     if (event.key == " ") {
         key_list[0] = true;
     }
-    if (event.key == "r") {
+    if (event.key == "r" && !battle_started) {
         const banner = document.getElementById("myNotificationBanner");
         banner.click();
     }
-    if (event.key == "f" && document.querySelector("input.retry").checked) {
+    if (event.key == "f" && document.querySelector("input.retry").checked && gamemode != "Battle") {
         restart();
     }
 });
@@ -884,14 +888,14 @@ function back_to_menu() {
         document.querySelector(".login-button").style.display = "block";
     }
     canvas.style.display = "none";
+    document.querySelector(".result").style.display = "none";
     if (!battle_started) {
         document.querySelector(".tile-card-container").style.display = "block";
         document.querySelector("#chart-container").style.display = "block";
         document.querySelector("#psb-body").style.display = "flex";
         document.querySelector("#psb-matches").scrollTo(0, -1000)
-        document.querySelector(".result").style.display = "none";
         document.querySelector(".wipe-in-box").classList.remove("boxWipein");
-        RatingSystem.update();
+        if (user_name) RatingSystem.update();
     }
 }
 

@@ -165,17 +165,19 @@ function vsBoomPlay() {
 }
 
 function isAccepted(from) {
-    try {
+    // try {
         if (window.requests[from].accepted) {
             battle_started = true;
             start_match_dialog(from, user_name);
+            set(ref(db, "requests/" + sendTo), {
+            });
             return true;
         } else {
             return false;
         }
-    } catch (e) {
-        return false;
-    }
+    // } catch (e) {
+    //     return false;
+    // }
 }
 
 function get_enemy_data() {

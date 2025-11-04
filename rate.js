@@ -9,19 +9,21 @@ const RatingSystem = {
         });
         xhr.onload = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                const response = JSON.parse(xhr.responseText);
-                localStorage.setItem("win-count", response[0]);
-                localStorage.setItem("lose-count", response[1]);
-                localStorage.setItem("point", response[2]);
-                localStorage.setItem("total-point", response[3]);
-                if (e == "first") {
-                    this.update();
-                }
-                if (!(RatingSystem.getItem("win-count") && RatingSystem.getItem("lose-count") && RatingSystem.getItem("point") && RatingSystem.getItem("total-point"))) {
-                    RatingSystem.setItem("win-count", "0");
-                    RatingSystem.setItem("lose-count", "0");
-                    RatingSystem.setItem("point", "0");
-                    RatingSystem.setItem("total-point", "0");
+                if (user_name) {
+                    const response = JSON.parse(xhr.responseText);
+                    localStorage.setItem("win-count", response[0]);
+                    localStorage.setItem("lose-count", response[1]);
+                    localStorage.setItem("point", response[2]);
+                    localStorage.setItem("total-point", response[3]);
+                    if (e == "first") {
+                        this.update();
+                    }
+                    if (!(RatingSystem.getItem("win-count") && RatingSystem.getItem("lose-count") && RatingSystem.getItem("point") && RatingSystem.getItem("total-point"))) {
+                        RatingSystem.setItem("win-count", "0");
+                        RatingSystem.setItem("lose-count", "0");
+                        RatingSystem.setItem("point", "0");
+                        RatingSystem.setItem("total-point", "0");
+                    }
                 }
             } else {
                 alert(`Error: ${xhr.status}`);
