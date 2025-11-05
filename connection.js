@@ -257,7 +257,7 @@ const RatingSystem = {
             this.setItem("point", (-convertGradeToPoints(getRank(localStorage["total-point"]))).toString());
         }
         document.querySelector("label.rank").innerHTML = getRank(localStorage.getItem("total-point"));
-        document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(+${localStorage.getItem("point")}pt)`;
+        document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(+${Math.round(localStorage.getItem("point"))}pt)`;
         draw_challange();
     }
 };
