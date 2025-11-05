@@ -54,6 +54,8 @@
   </dialog>
   <div class="header">
     <div class="header-title">Online Tetris</div>
+    <label class="rank" style="font-size: 40px;margin-left: 30%;"></label>
+    <label class="point"></label>
     <label class="user-name-label"></label>
     <button class="login-button" onclick='document.querySelector(".login").showModal()'>Login</button>
   </div>
@@ -158,7 +160,8 @@
         <td class="result-time">0</td>
       </tr>
     </table>
-    <button style="width: 100px; display: block; margin:0 auto;" onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
+    <button style="width: 100px; display: block; margin:0 auto;"
+      onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
     <!-- <button style="width: 100px; display: block; margin:0 auto;" onclick="beforeSendRequest();">再戦</button> -->
   </div>
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
@@ -206,7 +209,10 @@
   </dialog>
   <dialog class="challange-result">
     <table style="width: 100%;">
-      <td style="color: #ffd900; font-weight: bold;">WIN</td><td class="win-count"></td><td style="color: #2f00ff; font-weight: bold;">LOSE</td><td class="lose-count"></td>
+      <td style="color: #ffd900; font-weight: bold;">WIN</td>
+      <td class="win-count"></td>
+      <td style="color: #2f00ff; font-weight: bold;">LOSE</td>
+      <td class="lose-count"></td>
     </table>
     TOTAL: <label style="font-size: 50px" class="point">342pt</label>
     <button onclick="document.querySelector('.challange-result').close()">閉じる</button>
@@ -218,7 +224,7 @@
 
   <div class="challange-container">
   </div>
-  
+
   <script src="rate.js"></script>
   <script src="tetris.js"></script>
   <script src="setting.js"></script>

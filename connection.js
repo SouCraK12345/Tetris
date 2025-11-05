@@ -215,6 +215,9 @@ const RatingSystem = {
             localStorage.setItem("point", "0");
             RatingSystem.setItem("total-point", "0");
         }
+        if(e == "first"){
+            this.update();
+        }
     },
     getItem: function (key) {
         return localStorage.getItem(key);
@@ -251,11 +254,15 @@ const RatingSystem = {
             localStorage.setItem("win-count", "0");
             localStorage.setItem("lose-count", "0");
             localStorage.setItem("total-point", Number(this.getItem("total-point")) + Number(this.getItem("point")));
-            this.setItem("point", "0");
+            this.setItem("point", (-convertGradeToPoints(getRank(localStorage["total-point"]))).toString());
         }
+        document.querySelector("label.rank").innerHTML = getRank(localStorage.getItem("total-point"));
+        document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(+${localStorage.getItem("point")}pt)`;
         draw_challange();
     }
 };
+function getRank(e){if(e<0)return"範囲外";if(e<=299)return"C-";if(e<=699)return"C";if(e<=1199)return"C+";if(e<=1799)return"B-";if(e<=2499)return"B";if(e<=3499)return"B+";if(e<=4499){if(e>=3500)return"A";return"A-"}if(e<=5499)return"A+";if(e>=5500){const s=Math.floor((e-5500)/1e3);if(0===s)return"S";if(s>=1&&s<=30)return`S+${s}`;if(s>30)return"S+30"}return"範囲外"}
+function convertGradeToPoints(e){return e=e.toUpperCase(),e.startsWith("S")?150:"A-"===e||"A"===e||"A+"===e?100:"B-"===e||"B"===e||"B+"===e?50:"C-"===e||"C"===e||"C+"===e?0:-1}
 
 function draw_challange() {
     let win_count = RatingSystem.getItem("win-count")
