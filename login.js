@@ -32,7 +32,7 @@ function login() {
     };
     xhr.send(body);
 }
-document.querySelector("body > div.header > label").addEventListener("click", function () {
+document.querySelector(".user-name-label").addEventListener("click", function () {
     confirm("ログアウトしますか？") && (localStorage.removeItem("user_name"), location.reload());
 });
 user_name_ls = localStorage.getItem("user_name");

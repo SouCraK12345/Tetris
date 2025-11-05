@@ -3,7 +3,7 @@ setInterval(check_request, 100)
 function check_request() {
     try {
     for (var i in requests) {
-        if (requests[i].time + 30000 < new Date()) {
+        if (requests[i].time + 30000 < new Date(getServerTime()).getTime()) {
             delete requests[i];
             continue;
         }
@@ -28,7 +28,7 @@ function check_request() {
 }
 
 function decrease_progress_bar() {
-    progress_bar_value = 30 - parseInt(new Date() - request_time) / 1000;
+    progress_bar_value = 30 - parseInt(new Date(getServerTime()).getTime() - request_time) / 1000;
     document.querySelector(".progress-fill").style.width = `${progress_bar_value / 30 * 100}%`;
     if (progress_bar_value < 0) {
         return closeNotification();
@@ -58,6 +58,14 @@ function close_accept() {
 
 function beforeSendRequest() {
     sendRequest(Object.keys(cloudData)[document.querySelector(".user").value]);
+    document.querySelector("button.request").disabled = true;
+    setTimeout(function () {
+        document.querySelector("button.request").disabled = false;
+    }, 35000);
+}
+
+function beforeSendRequest2() {
+    sendRequest(sendTo);
     document.querySelector("button.request").disabled = true;
     setTimeout(function () {
         document.querySelector("button.request").disabled = false;

@@ -884,6 +884,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
 function back_to_menu() {
     gamemode = "";
     document.querySelector(".header-title").innerHTML = "Online Tetris";
+    document.querySelector(".reBattle").style.display = "none";
     if (!user_name) {
         document.querySelector(".login-button").style.display = "block";
     }
@@ -896,7 +897,23 @@ function back_to_menu() {
         document.querySelector("#psb-matches").scrollTo(0, -1000)
         document.querySelector(".wipe-in-box").classList.remove("boxWipein");
         if (user_name) RatingSystem.update();
+    } else {
+        document.querySelector(".tile-card-container").style.display = "none";
+        document.querySelector("#chart-container").style.display = "none";
+        document.querySelector("#psb-body").style.display = "none";
     }
+
+    // 盤面セット
+    map = Array(12).fill(1);
+    for (let i = 0; i < 30; i++) {
+        map.push(1);
+        for (let j = 0; j < 10; j++) {
+            map.push(0);
+        }
+        map.push(1);
+    }
+    isGameover = false;
+    sendData();
 }
 
 let user_name, sendData_interval;

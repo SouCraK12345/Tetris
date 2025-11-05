@@ -86,12 +86,15 @@ onValue(msgRef3, (snapshot) => {
 
 function accept(from, to) {
     if (user_name) {
+        RatingSystem.update();
+        battle_started = true;
+        back_to_menu();
+        gamemode = "Battle";
         set(ref(db, "requests/" + from), {
             from: to,
             accepted: true,
             time: new Date(getServerTime()).getTime()
         });
-        battle_started = true;
         start_match_dialog(from, to);
         closeNotification();
     }
@@ -99,6 +102,7 @@ function accept(from, to) {
 
 function start_match_dialog(from, to) {
     back_to_menu();
+    gamemode = "Battle";
     document.querySelector(".battle-start").currentTime = 0;
     document.querySelector(".battle-start").play();
     setTimeout(function () {
@@ -108,6 +112,7 @@ function start_match_dialog(from, to) {
     if (from == user_name) {
         window.enemy_name = to;
     } else {
+        document.querySelector(".reBattle").style.display = "block";
         window.enemy_name = from;
     }
     document.querySelector("#MatchUserCardLeft").innerText = user_name;
@@ -174,15 +179,15 @@ function vsBoomPlay() {
 
 function isAccepted(from) {
     // try {
-        if (window.requests[from].accepted) {
-            battle_started = true;
-            start_match_dialog(from, user_name);
-            set(ref(db, "requests/" + sendTo), {
-            });
-            return true;
-        } else {
-            return false;
-        }
+    if (window.requests[from].accepted) {
+        battle_started = true;
+
+        start_match_dialog(from, user_name);
+        set(ref(db, "requests/" + window.sendTo), {});
+        return true;
+    } else {
+        return false;
+    }
     // } catch (e) {
     //     return false;
     // }
@@ -215,7 +220,7 @@ const RatingSystem = {
             localStorage.setItem("point", "0");
             RatingSystem.setItem("total-point", "0");
         }
-        if(e == "first"){
+        if (e == "first") {
             this.update();
         }
     },
@@ -257,12 +262,12 @@ const RatingSystem = {
             this.setItem("point", (-convertGradeToPoints(getRank(localStorage["total-point"]))).toString());
         }
         document.querySelector("label.rank").innerHTML = getRank(localStorage.getItem("total-point"));
-        document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(+${Math.round(localStorage.getItem("point"))}pt)`;
+        document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(${Math.round(localStorage.getItem("point")) >= 0 ? "+" : ""}${Math.round(localStorage.getItem("point"))}pt)`;
         draw_challange();
     }
 };
-function getRank(e){if(e<0)return"範囲外";if(e<=299)return"C-";if(e<=699)return"C";if(e<=1199)return"C+";if(e<=1799)return"B-";if(e<=2499)return"B";if(e<=3499)return"B+";if(e<=4499){if(e>=3500)return"A";return"A-"}if(e<=5499)return"A+";if(e>=5500){const s=Math.floor((e-5500)/1e3);if(0===s)return"S";if(s>=1&&s<=30)return`S+${s}`;if(s>30)return"S+30"}return"範囲外"}
-function convertGradeToPoints(e){return e=e.toUpperCase(),e.startsWith("S")?150:"A-"===e||"A"===e||"A+"===e?100:"B-"===e||"B"===e||"B+"===e?50:"C-"===e||"C"===e||"C+"===e?0:-1}
+function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; if (e <= 699) return "C"; if (e <= 1199) return "C+"; if (e <= 1799) return "B-"; if (e <= 2499) return "B"; if (e <= 3499) return "B+"; if (e <= 4499) { if (e >= 3500) return "A"; return "A-" } if (e <= 5499) return "A+"; if (e >= 5500) { const s = Math.floor((e - 5500) / 1e3); if (0 === s) return "S"; if (s >= 1 && s <= 30) return `S+${s}`; if (s > 30) return "S+30" } return "範囲外" }
+function convertGradeToPoints(e) { return e = e.toUpperCase(), e.startsWith("S") ? 150 : "A-" === e || "A" === e || "A+" === e ? 100 : "B-" === e || "B" === e || "B+" === e ? 50 : "C-" === e || "C" === e || "C+" === e ? 0 : -1 }
 
 function draw_challange() {
     let win_count = RatingSystem.getItem("win-count")
@@ -283,7 +288,7 @@ function draw_challange() {
         newElement.src = i < lose_count ? "./challange-lose.jpg" : "./challange-life.jpg";
         challange_container.appendChild(newElement);
     }
-    challange_container.innerHTML += `${Math.round(RatingSystem.getItem("total-point"))}pt ( +${Math.round(RatingSystem.getItem("point"))}pt)`;
+    challange_container.innerHTML += `${Math.round(RatingSystem.getItem("total-point"))}pt ( ${Math.round(localStorage.getItem("point")) >= 0 ? "+" : ""}${Math.round(RatingSystem.getItem("point"))}pt)`;
     challange_container.classList.add("show");
     setTimeout(() => {
         challange_container.classList.add("hide");
