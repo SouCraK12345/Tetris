@@ -12,7 +12,6 @@ function fetch_player_stats() {
     });
     xhr.onload = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log(JSON.parse(xhr.responseText));
         player_stats = JSON.parse(xhr.responseText);
         document.querySelector("#psb-body").innerHTML = `
       <div id="psb-matches">

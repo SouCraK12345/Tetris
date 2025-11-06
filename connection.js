@@ -78,7 +78,6 @@ const msgRef3 = ref(db, "rate/");
 onValue(msgRef3, (snapshot) => {
     var data = snapshot.val();
     window.rating_data = data;
-    console.log("Rating data updated:", data);
     if (user_name) {
         RatingSystem.receive(rating_first ? "first" : null, data);
     }
@@ -102,6 +101,7 @@ function accept(from, to) {
 }
 
 function start_match_dialog(from, to) {
+    console.log("Start match between " + from + " and " + to);
     back_to_menu();
     gamemode = "Battle";
     document.querySelector(".battle-start").currentTime = 0;

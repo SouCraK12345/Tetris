@@ -12,7 +12,6 @@ function login() {
         type: "login",
     });
     xhr.onload = () => {
-        console.log(xhr)
         if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.responseText == "ログイン完了") {
                 user_name = document.querySelector(".username").value;

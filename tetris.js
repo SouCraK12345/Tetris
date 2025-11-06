@@ -12,6 +12,12 @@ function mainloop() {
         return false;
     }
     if (gamemode == "Watch") {
+        if (stop) {
+            back_to_menu();
+            Finish(false);
+            stop = false;
+            return false;
+        }
         requestAnimationFrame(mainloop);
         try {
             for (var i in cloudData) {
@@ -202,7 +208,7 @@ function game() {
             key_down[5] = 0;
         }
     }
-    if(stop && gamemode != "Battle") {
+    if (stop && gamemode != "Battle") {
         back_to_menu();
         Finish(false);
         document.querySelector(".bgm-virtualbattle").pause();
@@ -696,9 +702,7 @@ function Finish(bool = true, clear = true) {
                     ],
                 });
                 xhr.onload = () => {
-                    console.log(xhr)
                     if (xhr.readyState == 4 && xhr.status == 200) {
-                        console.log(xhr.responseText);
                         fetch_player_stats();
                     } else {
                         alert(`Error: ${xhr.status}`);
@@ -859,13 +863,14 @@ let mino_color = ["#00ffff", "#ffe600", "#33ff00", "#ff0000", "#0012ff", "#ff910
 let ghost_mino_color = ["#007979ff", "#807300ff", "#197e00ff", "#740000ff", "#031297ff", "#703800ff", "#62008fff"];
 
 let stop = false;
-document.querySelector(".header-title").addEventListener("click",function(){
+document.querySelector(".header-title").addEventListener("click", function () {
     stop = true;
 });
 canvas.style.display = "none";
 document.querySelector(".details").style.display = "none";
 document.querySelectorAll(".tile-card").forEach((e) => {
     e.addEventListener("click", function () {
+        console.log("Selected gamemode: " + e.children[0].innerText);
         if (e.children[0].innerText.includes("Setting")) {
             return document.querySelector(".setting-dialog").showModal();
         }
@@ -898,7 +903,9 @@ document.querySelectorAll(".tile-card").forEach((e) => {
 })
 
 function back_to_menu() {
+    console.log("Back to menu");
     gamemode = "";
+    document.querySelector(".user").style.display = "none";
     document.querySelector(".header-title").innerHTML = "Online Tetris";
     document.querySelector(".reBattle").style.display = "none";
     if (!user_name) {
