@@ -202,6 +202,15 @@ function game() {
             key_down[5] = 0;
         }
     }
+    if(stop && gamemode != "Battle") {
+        back_to_menu();
+        Finish(false);
+        document.querySelector(".bgm-virtualbattle").pause();
+        document.querySelector(".bgm-battle").pause();
+        bgm_stop();
+        stop = false;
+        return false;
+    }
     if (virtual_enemy_hp < 1) {
         Finish();
         document.querySelector(".bgm-virtualbattle").pause();
@@ -846,6 +855,10 @@ let rotate_position = [0, -2, 1, -14, 25, 0, -1, 2, 23, -10, 0, 2, -1, 14, 23, 0
 let mino_color = ["#00ffff", "#ffe600", "#33ff00", "#ff0000", "#0012ff", "#ff9100", "#ad00ff", "#575757ff"];
 let ghost_mino_color = ["#007979ff", "#807300ff", "#197e00ff", "#740000ff", "#031297ff", "#703800ff", "#62008fff"];
 
+let stop = false;
+document.querySelector(".header-title").addEventListener("click",function(){
+    stop = true;
+});
 canvas.style.display = "none";
 document.querySelector(".details").style.display = "none";
 document.querySelectorAll(".tile-card").forEach((e) => {
@@ -861,7 +874,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         }
         if (gamemode == "Battle") {
         }
-        document.querySelector(".header-title").innerHTML = gamemode;
+        document.querySelector(".header-title").innerHTML = "< " + gamemode;
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
         restart();
