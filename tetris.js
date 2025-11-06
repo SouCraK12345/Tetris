@@ -541,6 +541,7 @@ function line_delete() {
     if (damage < 0) {
         damage = 0;
         attack_to_enemy += (attack - attack_before) - damage;
+        attack2 += (attack - attack_before) - damage;
     }
 }
 function _for_rising_(value) {
@@ -596,6 +597,7 @@ function restart() {
     able_hold = 1;
     start_time = new Date();
     attack = 0;
+    attack2 = 0;
     blocks = 0;
     BTB = 0;
     REN = 0;
@@ -710,7 +712,7 @@ function Finish(bool = true, clear = true) {
         document.querySelector(".user").style.display = "none";
         document.querySelector(".request").style.display = "none";
         bgm_stop();
-        attack = 0; isGameover = false;
+        attack2 = 0; isGameover = false;
         sendData();
     }
 }
@@ -791,6 +793,7 @@ let REN = 0;
 let shaking_x = 0;
 let shaking_y = 0;
 let attack = 0;
+let attack2 = 0;
 let blocks = 0;
 let lines = 0;
 let start_time = new Date();

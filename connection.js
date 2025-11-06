@@ -27,6 +27,7 @@ function sendData() {
             next: next,
             hold: hold,
             attack: attack,
+            attack2: attack2,
             blocks: blocks,
             lines: lines,
             REN: REN,
