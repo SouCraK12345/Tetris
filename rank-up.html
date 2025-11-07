@@ -1,0 +1,230 @@
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランクアップ</title>
+    <style>
+        div.rank-up-container {
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        div.rank-up-container.falling {
+            animation: fallDown 1.0s ease-in forwards;
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: 0;
+            }
+
+            100% {
+                transform: translateY(99%);
+            }
+        }
+
+        table {
+            display: none;
+            position: fixed;
+            top: calc(50% - 200px);
+            height: 200px;
+            font-size: 3em;
+            text-align: center;
+            width: 500px;
+            left: calc(50% - 250px);
+            color: black;
+            font-family: "Russo One", sans-serif;
+        }
+
+        .rank-up-total-point {
+            font-family: 'Russo One', sans-serif;
+            font-size: 10em;
+            color: #000000;
+            text-align: center;
+            position: fixed;
+            top: calc(50% - 50px);
+            width: 100%;
+        }
+
+        .rank-up-point {
+            font-family: 'Russo One', sans-serif;
+            font-size: 2em;
+            color: #000000;
+            text-align: center;
+            position: fixed;
+            bottom: 30%;
+            width: 100%;
+        }
+
+        .center-text {
+            font-family: 'Stick', sans-serif;
+            font-size: 3em;
+            color: white;
+            text-align: center;
+            position: fixed;
+            top: 30%;
+            width: 100%;
+        }
+
+        body>div.center-text>span {
+            font-size: 5em;
+            font-family: "Russo One", sans-serif;
+            color: lightyellow;
+        }
+
+        canvas#confettiCanvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <canvas id="confettiCanvas"></canvas>
+    <div class="center-text">昇格おめでとう!<br><span>S</span></div>
+    <div class="rank-up-container">
+        <audio src="sound/rank-up.m4a" hidden class="rank-up-sound"></audio>
+        <table>
+            <td style="color: #ffd900; font-weight: bold;">WIN</td>
+            <td class="win-count"></td>
+            <td style="color: #2f00ff; font-weight: bold;">LOSE</td>
+            <td class="lose-count"></td>
+        </table>
+        <div class="rank-up-total-point"></div>
+        <div class="rank-up-point"></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        resize();
+        window.addEventListener('resize', resize);
+
+        let confetti = [];
+        const colors = ['#ff0', '#f0f', '#0ff', '#fff', '#fc0', '#0f0', '#f00'];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Confetto {
+            constructor(x, y, color, velocity) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 6 + 4;
+                this.color = color;
+                this.vx = velocity.x;
+                this.vy = velocity.y;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.2;
+                this.lifetime = 600;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+                this.vy += 0.05;
+                this.lifetime--;
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function burst() {
+            const count = 400;
+            for (let i = 0; i < count; i++) {
+                const x = Math.random() * canvas.width;
+                const y = canvas.height;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const angle = Math.random() * 10;
+                const speed = Math.random() * 8 + 4;
+                const velocity = {
+                    x: Math.cos(angle) * speed,
+                    y: Math.sin(angle) * speed * -1
+                };
+                confetti.push(new Confetto(x, y, color, velocity));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach((c, i) => {
+                c.update();
+                c.draw(ctx);
+                if (c.lifetime <= 0 || c.y > canvas.height + 50) confetti.splice(i, 1);
+            });
+            requestAnimationFrame(animate);
+        }
+
+
+
+        animate();
+    </script>
+    <script>
+        let point_frame = 0;
+        document.querySelector(".win-count").innerHTML = localStorage["win-count"];
+        document.querySelector(".lose-count").innerHTML = localStorage["lose-count"];
+        document.querySelector("body").style.backgroundColor = "lightblue";
+        document.querySelector(".rank-up-total-point").innerHTML = Math.round(localStorage["total-point"]) + "pt";
+        document.querySelector(".rank-up-point").innerHTML = "+" + Math.round(localStorage["point"]) + "pt";
+        document.querySelector("table").style.display = "table";
+        function animationStart() {
+            document.querySelector(".rank-up-sound").play();
+            setTimeout(() => {
+                document.querySelector(".win-count").style.color = "#ffffff";
+            }, 200);
+            setTimeout(() => {
+                document.querySelector(".lose-count").style.color = "#ffffff";
+            }, 1750);
+            setTimeout(() => {
+                document.querySelector(".rank-up-total-point").style.color = "#ffffff";
+                document.querySelector(".rank-up-point").style.color = "#ffffff";
+            }, 3350);
+            setTimeout(() => {
+                setInterval((
+                    () => {
+                        if (point_frame > Math.round(localStorage["point"])) {
+                            return;
+                        }
+                        document.querySelector(".rank-up-total-point").innerHTML = Math.round(localStorage["total-point"]) + point_frame + "pt";
+                        document.querySelector(".rank-up-point").innerHTML = "+" + Math.round(localStorage["point"]) - point_frame + "pt";
+                        point_frame++;
+                    }
+                ), 30)
+            }, 4400);
+            setTimeout(() => {
+                document.querySelector(".rank-up-container").classList.add("falling");
+            }, 8400);
+        }
+        document.querySelector(".rank-up-container").addEventListener("animationend", () => {
+            document.querySelector(".rank-up-container").style.display = "none";
+            burst();
+        });
+        document.onclick = animationStart;
+    </script>
+</body>
+
+</html>
