@@ -679,6 +679,15 @@ function Finish(bool = true, clear = true) {
             document.querySelector(".result-time").innerText = time;
             bgm_stop();
         }, 5200);
+        if (!Number(RatingSystem.getItem("Sranker")) && (localStorage["win-count"] >= 5 || localStorage["lose-count"] >= 3) && getRank(Number(RatingSystem.getItem("total-point")) + Number(RatingSystem.getItem("point"))) == "S") {
+            RatingSystem.setItem("Sranker", "1");
+            setTimeout(function () {
+                document.querySelector(".rank-up-container").style.display = "block";
+                document.querySelector(".center-text").style.display = "block";
+                document.querySelector("#confettiCanvas").style.display = "block";
+            }, 4200);
+            setTimeout(ruAnimationStart, 10000);
+        }
         if (gamemode == "Battle") {
             RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + Math.sqrt(attack)));
         }

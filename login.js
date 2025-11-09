@@ -32,7 +32,7 @@ function login() {
     xhr.send(body);
 }
 document.querySelector(".user-name-label").addEventListener("click", function () {
-    confirm("ログアウトしますか？") && (localStorage.removeItem("user_name"), location.reload());
+    confirm("ログアウトしますか？") && (localStorage.clear(), location.reload());
 });
 user_name_ls = localStorage.getItem("user_name");
 if (user_name_ls) {

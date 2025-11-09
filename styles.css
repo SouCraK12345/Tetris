@@ -3,7 +3,8 @@ body {
     margin: 0;
     height: 100%;
     overflow-x: hidden;
-    font-family: sans-serif
+    font-family: sans-serif;
+    transition: 0.5s;
 }
 
 .vsBoom-stage {

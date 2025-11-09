@@ -29,8 +29,10 @@
                 xhr.onload = () => {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         alert("登録に成功しました");
+                        location.href = "index.html";
                     } else {
                         alert(`Error: ${xhr.status}`);
+                        location.reload();
                     }
                 };
                 xhr.send(body);

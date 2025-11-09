@@ -162,7 +162,8 @@
     </table>
     <button style="width: 100px; display: block; margin:0 auto;"
       onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
-    <button style="width: 100px; display: block; margin:0 auto; display: none;" onclick="beforeSendRequest2();back_to_menu();" class="reBattle">再戦</button>
+    <button style="width: 100px; display: block; margin:0 auto; display: none;"
+      onclick="beforeSendRequest2();back_to_menu();" class="reBattle">再戦</button>
   </div>
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
   <button class="long-button request" onclick="beforeSendRequest()">対戦する!</button>
@@ -224,16 +225,33 @@
 
   <div class="challange-container">
   </div>
-  
+
+  <canvas id="confettiCanvas"></canvas>
+  <div class="center-text">昇格おめでとう!<br><span>S</span><br><label style="
+    font-size: 0.5em;
+">クリックで戻る</label></div>
+  <div class="rank-up-container">
+    <audio src="sound/rank-up.m4a" hidden class="rank-up-sound"></audio>
+    <table class="rank-up-table">
+      <td style="color: #ffd900; font-weight: bold;">WIN</td>
+      <td class="win-count"></td>
+      <td style="color: #2f00ff; font-weight: bold;">LOSE</td>
+      <td class="lose-count"></td>
+    </table>
+    <div class="rank-up-total-point"></div>
+    <div class="rank-up-point"></div>
+  </div>
+
+
   <div class="log" style="position:fixed; font-family: System;"></div>
 
-  <script src="rate.js"></script>
   <script src="tetris.js"></script>
   <script src="setting.js"></script>
   <script src="login.js"></script>
   <script src="request.js"></script>
   <script src="connection.js" type="module"></script>
   <script src="log.js"></script>
+  <script src="rank-up.js"></script>
 </body>
 
 </html>

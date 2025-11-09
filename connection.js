@@ -210,30 +210,41 @@ function get_enemy_data() {
 
 const RatingSystem = {
     receive: function (e = null, data = null) {
-        try {
-            localStorage.setItem("win-count", data[user_name]["win-count"]);
-            localStorage.setItem("lose-count", data[user_name]["lose-count"]);
-            localStorage.setItem("point", data[user_name]["point"]);
-            localStorage.setItem("total-point", data[user_name]["total-point"]);
-        } catch (error) {
-            localStorage.setItem("win-count", "0");
-            localStorage.setItem("lose-count", "0");
-            localStorage.setItem("point", "0");
-            RatingSystem.setItem("total-point", "0");
+        const keys = ["win-count", "lose-count", "point", "total-point", "Sranker"];
+        const userData = data && data[user_name] ? data[user_name] : null;
+
+        if (userData) {
+            keys.forEach((k) => {
+                try {
+                    const v = userData[k];
+                    if (v === undefined || v === null) {
+                        localStorage.setItem(k, "0");
+                    } else {
+                        localStorage.setItem(k, String(v));
+                    }
+                } catch (err) {
+                    localStorage.setItem(k, "0");
+                }
+            });
+        } else {
+            keys.forEach((k) => localStorage.setItem(k, "0"));
         }
         if (e == "first") {
             this.update();
         }
+        this.setItem();
     },
     getItem: function (key) {
         return localStorage.getItem(key);
     },
-    setItem: function (key, value) {
+    setItem: function (key = null, value = null) {
         // clearInterval(receive_interval);
         // receive_interval = setInterval(() => {
         //     RatingSystem.receive();
         // }, 10000);
-        localStorage.setItem(key, value);
+        if (key === null || value === null) { } else {
+            localStorage.setItem(key, value);
+        }
         // const xhr = new XMLHttpRequest();
         // xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
         // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -248,7 +259,8 @@ const RatingSystem = {
             "win-count": localStorage.getItem("win-count"),
             "lose-count": localStorage.getItem("lose-count"),
             "point": localStorage.getItem("point"),
-            "total-point": localStorage.getItem("total-point")
+            "total-point": localStorage.getItem("total-point"),
+            "Sranker": localStorage.getItem("Sranker")
         });
     },
     update: function () {
@@ -269,6 +281,10 @@ const RatingSystem = {
 };
 function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; if (e <= 699) return "C"; if (e <= 1199) return "C+"; if (e <= 1799) return "B-"; if (e <= 2499) return "B"; if (e <= 3499) return "B+"; if (e <= 4499) { if (e >= 3500) return "A"; return "A-" } if (e <= 5499) return "A+"; if (e >= 5500) { const s = Math.floor((e - 5500) / 1e3); if (0 === s) return "S"; if (s >= 1 && s <= 30) return `S+${s}`; if (s > 30) return "S+30" } return "範囲外" }
 function convertGradeToPoints(e) { return e = e.toUpperCase(), e.startsWith("S") ? 150 : "A-" === e || "A" === e || "A+" === e ? 100 : "B-" === e || "B" === e || "B+" === e ? 50 : "C-" === e || "C" === e || "C+" === e ? 0 : -1 }
+
+if(localStorage.getItem("Sranker") == "1"){
+    document.querySelector("body").style.background = "lightblue";
+}
 
 function draw_challange() {
     let win_count = RatingSystem.getItem("win-count")
@@ -333,3 +349,4 @@ window.get_enemy_data = get_enemy_data;
 window.getServerTime = getServerTime;
 window.RatingSystem = RatingSystem;
 window.draw_challange = draw_challange;
+window.getRank = getRank;
