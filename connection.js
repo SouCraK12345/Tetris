@@ -116,6 +116,8 @@ function start_match_dialog(from, to) {
         document.querySelector(".reBattle").style.display = "block";
         window.enemy_name = from;
     }
+    document.querySelector("#MatchUserCardRight").style.backgroundImage = `url(${image_url_dict && image_url_dict[window.enemy_name] ? image_url_dict[window.enemy_name] : ""})`;
+    document.querySelector("#MatchUserCardRight").style.backgroundSize = "cover";
     document.querySelector("#MatchUserCardLeft").innerText = user_name;
     document.querySelector("#MatchUserCardRight").innerText = window.enemy_name;
     document.querySelector(".accept_dialog").close();
@@ -210,7 +212,15 @@ function get_enemy_data() {
 
 const RatingSystem = {
     receive: function (e = null, data = null) {
-        const keys = ["win-count", "lose-count", "point", "total-point", "Sranker"];
+        for(var key in data){
+            if(data[key]["image"] && (!image_url_dict || !image_url_dict[key])){
+                if(!image_url_dict) image_url_dict = {};
+                image_url_dict[key] = data[key]["image"];
+            }
+            console.log(image_url_dict);
+        }
+
+        const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
         const userData = data && data[user_name] ? data[user_name] : null;
 
         if (userData) {
@@ -231,6 +241,10 @@ const RatingSystem = {
         }
         if (e == "first") {
             this.update();
+        }
+        if(localStorage["image"] != "0"){
+            document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${localStorage["image"]})`;
+            document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
         }
         this.setItem();
     },
@@ -260,7 +274,8 @@ const RatingSystem = {
             "lose-count": localStorage.getItem("lose-count"),
             "point": localStorage.getItem("point"),
             "total-point": localStorage.getItem("total-point"),
-            "Sranker": localStorage.getItem("Sranker")
+            "Sranker": localStorage.getItem("Sranker"),
+            "image": localStorage.getItem("image")
         });
     },
     update: function () {
@@ -321,6 +336,7 @@ let rating_data;
 let sendTo = null;
 let enemy_name = null;
 let rating_first = true;
+let image_url_dict = null;
 
 // 時差
 
