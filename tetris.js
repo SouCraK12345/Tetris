@@ -71,7 +71,7 @@ function game() {
             gene_next();
         }
         mino_set();
-        if (enable(0) === 0) {
+        if (enable(0) === 0 || (gamemode == "Battle" && !window.navigator.onLine)) {
             Finish(true, false);
             isGameover = true;
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
@@ -217,7 +217,11 @@ function game() {
         stop = false;
         return false;
     }
-    if (virtual_enemy_hp < 1) {
+    window.update_frame ++;
+    if (virtual_enemy_hp < 1 || (window.update_frame > 600 && gamemode == "Battle")) {
+        if(window.update_frame > 600 && gamemode == "Battle"){
+            alert("相手からの応答がなくなりました");
+        }
         Finish();
         document.querySelector(".bgm-virtualbattle").pause();
         document.querySelector(".bgm-battle").pause();

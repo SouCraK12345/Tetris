@@ -199,6 +199,10 @@ function isAccepted(from) {
 function get_enemy_data() {
     // try {
     let enemy_data = window.cloudData[window.enemy_name];
+    if(enemy_data != window.last_enemy_data){
+        window.update_frame = 0;
+    }
+    window.last_enemy_data = enemy_data;
     damage += enemy_data.attack - last_attack;
     virtual_enemy_hp = enemy_data.hp;
     if (enemy_data.attack - last_attack > 0) {
@@ -217,7 +221,6 @@ const RatingSystem = {
                 if(!image_url_dict) image_url_dict = {};
                 image_url_dict[key] = data[key]["image"];
             }
-            console.log(image_url_dict);
         }
 
         const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
@@ -337,6 +340,8 @@ let sendTo = null;
 let enemy_name = null;
 let rating_first = true;
 let image_url_dict = null;
+let update_frame = 0;
+let last_enemy_data;
 
 // 時差
 
@@ -366,3 +371,4 @@ window.getServerTime = getServerTime;
 window.RatingSystem = RatingSystem;
 window.draw_challange = draw_challange;
 window.getRank = getRank;
+window.update_frame = update_frame;
