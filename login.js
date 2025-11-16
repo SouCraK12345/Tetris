@@ -16,9 +16,9 @@ function login() {
             if (xhr.responseText == "ログイン完了") {
                 user_name = document.querySelector(".username").value;
                 localStorage.setItem("user_name", user_name);
-                document.querySelector(".login").close();
                 document.querySelector(".login-button").style.display = "none";
                 document.querySelector(".user-name-label").innerHTML = user_name;
+                location.reload();
             } else {
                 alert(xhr.responseText);
             }

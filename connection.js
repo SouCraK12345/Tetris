@@ -80,6 +80,10 @@ onValue(msgRef3, (snapshot) => {
     window.rating_data = data;
     if (user_name) {
         RatingSystem.receive(rating_first ? "first" : null, data);
+
+        if (localStorage.getItem("Sranker") == "1") {
+            document.querySelector("body").style.background = "lightblue";
+        }
     }
     rating_first = false;
 });
@@ -199,7 +203,7 @@ function isAccepted(from) {
 function get_enemy_data() {
     // try {
     let enemy_data = window.cloudData[window.enemy_name];
-    if(enemy_data != window.last_enemy_data){
+    if (enemy_data != window.last_enemy_data) {
         window.update_frame = 0;
     }
     window.last_enemy_data = enemy_data;
@@ -216,9 +220,9 @@ function get_enemy_data() {
 
 const RatingSystem = {
     receive: function (e = null, data = null) {
-        for(var key in data){
-            if(data[key]["image"] && (!image_url_dict || !image_url_dict[key])){
-                if(!image_url_dict) image_url_dict = {};
+        for (var key in data) {
+            if (data[key]["image"] && (!image_url_dict || !image_url_dict[key])) {
+                if (!image_url_dict) image_url_dict = {};
                 image_url_dict[key] = data[key]["image"];
             }
         }
@@ -245,7 +249,7 @@ const RatingSystem = {
         if (e == "first") {
             this.update();
         }
-        if(localStorage["image"] != "0"){
+        if (localStorage["image"] != "0") {
             document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${localStorage["image"]})`;
             document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
         }
@@ -299,10 +303,6 @@ const RatingSystem = {
 };
 function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; if (e <= 699) return "C"; if (e <= 1199) return "C+"; if (e <= 1799) return "B-"; if (e <= 2499) return "B"; if (e <= 3499) return "B+"; if (e <= 4499) { if (e >= 3500) return "A"; return "A-" } if (e <= 5499) return "A+"; if (e >= 5500) { const s = Math.floor((e - 5500) / 1e3); if (0 === s) return "S"; if (s >= 1 && s <= 30) return `S+${s}`; if (s > 30) return "S+30" } return "範囲外" }
 function convertGradeToPoints(e) { return e = e.toUpperCase(), e.startsWith("S") ? 150 : "A-" === e || "A" === e || "A+" === e ? 100 : "B-" === e || "B" === e || "B+" === e ? 50 : "C-" === e || "C" === e || "C+" === e ? 0 : -1 }
-
-if(localStorage.getItem("Sranker") == "1"){
-    document.querySelector("body").style.background = "lightblue";
-}
 
 function draw_challange() {
     let win_count = RatingSystem.getItem("win-count")
