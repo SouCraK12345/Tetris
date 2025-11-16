@@ -225,7 +225,12 @@ const RatingSystem = {
                 if (!image_url_dict) image_url_dict = {};
                 image_url_dict[key] = data[key]["image"];
             }
+            if (data[key]["Sranker"] == "1"){
+                SrankerList.push(key)
+            }
         }
+        console.log("S-ranker")
+        console.log(SrankerList);
 
         const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
         const userData = data && data[user_name] ? data[user_name] : null;
@@ -372,3 +377,4 @@ window.RatingSystem = RatingSystem;
 window.draw_challange = draw_challange;
 window.getRank = getRank;
 window.update_frame = update_frame;
+window.SrankerList = []

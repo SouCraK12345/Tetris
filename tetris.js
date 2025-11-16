@@ -228,9 +228,13 @@ function game() {
         document.querySelector(".virtualbattle-clear").currentTime = 0;
         document.querySelector(".virtualbattle-clear").play();
         if (gamemode == "Battle") {
+            win_point = 50;
+            if(RatingSystem.getItem("total-point") > 5500 && !window.SrankerList.includes(window.enemy_name)){
+                win_point = 30;
+            }
             RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
             RatingSystem.setItem("win-count", String(Number(RatingSystem.getItem("win-count")) + 1));
-            RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + 50));
+            RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + win_point));
         }
         return false;
     }
