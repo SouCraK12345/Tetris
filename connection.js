@@ -220,6 +220,7 @@ function get_enemy_data() {
 
 const RatingSystem = {
     receive: function (e = null, data = null) {
+        SrankerList = [];
         for (var key in data) {
             if (data[key]["image"] && (!image_url_dict || !image_url_dict[key])) {
                 if (!image_url_dict) image_url_dict = {};

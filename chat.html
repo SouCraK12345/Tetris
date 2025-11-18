@@ -50,54 +50,95 @@
             font-size: 0.8em;
             color: #999;
         }
+        
+        .send-container{
+            background: #00000045;
+            position: fixed;
+            height: 35px;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            border: 0;
+        }
     </style>
 </head>
 
 <body>
     <div class="theOther"></div>
     <div class="chat-container"></div>
+    <input class="send-container"></input>
     <script>
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        const body = JSON.stringify({
-            username: localStorage["user_name"],
-            to: "なんざん",
-            type: "receive_chat_data",
-        });
-        xhr.onload = () => {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                const chatData = JSON.parse(xhr.response);
-                const container = document.querySelector('.chat-container');
-                const theOtherDiv = document.querySelector('.theOther');
+        const beforeChatData = [];
+        const input = document.querySelector("body > input");
+        function getChat(){
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            const body = JSON.stringify({
+                username: localStorage["user_name"],
+                to: new URLSearchParams(location.search).get("to"),
+                type: "receive_chat_data",
+            });
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    const chatData = JSON.parse(xhr.response);
+                    const container = document.querySelector('.chat-container');
+                    const theOtherDiv = document.querySelector('.theOther');
 
-                // 最初のメッセージから送り先を取得して表示
-                if (chatData.length > 0) {
-                    const recipient = chatData[0][1];
-                    theOtherDiv.textContent = recipient;
+                    // 最初のメッセージから送り先を取得して表示
+                    if (chatData.length > 0) {
+                        const recipient = chatData[0][1];
+                        theOtherDiv.textContent = recipient;
+                    }
+
+                    chatData.forEach((message) => {
+                        const [sender, recipient, text, timestamp] = message;
+                        if(beforeChatData.includes(timestamp)){return}
+
+                        // タイムスタンプを日時に変換
+                        const date = new Date(timestamp);
+                        const timeString = date.toLocaleString('ja-JP');
+
+                        // メッセージ要素を作成
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'message';
+                        messageElement.innerHTML = `
+                            <div class="message-sender">${sender}</div>
+                            <div class="message-text">${text}</div>
+                            <div class="message-time">${timeString}</div>
+                        `;
+
+                        container.appendChild(messageElement);
+                        beforeChatData.push(timestamp);
+                    });
                 }
-
-                chatData.forEach((message) => {
-                    const [sender, recipient, text, timestamp] = message;
-
-                    // タイムスタンプを日時に変換
-                    const date = new Date(timestamp);
-                    const timeString = date.toLocaleString('ja-JP');
-
-                    // メッセージ要素を作成
-                    const messageElement = document.createElement('div');
-                    messageElement.className = 'message';
-                    messageElement.innerHTML = `
-                        <div class="message-sender">${sender}</div>
-                        <div class="message-text">${text}</div>
-                        <div class="message-time">${timeString}</div>
-                    `;
-
-                    container.appendChild(messageElement);
+            };
+            xhr.send(body);
+        }
+        function sendChat(){
+            const value = input.value;
+            input.value = "";
+            if(value != ""){
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                const body = JSON.stringify({
+                    username: localStorage["user_name"],
+                    to: new URLSearchParams(location.search).get("to"),
+                    type: "send_chat_data",
+                    text: value,
                 });
+                xhr.onload = getChat;
+                xhr.send(body);
             }
-        };
-        xhr.send(body);
+        }
+        input.addEventListener("keydown",function(e){
+            if(e.key == "Enter"){
+                sendChat();
+            }
+        });
+        getChat();
+        setInterval(getChat,15000);
     </script>
 </body>
 

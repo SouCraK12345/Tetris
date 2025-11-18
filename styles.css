@@ -472,11 +472,15 @@ p.message-text {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.search {
+    height: 40px;
+}
+
 .header-title {
     font-size: 40px;
     font-weight: bold;
 }
-.header-title:hover {
+.header-title-span:hover {
     text-decoration: underline;
     cursor: pointer;
 }

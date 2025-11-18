@@ -34,7 +34,7 @@ function mainloop() {
             blocks = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].blocks;
             score = cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].score;
             start_time = new Date(cloudData[Object.keys(cloudData)[document.querySelector(".user").value]].start_time);
-            document.querySelector(".header-title").innerHTML = "Watch(" + Object.keys(cloudData)[document.querySelector(".user").value] + ")";
+            document.querySelector(".header-title-span").innerHTML = "< Watch(" + Object.keys(cloudData)[document.querySelector(".user").value] + ")";
         } catch (e) { }
         draw();
         return false;
@@ -880,7 +880,7 @@ let mino_color = ["#00ffff", "#ffe600", "#33ff00", "#ff0000", "#0012ff", "#ff910
 let ghost_mino_color = ["#007979ff", "#807300ff", "#197e00ff", "#740000ff", "#031297ff", "#703800ff", "#62008fff"];
 
 let stop = false;
-document.querySelector(".header-title").addEventListener("click", function () {
+document.querySelector(".header-title-span").addEventListener("click", function () {
     stop = true;
 });
 canvas.style.display = "none";
@@ -899,7 +899,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         }
         if (gamemode == "Battle") {
         }
-        document.querySelector(".header-title").innerHTML = "< " + gamemode;
+        document.querySelector(".header-title-span").innerHTML = "< " + gamemode;
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
         restart();
@@ -924,7 +924,7 @@ function back_to_menu() {
     console.log("Back to menu");
     gamemode = "";
     document.querySelector(".user").style.display = "none";
-    document.querySelector(".header-title").innerHTML = "Online Tetris";
+    document.querySelector(".header-title-span").innerHTML = "Online Tetris";
     document.querySelector(".reBattle").style.display = "none";
     if (!user_name) {
         document.querySelector(".login-button").style.display = "block";
