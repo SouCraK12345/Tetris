@@ -64,8 +64,9 @@ onValue(msgRef, (snapshot) => {
                 </div>
                 `
                 child.addEventListener("click", function () {
-                    document.querySelector(".show-chat").style.display = "block"
-                    document.querySelector("iframe").style.display = "none"
+                    document.querySelector(".show-chat").style.display = "block";
+                    document.querySelector("iframe").style.display = "none";
+                    document.querySelector(".show-chat").style.display = localStorage["user_name"] == undefined ? "none" : "block";
                     document.querySelector(".user-data-container").classList.add("show");
                     let name = this.querySelector("div.user-name").innerHTML;
                     document.querySelector(".image-tile").style.backgroundImage = `url(${data[name]["image"]})`;
@@ -89,6 +90,7 @@ function show_chat() {
 function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; if (e <= 699) return "C"; if (e <= 1199) return "C+"; if (e <= 1799) return "B-"; if (e <= 2499) return "B"; if (e <= 3499) return "B+"; if (e <= 4499) { if (e >= 3500) return "A"; return "A-" } if (e <= 5499) return "A+"; if (e >= 5500) { const s = Math.floor((e - 5500) / 1e3); if (0 === s) return "S"; if (s >= 1 && s <= 30) return `S+${s}`; if (s > 30) return "S+30" } return "範囲外" }
 
 let first = true;
+
 
 window.player_data;
 window.show_chat = show_chat;
