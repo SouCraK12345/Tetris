@@ -1,17 +1,32 @@
 <!doctype html>
 <html>
+
 <head>
-<title>Search - Online Tetris</title>
+    <title>Search - Online Tetris</title>
 </head>
-    <link rel="stylesheet" href="search.css">
+<link rel="stylesheet" href="search.css">
+
 <body>
+    <div class="header"><a href="../">Online Tetris</a><span class="spacing"></span>-<span class="spacing" style="width: 10px;"></span>Player Data</div>
     <div class="init">
         <span>Online Tetris</span>
-        <span style="font-size: 1em;">user data</span>
+        <span style="font-size: 1em;">player data</span>
         <hr>
     </div>
     <div class="user-container">
     </div>
+    <div class="user-data-container">
+        <div class="image-tile">
+            <p class="user-name-label">-SouCraK12345-</p>
+        </div>
+        <div class="rank-point">
+            <span class="rank">S</span><span class="point">5573pt (+130pt)</span>
+            <span class="online">オンライン</span>
+        </div>
+        <button onclick="show_chat();" class="show-chat">チャットを表示</button>
+        <iframe src="" frameborder="0"></iframe>
+    </div>
     <script type="module" src="main.js"></script>
 </body>
+
 </html>

@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-html, body {
+html,
+body {
     background-color: #04071a;
+    color: white;
     width: 100%;
     height: 100%;
     margin: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     scrollbar-width: thin;
 }
 
@@ -20,13 +22,14 @@ html, body {
     z-index: 1;
 }
 
-.init.fadeout{
+.init.fadeout {
     animation: big-fadeout 0.3s forwards linear;
 }
 
-.init > span {
+.init>span {
     display: block;
     letter-spacing: 5px;
+    font-family: "Roboto", sans-serif;
     color: white;
     width: 100%;
     text-align: center;
@@ -35,60 +38,185 @@ html, body {
     font-size: 2em;
 }
 
-.init > hr {
+.init>hr {
     position: relative;
     top: calc(50%);
     animation: hr-wide 1.5s forwards cubic-bezier(0.01, -0.01, 0, 1);
 }
 
-@keyframes hr-wide{
+.user-data-container.show {
+    animation: fadeIn-fromRight .5s forwards;
+    display: block;
+}
+
+@keyframes hr-wide {
     0% {
         width: 0;
     }
+
     100% {
         width: 100%;
     }
 }
 
-@keyframes big-fadeout{
+@keyframes big-fadeout {
     0% {
         scale: 1;
         opacity: 1;
     }
+
     100% {
         scale: 2;
         opacity: 0;
     }
 }
 
-.user-block {
-  background-color: #424452;
-  margin: 20px;
-  height: 70px;
+@keyframes fadeIn-fromLeft {
+    0% {
+        translate: -20px;
+        opacity: 0;
+    }
+
+    100% {
+        translate: 0;
+        opacity: 1;
+    }
 }
 
-.user-block > div {
-  display: inline-block;
-  position: relative;
-  color: #ffffff;
-  font-size: 20px;
-  top: 20px;
+@keyframes fadeIn-fromRight {
+    0% {
+        translate: 20px;
+        opacity: 0;
+    }
+
+    100% {
+        translate: 0;
+        opacity: 1;
+    }
+}
+
+.user-block {
+    background-color: #424452;
+    margin: 20px;
+    height: 70px;
+    animation: fadeIn-fromLeft 0.5s forwards ease-out;
+}
+
+.user-block>div {
+    display: inline-block;
+    position: relative;
+    color: #ffffff;
+    font-size: 20px;
+    top: 20px;
 }
 
 .user-name {
-  left: 20px;
-  width: 70%;
+    left: 20px;
+    width: 70%;
 }
 
 .user-point {
-  left: 0;
-  width: 20%;
+    left: 0;
+    width: 20%;
 }
 
 .user-rank {
-  left: 0;
+    left: 0;
 }
 
 .user-container {
     width: 50%;
+    overflow-y: scroll;
+    height: 90vh;
+    scrollbar-width: none;
+}
+
+.image-tile {
+    background-color: #424452;
+    background-size: cover;
+    height: 300px;
+    position: relative;
+}
+
+p.user-name-label {
+    position: absolute;
+    bottom: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 3em;
+    margin: 0 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+span.rank {
+    font-family: "Roboto", sans-serif;
+    font-size: 3em;
+    margin: 10px;
+}
+
+span.point,
+span.online {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.25em;
+    margin: 10px;
+}
+
+span.online::before {
+    content: "";
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-right: 3px;
+    width: 10px;
+    /* 丸の大きさ */
+    height: 10px;
+    /* 丸の大きさ */
+    background-color: green;
+    /* 緑色 */
+    border-radius: 50%;
+    /* 丸にする */
+}
+
+.user-data-container {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+iframe {
+    display: block;
+    width: 100%;
+    height: 60%;
+    position: absolute;
+    bottom: 10px;
+}
+
+.show-chat {
+    display: block;
+    width: 100%;
+}
+
+.header {
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 3.5vw;
+    width: calc(50% - 20px);
+    overflow: hidden;
+    white-space: nowrap;
+    height: calc(10vh - 20px);
+}
+
+.header>a {
+    color: white;
+    text-decoration: none;
+}
+
+.header>a:hover {
+    text-decoration: underline;
+}
+
+.spacing {
+    display: inline-block;
+    width: 20px;
 }

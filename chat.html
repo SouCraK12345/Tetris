@@ -20,11 +20,14 @@
             font-size: 1.1em;
             z-index: 100;
             text-align: center;
+            display: none;
         }
 
         .chat-container {
             padding: 20px;
             width: calc(100% - 40px);
+            height: calc(100vh - 85px);
+            overflow: auto;
         }
 
         .message {
@@ -32,17 +35,17 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: #f9f9f9;
+            background-color: #1e1e1e;
         }
 
         .message-sender {
             font-weight: bold;
-            color: #333;
+            color: #fff;
             margin-bottom: 5px;
         }
 
         .message-text {
-            color: #333;
+            color: #fff;
             margin-bottom: 8px;
             word-wrap: break-word;
         }
@@ -51,9 +54,9 @@
             font-size: 0.8em;
             color: #999;
         }
-        
-        .send-container{
-            background: #00000045;
+
+        .send-container {
+            background: #ffffff45;
             position: fixed;
             height: 35px;
             width: 100%;
@@ -67,11 +70,13 @@
 <body>
     <div class="theOther"></div>
     <div class="chat-container"></div>
-    <input class="send-container"></input>
+    <input class="send-container" placeholder="Enterで送信"></input>
     <script>
         const beforeChatData = [];
         const input = document.querySelector("body > input");
-        function getChat(){
+        const theOtherDiv = document.querySelector('.theOther');
+        theOtherDiv.textContent = new URLSearchParams(location.search).get("to");
+        function getChat() {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -84,17 +89,10 @@
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     const chatData = JSON.parse(xhr.response);
                     const container = document.querySelector('.chat-container');
-                    const theOtherDiv = document.querySelector('.theOther');
-
-                    // 最初のメッセージから送り先を取得して表示
-                    if (chatData.length > 0) {
-                        const recipient = chatData[0][1];
-                        theOtherDiv.textContent = recipient;
-                    }
 
                     chatData.forEach((message) => {
                         const [sender, recipient, text, timestamp] = message;
-                        if(beforeChatData.includes(timestamp)){return}
+                        if (beforeChatData.includes(timestamp)) { return }
 
                         // タイムスタンプを日時に変換
                         const date = new Date(timestamp);
@@ -116,10 +114,10 @@
             };
             xhr.send(body);
         }
-        function sendChat(){
+        function sendChat() {
             const value = input.value;
             input.value = "";
-            if(value != ""){
+            if (value != "") {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -133,13 +131,13 @@
                 xhr.send(body);
             }
         }
-        input.addEventListener("keydown",function(e){
-            if(e.key == "Enter"){
+        input.addEventListener("keydown", function (e) {
+            if (e.key == "Enter") {
                 sendChat();
             }
         });
         getChat();
-        setInterval(getChat,15000);
+        setInterval(getChat, 15000);
     </script>
 </body>
 
