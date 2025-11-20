@@ -32,3 +32,23 @@ slider4.oninput = function () {
   output4.innerHTML = this.value
   virtualbattle_apm = this.value;
 }
+
+function regist_mail() {
+  let address = prompt("メールアドレスを入力してください");
+  if (address != "") {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    const body = JSON.stringify({
+      username: localStorage["username"],
+      type: "mail_address",
+    });
+    xhr.onload = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(xhr.responseText);
+      }
+    };
+    xhr.send(body);
+    alert("メールアドレスが登録されました");
+  }
+}
