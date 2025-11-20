@@ -1,16 +1,14 @@
-// Firebase SDK 読み込み
+// Firebase SDK 読み込み (サーバー2)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAYxyejiMqg2bWO9dx7zoDg4X9aLyZEgG8",
-    authDomain: "online-tetris-souki.firebaseapp.com",
-    databaseURL: "https://online-tetris-souki-default-rtdb.firebaseio.com",
-    projectId: "online-tetris-souki",
-    storageBucket: "online-tetris-souki.firebasestorage.app",
-    messagingSenderId: "564189331569",
-    appId: "1:564189331569:web:0c7e30ba76e88423c31bd0",
-    measurementId: "G-1HYR4KWBDV"
+  apiKey: "AIzaSyC_57psiQlniIFwp4BpALqoi483WFq75nA",
+  authDomain: "online-tetris-souki-server2.firebaseapp.com",
+  projectId: "online-tetris-souki-server2",
+  storageBucket: "online-tetris-souki-server2.firebasestorage.app",
+  messagingSenderId: "228868946372",
+  appId: "1:228868946372:web:0f45222c93467a021e8c91"
 };
 
 // Firebase初期化
@@ -165,7 +163,7 @@ function start_match_dialog(from, to) {
             start_time = new Date();
             mainloop();
             if (gamemode != "Watch") {
-                sendData_interval = setInterval(sendData, 150);
+                sendData_interval = setInterval(sendData, 750);
             }
             bgm()
         }, 2000);
