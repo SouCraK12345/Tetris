@@ -63,6 +63,7 @@ onValue(msgRef, (snapshot) => {
                         <div class="user-rank">${getRank(data[i_copy]["total-point"])}</div>
                     </div>
                 `
+                child.querySelector(".user-block").style.backgroundColor = window.active_list.includes(i_copy) ? "#55925aff" : "#424452"
                 child.addEventListener("click", function () {
                     document.querySelector(".show-chat").style.display = "block";
                     document.querySelector("iframe").style.display = "none";
@@ -129,12 +130,12 @@ function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; 
 let first = true;
 
 function send_active() {
-    set(ref(db, "active/"), {
-        [localStorage["user_name"]]: new Date(getServerTime()).getTime(),
+    set(ref(db, "active/" + localStorage["user_name"]), {
+        date: new Date(getServerTime()).getTime(),
     });
 }
 
-if(localStorage["user_name"]){
+if (localStorage["user_name"]) {
     setInterval(send_active, 60000)
     send_active();
 }
@@ -156,9 +157,9 @@ onValue(activeRef, (snap) => {
     const THRESH = 2 * 60 * 1000; // 2分
     const now = getServerTime();
     const list = [];
-    for (const [name, ts] of Object.entries(raw)) {
-        // ts が数値でない可能性に備える
-        const t = typeof ts === 'number' ? ts : Number(ts);
+    for (const [name, obj] of Object.entries(raw)) {
+        // obj: {date: timestamp} 形式
+        const t = obj && typeof obj.date === 'number' ? obj.date : Number(obj && obj.date);
         if (!Number.isNaN(t) && (now - t) <= THRESH) {
             list.push(name);
         }
@@ -167,6 +168,13 @@ onValue(activeRef, (snap) => {
     list.sort();
     window.active_list = list;
     document.querySelector(".online").style.display = window.active_list.includes(document.querySelector(".user-name-label").innerHTML) ? "inline-block" : "none";
+    // --- l66の処理を全ユーザーブロックに反映 ---
+    const userBlocks = document.querySelectorAll('.user-block');
+    userBlocks.forEach(block => {
+        const nameEl = block.querySelector('.user-name');
+        const name = nameEl ? nameEl.textContent : '';
+        block.style.backgroundColor = window.active_list.includes(name) ? "#55925aff" : "#424452";
+    });
 });
 
 // 簡易 API: 現在のアクティブユーザー配列を返す
