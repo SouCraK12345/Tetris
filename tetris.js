@@ -904,7 +904,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
         restart();
-        waiting_damage = -300;
+        waiting_damage = 300;
         draw();
         document.querySelector(".tile-card-container").style.display = "none";
         document.querySelector("#chart-container").style.display = "none";

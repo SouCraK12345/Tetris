@@ -3,12 +3,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_57psiQlniIFwp4BpALqoi483WFq75nA",
-  authDomain: "online-tetris-souki-server2.firebaseapp.com",
-  projectId: "online-tetris-souki-server2",
-  storageBucket: "online-tetris-souki-server2.firebasestorage.app",
-  messagingSenderId: "228868946372",
-  appId: "1:228868946372:web:0f45222c93467a021e8c91"
+    apiKey: "AIzaSyC_57psiQlniIFwp4BpALqoi483WFq75nA",
+    authDomain: "online-tetris-souki-server2.firebaseapp.com",
+    projectId: "online-tetris-souki-server2",
+    storageBucket: "online-tetris-souki-server2.firebasestorage.app",
+    messagingSenderId: "228868946372",
+    appId: "1:228868946372:web:0f45222c93467a021e8c91"
 };
 
 
@@ -126,6 +126,16 @@ function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; 
 
 let first = true;
 
+function send_active() {
+    set(ref(db, "active/"), {
+        [localStorage["user_name"]]: new Date(getServerTime()).getTime(),
+    });
+}
+
+if(localStorage["user_name"]){
+    setInterval(send_active, 60000)
+    send_active();
+}
 
 window.player_data;
 window.show_chat = show_chat;
