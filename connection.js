@@ -363,6 +363,17 @@ function getServerTime() {
 }
 
 
+function send_active() {
+    set(ref(db, "active/"), {
+        [localStorage["user_name"]]: new Date(getServerTime()).getTime(),
+    });
+}
+
+if(localStorage["user_name"]){
+    setInterval(send_active, 60000)
+    send_active();
+}
+
 // グローバル関数化
 window.sendData = sendData;
 window.sendRequest = sendRequest;

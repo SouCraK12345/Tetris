@@ -34,6 +34,7 @@ function getServerTime() {
 set(ref(db, "load/"), {
     time: new Date(getServerTime()).getTime()
 });
+
 const msgRef = ref(db, "rate/");
 onValue(msgRef, (snapshot) => {
     if (first) {
@@ -72,6 +73,7 @@ onValue(msgRef, (snapshot) => {
                     document.querySelector(".user-name-label").innerHTML = name;
                     document.querySelector(".rank").innerHTML = getRank(data[name]["total-point"]);
                     document.querySelector(".point").innerHTML = `${Math.round(data[name]["total-point"])}pt (${data[name]["point"] >= 0 ? "+" : ""}${Math.round(data[name]["point"])}pt)`;
+                    document.querySelector(".online").style.display = window.active_list.includes(name) ? "inline-block" : "none";
                 })
                 document.querySelector(".user-container").appendChild(child);
                 // If there's an active search query, re-apply filtering so newly added items respect it
@@ -136,6 +138,42 @@ if(localStorage["user_name"]){
     setInterval(send_active, 60000)
     send_active();
 }
+
+// ----- アクティブユーザーのリスト化（表示はしない） -----
+// window.active_users: Firebase の生データ（{ name: timestamp, ... }）
+// window.active_list: getServerTime() を基準に "最近" アクティブなユーザー名の配列
+// 閾値: 2分 (120000ms)
+window.active_users = {};
+window.active_list = [];
+
+// Firebase の active/ を監視して window に保存する
+const activeRef = ref(db, "active/");
+onValue(activeRef, (snap) => {
+    const raw = snap.val() || {};
+    window.active_users = raw;
+
+    // 最近アクティブ（2分以内）を抽出
+    const THRESH = 2 * 60 * 1000; // 2分
+    const now = getServerTime();
+    const list = [];
+    for (const [name, ts] of Object.entries(raw)) {
+        // ts が数値でない可能性に備える
+        const t = typeof ts === 'number' ? ts : Number(ts);
+        if (!Number.isNaN(t) && (now - t) <= THRESH) {
+            list.push(name);
+        }
+    }
+    // 安定表示のためソート（任意: 名前順）
+    list.sort();
+    window.active_list = list;
+    document.querySelector(".online").style.display = window.active_list.includes(document.querySelector(".user-name-label").innerHTML) ? "inline-block" : "none";
+});
+
+// 簡易 API: 現在のアクティブユーザー配列を返す
+function getActiveUsers() {
+    return Array.isArray(window.active_list) ? window.active_list.slice() : [];
+}
+window.getActiveUsers = getActiveUsers;
 
 window.player_data;
 window.show_chat = show_chat;
