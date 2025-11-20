@@ -660,7 +660,7 @@ function formatSecondsToMinutes(totalSeconds) {
 
 function Finish(bool = true, clear = true) {
     clearInterval(attack_interval);
-    setTimeout(function () { clearInterval(sendData_interval) }, 200)
+    setTimeout(function () { clearInterval(sendData_interval) }, 1500)
     if (bool) {
         setTimeout(function () {
             battle_started = false;
@@ -733,7 +733,8 @@ function Finish(bool = true, clear = true) {
         document.querySelector(".user").style.display = "none";
         document.querySelector(".request").style.display = "none";
         bgm_stop();
-        attack2 = 0; isGameover = false;
+        attack2 = 0;
+        isGameover = false;
         sendData();
     }
 }
@@ -913,7 +914,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             start_time = new Date();
             mainloop();
             if (gamemode != "Watch") {
-                sendData_interval = setInterval(sendData, 150);
+                sendData_interval = setInterval(sendData, 750);
             }
             bgm()
         }, gamemode == "Watch" ? 0 : 1000);
