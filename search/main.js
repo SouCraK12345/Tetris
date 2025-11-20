@@ -31,7 +31,7 @@ function getServerTime() {
 }
 
 
-set(ref(db, "active/"), {
+set(ref(db, "load/"), {
     time: new Date(getServerTime()).getTime()
 });
 const msgRef = ref(db, "rate/");
@@ -54,12 +54,13 @@ onValue(msgRef, (snapshot) => {
             let i_copy = i;
             setTimeout(function () {
                 let child = document.createElement("div");
+                // wrapper div — inner .user-block is used for layout
                 child.innerHTML = `
                     <div class="user-block">
                         <div class="user-name">${i_copy}</div>
                         <div class="user-point">${Math.round(data[i_copy]["total-point"])}pt</div>
-                    <div class="user-rank">${getRank(data[i_copy]["total-point"])}</div>
-                </div>
+                        <div class="user-rank">${getRank(data[i_copy]["total-point"])}</div>
+                    </div>
                 `
                 child.addEventListener("click", function () {
                     document.querySelector(".show-chat").style.display = "block";
@@ -73,11 +74,47 @@ onValue(msgRef, (snapshot) => {
                     document.querySelector(".point").innerHTML = `${Math.round(data[name]["total-point"])}pt (${data[name]["point"] >= 0 ? "+" : ""}${Math.round(data[name]["point"])}pt)`;
                 })
                 document.querySelector(".user-container").appendChild(child);
+                // If there's an active search query, re-apply filtering so newly added items respect it
+                if (typeof filterUsers === "function") {
+                    const input = document.getElementById('user-search');
+                    filterUsers(input ? input.value : "");
+                }
             }, interval)
         }
     }
     first = false;
 });
+
+// 検索機能: user-container 内のラッパー要素を表示/非表示にする
+function filterUsers(query) {
+    if (!query) query = "";
+    const q = query.trim().toLowerCase();
+    const wrappers = document.querySelectorAll('.user-container > div');
+    wrappers.forEach(wrapper => {
+        const nameEl = wrapper.querySelector('.user-name');
+        const name = nameEl ? nameEl.textContent.trim().toLowerCase() : '';
+        const matches = q === '' || name.indexOf(q) !== -1;
+        wrapper.style.display = matches ? '' : 'none';
+    });
+}
+
+// 検索入力イベントの登録（DOM上に要素があれば）
+const searchInput = document.getElementById('user-search');
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        filterUsers(e.target.value);
+    });
+}
+const searchClear = document.getElementById('search-clear');
+if (searchClear) {
+    searchClear.addEventListener('click', () => {
+        if (searchInput) {
+            searchInput.value = '';
+            filterUsers('');
+            searchInput.focus();
+        }
+    });
+}
 
 function show_chat() {
     document.querySelector(".show-chat").style.display = "none"

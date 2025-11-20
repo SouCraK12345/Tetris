@@ -127,7 +127,7 @@ body {
 .user-container {
     width: 50%;
     overflow-y: scroll;
-    height: 90vh;
+    height: calc(90vh - 45px);
     scrollbar-width: none;
 }
 
@@ -200,7 +200,7 @@ iframe {
 .header {
     margin-left: 20px;
     margin-top: 20px;
-    font-size: 3.5vw;
+    font-size: min(3.5vw, 5vh);
     width: calc(50% - 20px);
     overflow: hidden;
     white-space: nowrap;
@@ -219,4 +219,68 @@ iframe {
 .spacing {
     display: inline-block;
     width: 20px;
+}
+
+/* --- search bar styling (align with other left column elements) --- */
+.search-bar {
+    margin-left: 20px;
+    margin-top: 12px;
+    width: calc(50% - 20px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+#user-search {
+    flex: 1 1 auto;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #1f2330;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+    outline: none;
+    box-shadow: none;
+}
+
+#user-search::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+#user-search:focus {
+    border-color: rgba(255,255,255,0.18);
+    box-shadow: 0 0 0 3px rgba(100,120,255,0.06);
+}
+
+/* Hide native browser clear icons for input[type=search] so only our custom button shows */
+#user-search::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    display: none;
+}
+#user-search::-ms-clear,
+#user-search::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+#search-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+#search-clear:hover {
+    background: rgba(255,255,255,0.06);
 }
