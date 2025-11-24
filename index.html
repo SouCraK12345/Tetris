@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="player-stats.css">
 </head>
@@ -54,12 +56,12 @@
   </dialog>
   <div class="header">
     <div class="header-title"><span class="header-title-span">Online Tetris</span>
-        <a href="search/">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" role="img" class="search">
-              <circle cx="50" cy="56" r="28" stroke="white" stroke-width="10" fill="#00000000" />
-              <line x1="68" y1="78" x2="90" y2="95" stroke="white" stroke-width="10" />
-            </svg>
-        </a>
+      <a href="search/">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" role="img" class="search">
+          <circle cx="50" cy="56" r="28" stroke="white" stroke-width="10" fill="#00000000" />
+          <line x1="68" y1="78" x2="90" y2="95" stroke="white" stroke-width="10" />
+        </svg>
+      </a>
     </div>
 
     <label class="rank" style="font-size: 40px;margin-left: 30%;"></label>
@@ -68,6 +70,7 @@
     <button class="login-button" onclick='document.querySelector(".login").showModal()'>Login</button>
   </div>
   <div hidden>
+    <audio src="sound/launch.mp3" class="launch"></audio>
     <audio src="sound/hard-drop.mp3" class="hard-drop"></audio>
     <audio src="sound/t-spin.mp3" class="t-spin"></audio>
     <audio src="sound/tetris.mp3" class="tetris"></audio>
@@ -207,9 +210,10 @@
 
     <hr>
     <div style="width: 100%; text-align: center;">アカウント設定</div>
-    <button style="width: 100%; margin-bottom: 10px;" onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
+    <button style="width: 100%; margin-bottom: 10px;"
+      onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
     <button style="width: 100%; margin-bottom: 10px;" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
-    <hr>  
+    <hr>
     <button style="width: 100%;" onclick="document.querySelector('.setting-dialog').close()">閉じる</button>
   </dialog>
   <dialog class="login">
@@ -260,6 +264,9 @@
 
   <div class="footer"><a href="https://forms.gle/yGQgU2kdECuRdUBPA">サイトの改善にご協力ください [報告]</a></div>
 
+  <canvas class="battle-start" width="1000" height="1000"></canvas>
+  <p class="battle-start">GO!</p>
+  <p class="ready">Ready?</p>
   <script src="tetris.js"></script>
   <script src="setting.js"></script>
   <script src="login.js"></script>

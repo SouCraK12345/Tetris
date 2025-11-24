@@ -512,14 +512,18 @@ label#attack_type {
 }
 
 canvas#tetris {
-    height: 80%;
+    height: 30%;
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
     /* ここを追加 */
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     /* ここを追加 */
     z-index: -1;
+}
+
+canvas#tetris.show{
+    animation: 1000ms cubic-bezier(0, 0.65, 0, 1.01) 0ms 1 normal forwards running zoomIn
 }
 
 body {
@@ -1012,4 +1016,53 @@ img.challange-lose {
 .footer > a{
     color: #686868;
     font-size: 12px;
+}
+
+
+
+canvas.battle-start {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+p.battle-start {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10em;
+  margin: 0;
+  font-family: "Bowlby One", sans-serif;
+  text-shadow: 10px 10px 0px blue;
+  color: white;
+  -webkit-text-stroke: 0px white;
+}
+
+p.ready {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4em;
+  margin: 0;
+  font-family: "Bowlby One", sans-serif;
+  text-shadow: 4px 4px 0px blue;
+  color: white;
+  -webkit-text-stroke: 0px white;
+}
+
+@keyframes zoomIn {
+    0%{
+        height: 30%;
+    }
+    100%{
+        height: 80%;
+    }
 }

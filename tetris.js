@@ -217,9 +217,9 @@ function game() {
         stop = false;
         return false;
     }
-    window.update_frame ++;
+    window.update_frame++;
     if (virtual_enemy_hp < 1 || (window.update_frame > 600 && gamemode == "Battle")) {
-        if(window.update_frame > 600 && gamemode == "Battle"){
+        if (window.update_frame > 600 && gamemode == "Battle") {
             alert("相手からの応答がなくなりました");
         }
         Finish();
@@ -229,7 +229,7 @@ function game() {
         document.querySelector(".virtualbattle-clear").play();
         if (gamemode == "Battle") {
             win_point = 50;
-            if(RatingSystem.getItem("total-point") > 5500 && !window.SrankerList.includes(window.enemy_name)){
+            if (RatingSystem.getItem("total-point") > 5500 && !window.SrankerList.includes(window.enemy_name)) {
                 win_point = 30;
             }
             RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
@@ -909,14 +909,21 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector(".tile-card-container").style.display = "none";
         document.querySelector("#chart-container").style.display = "none";
         document.querySelector("#psb-body").style.display = "none";
+        document.querySelector("p.ready").style.display = "block";
+        document.querySelector("canvas.battle-start").style.display = "block";
         setTimeout(function () {
+            battle_start_update();
+            document.querySelector("canvas#tetris").classList.add("show");
+        }, 1000);
+        setTimeout(function () {
+            document.querySelector(".launch").play();
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
             mainloop();
             if (gamemode != "Watch") {
                 sendData_interval = setInterval(sendData, 750);
             }
-            bgm()
+            setTimeout(bgm, 600);
         }, gamemode == "Watch" ? 0 : 1000);
     })
 })
@@ -927,6 +934,7 @@ function back_to_menu() {
     document.querySelector(".user").style.display = "none";
     document.querySelector(".header-title-span").innerHTML = "Online Tetris";
     document.querySelector(".reBattle").style.display = "none";
+    document.querySelector("canvas#tetris").classList.remove("show");
     if (!user_name) {
         document.querySelector(".login-button").style.display = "block";
     }
@@ -936,7 +944,8 @@ function back_to_menu() {
         document.querySelector(".tile-card-container").style.display = "block";
         document.querySelector("#chart-container").style.display = "block";
         document.querySelector("#psb-body").style.display = "flex";
-        document.querySelector("#psb-matches").scrollTo(0, -1000)
+        try{
+        document.querySelector("#psb-matches").scrollTo(0, -1000)}catch{}
         document.querySelector(".wipe-in-box").classList.remove("boxWipein");
         if (user_name) RatingSystem.update();
     } else {
@@ -956,6 +965,68 @@ function back_to_menu() {
     }
     isGameover = false;
     sendData();
+}
+
+let battle_start_frame = 0;
+const battle_start_canvas = document.querySelector("canvas.battle-start");
+const battle_start_ctx = battle_start_canvas.getContext("2d");
+let line_angle = [];
+for (let i = 0; i < 360; i += Math.random() * 20 + 30) {
+    line_angle.push(i)
+}
+
+function battle_start_update() {
+    document.querySelector("p.battle-start").style.display = "block";
+    document.querySelector("p.ready").style.display = "none";
+    let bctx = battle_start_ctx;
+    let bsf = battle_start_frame;
+    bctx.clearRect(0, 0, 1000, 1000);
+    bctx.lineWidth = 10;
+    document.querySelector("p.battle-start").style.webkitTextStrokeWidth = `${(bsf - 10) ** 1.5}px`;
+    document.querySelector("p.battle-start").style.opacity = 1 - (bsf - 10) / 30;
+    if (bsf < 30) {
+        bctx.fillStyle = "#ffffff";
+        bctx.globalAlpha = (30 - bsf) / 30;
+        bctx.beginPath();
+        bctx.rect(0, 0, 1000, 1000);
+        bctx.fill();
+    }
+    if (bsf > 0 && bsf < 40) {
+        for (let i of line_angle) {
+
+            document.querySelector("p.battle-start").style.fontSize = `${(bsf / 5) + 8}em`;
+            const rot = i * Math.PI / 180;  // ← 40度ずつ増やす角度
+
+            // 計算用角度（既存の bsf / 30 に rot を足す）
+            const a1 = bsf / 30 + rot;
+            const a2 = bsf / 30 - (bsf - 40) / 40 + rot;
+
+            // ▼ 白い三角形
+            bctx.fillStyle = "#ffffff";
+            bctx.globalAlpha = 1;
+            bctx.beginPath();
+            bctx.moveTo(Math.sin(a1) * 10 + 500, Math.cos(a1) * 10 + 500);
+            bctx.lineTo(Math.sin(a1) * 1500 + 500, Math.cos(a1) * 1500 + 500);
+            bctx.lineTo(Math.sin(a2) * 1500 + 500, Math.cos(a2) * 1500 + 500);
+            bctx.fill();
+
+            // ▼ 青い線
+            bctx.strokeStyle = "#0b63e6";
+            bctx.lineWidth = 10 - bsf / 4;
+            bctx.beginPath();
+            bctx.moveTo(Math.sin(a1) * 10 + 500, Math.cos(a1) * 10 + 500);
+            bctx.lineTo(Math.sin(a2) * 1500 + 500, Math.cos(a2) * 1500 + 500);
+            bctx.stroke();
+        }
+    }
+    if (bsf > 40) {
+        document.querySelector("canvas.battle-start").style.display = "none";
+        document.querySelector("p.battle-start").style.display = "none";
+        battle_start_frame = 0;
+        return true;
+    }
+    battle_start_frame++;
+    requestAnimationFrame(battle_start_update);
 }
 
 let user_name, sendData_interval;
