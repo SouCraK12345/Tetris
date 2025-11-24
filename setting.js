@@ -52,3 +52,27 @@ function regist_mail() {
     alert("メールアドレスが登録されました");
   }
 }
+
+let folder = localStorage["sound_folder"] || "Splatoon";
+function updateBgmSources(folderName) {
+  const ultra = document.querySelector(".bgm-ultra");
+  const battle = document.querySelector(".bgm-battle");
+  const virtual = document.querySelector(".bgm-virtualbattle");
+  const line40 = document.querySelector(".bgm-40line");
+  if (ultra) ultra.src = `${folderName}/bgm-ultra.mp3`;
+  if (battle) battle.src = `${folderName}/bgm-battle.mp3`;
+  if (virtual) virtual.src = `${folderName}/bgm-virtualbattle.mp3`;
+  if (line40) line40.src = `${folderName}/bgm-40line.mp3`;
+  document.querySelector(".bgm-button").innerHTML = folder;
+}
+
+updateBgmSources(folder);
+function bgm_change() {
+  if (folder === "Splatoon") {
+    folder = "Undertale";
+  }else if (folder === "Undertale") {
+    folder = "Splatoon";
+  }
+  localStorage["sound_folder"] = folder;
+  updateBgmSources(folder);
+}

@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="player-stats.css">
 </head>
@@ -80,10 +80,10 @@
     <audio src="sound/show-card.mp3" class="show-card"></audio>
     <audio src="sound/battle-start.wav" class="battle-start"></audio>
     <audio src="sound/damage.mp3" class="damage"></audio>
-    <audio src="bgm-ultra.mp3" class="bgm-ultra"></audio>
-    <audio src="bgm-virtualbattle.mp3" class="bgm-battle"></audio>
     <audio src="virtualbattle-clear.wav" class="virtualbattle-clear"></audio>
-    <audio src="bgm-40line.m4a" class="bgm-40line" loop></audio>
+    <audio src="bgm-ultra.mp3" class="bgm-ultra"></audio>
+    <audio src="bgm-battle.mp3" class="bgm-battle"></audio>
+    <audio src="bgm-40line.mp3" class="bgm-40line" loop></audio>
     <audio src="bgm-virtualbattle.mp3" class="bgm-virtualbattle" loop></audio>
   </div>
   <label id="attack_type"></label>
@@ -208,6 +208,10 @@
       <p class="slider-value">APM: <span id="virtualbattle-apm-label">75</span></p>
     </div>
 
+    <hr>
+
+    <div style="width: 100%; text-align: center;">BGM</div>
+    <button style="width: 100%; margin-bottom: 10px;" class="bgm-button" onclick="bgm_change()"></button>
     <hr>
     <div style="width: 100%; text-align: center;">アカウント設定</div>
     <button style="width: 100%; margin-bottom: 10px;"
