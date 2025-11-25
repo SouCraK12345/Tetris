@@ -158,7 +158,12 @@ function start_match_dialog(from, to) {
         RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) + 1));
         restart();
         draw();
+        document.querySelector("p.ready").style.display = "block";
+        document.querySelector("canvas.battle-start").style.display = "block";
         setTimeout(function () {
+            battle_start_update();
+            document.querySelector("canvas#tetris").classList.add("show");
+            document.querySelector(".launch").play();
             document.querySelector(".details").style.display = "block";
             start_time = new Date();
             mainloop();
