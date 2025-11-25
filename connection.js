@@ -210,8 +210,11 @@ function get_enemy_data() {
         window.update_frame = 0;
     }
     window.last_enemy_data = enemy_data;
-    damage += enemy_data.attack - last_attack;
     virtual_enemy_hp = enemy_data.hp;
+    if (enemy_data < 0){
+        return null;
+    }
+    damage += enemy_data.attack - last_attack;
     if (enemy_data.attack - last_attack > 0) {
         waiting_damage = 0;
     }

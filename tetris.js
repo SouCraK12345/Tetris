@@ -904,7 +904,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
         restart();
-        waiting_damage = 300;
+        waiting_damage = -300;
         draw();
         document.querySelector(".tile-card-container").style.display = "none";
         document.querySelector("#chart-container").style.display = "none";
@@ -984,9 +984,8 @@ function battle_start_update() {
     bctx.lineWidth = 10;
     document.querySelector("p.battle-start").style.webkitTextStrokeWidth = `${(bsf - 10) ** 1.5}px`;
     document.querySelector("p.battle-start").style.opacity = 1 - (bsf - 10) / 30;
-    if (bsf < 30) {
+    if (bsf < 10) {
         bctx.fillStyle = "#ffffff";
-        bctx.globalAlpha = (30 - bsf) / 30;
         bctx.beginPath();
         bctx.rect(0, 0, 1000, 1000);
         bctx.fill();
@@ -1003,7 +1002,6 @@ function battle_start_update() {
 
             // ▼ 白い三角形
             bctx.fillStyle = "#ffffff";
-            bctx.globalAlpha = 1;
             bctx.beginPath();
             bctx.moveTo(Math.sin(a1) * 10 + 500, Math.cos(a1) * 10 + 500);
             bctx.lineTo(Math.sin(a1) * 1500 + 500, Math.cos(a1) * 1500 + 500);
