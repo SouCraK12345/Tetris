@@ -3,12 +3,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_57psiQlniIFwp4BpALqoi483WFq75nA",
-  authDomain: "online-tetris-souki-server2.firebaseapp.com",
-  projectId: "online-tetris-souki-server2",
-  storageBucket: "online-tetris-souki-server2.firebasestorage.app",
-  messagingSenderId: "228868946372",
-  appId: "1:228868946372:web:0f45222c93467a021e8c91"
+    apiKey: "AIzaSyC_57psiQlniIFwp4BpALqoi483WFq75nA",
+    authDomain: "online-tetris-souki-server2.firebaseapp.com",
+    projectId: "online-tetris-souki-server2",
+    storageBucket: "online-tetris-souki-server2.firebasestorage.app",
+    messagingSenderId: "228868946372",
+    appId: "1:228868946372:web:0f45222c93467a021e8c91"
 };
 
 // Firebase初期化
@@ -152,7 +152,7 @@ function start_match_dialog(from, to) {
             fixed_dialog.classList.remove("hide");
             fixed_dialog.style.dispaly = "none";
         }, 1000);
-
+        waiting_damage = -300;
         solo = false;
         canvas.style.display = "block";
         RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) + 1));
@@ -211,13 +211,15 @@ function get_enemy_data() {
     }
     window.last_enemy_data = enemy_data;
     virtual_enemy_hp = enemy_data.hp;
-    if (enemy_data < 0){
+    if (enemy_data < 0) {
         return null;
     }
-    damage += enemy_data.attack - last_attack;
     if (enemy_data.attack - last_attack > 0) {
-        waiting_damage = 0;
+        if (window.damage == 0) {
+            waiting_damage = 0;
+        }
     }
+    damage += enemy_data.attack - last_attack;
     last_attack = enemy_data.attack;
     // } catch (e) {
     //     return null;
@@ -232,7 +234,7 @@ const RatingSystem = {
                 if (!image_url_dict) image_url_dict = {};
                 image_url_dict[key] = data[key]["image"];
             }
-            if (data[key]["Sranker"] == "1"){
+            if (data[key]["Sranker"] == "1") {
                 SrankerList.push(key)
             }
         }
@@ -377,7 +379,7 @@ function send_active() {
     });
 }
 
-if(localStorage["user_name"]){
+if (localStorage["user_name"]) {
     setInterval(send_active, 60000)
     send_active();
 }

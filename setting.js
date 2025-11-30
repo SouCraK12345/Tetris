@@ -70,9 +70,110 @@ updateBgmSources(folder);
 function bgm_change() {
   if (folder === "Splatoon") {
     folder = "Undertale";
-  }else if (folder === "Undertale") {
+  } else if (folder === "Undertale") {
     folder = "Splatoon";
   }
   localStorage["sound_folder"] = folder;
   updateBgmSources(folder);
+}
+
+const gearPowers = [
+  "BTB継続",
+  "REN回数アップ",
+  "おじゃまカット",
+  "おじゃま制限",
+  "おじゃま直列減少",
+  "おじゃま直列追加",
+  "おじゃま遅延",
+  "シンプルスタート(アタマ)",
+  "テトニンジャ(フク)",
+  "テトリス火力アップ",
+  "開幕TST"
+];
+
+const gearRestrictions = {
+  1: ["アタマ"], // ギア1: アタマ
+  2: ["フク"],   // ギア2: フク
+  3: ["クツ"]    // ギア3: クツ
+};
+
+
+document.querySelectorAll(".gear-row").forEach(row => {
+  const index = parseInt(row.querySelector(".gear").dataset.index);
+  const select = row.querySelector("select");
+
+  select.innerHTML = `<option value="">（未選択）</option>`;
+
+  gearPowers.forEach(name => {
+    // 制限対象のギアパワーは指定スロットのみ
+    const restricted = name.match(/\((アタマ|フク|クツ)\)/);
+    if (restricted) {
+      if (gearRestrictions[index].includes(restricted[1])) {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+      }
+    } else {
+      // それ以外はどのスロットでも追加
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      select.appendChild(opt);
+    }
+  });
+});
+
+document.querySelectorAll("select").forEach(select => {
+  select.addEventListener("change", e => {
+    const row = e.target.closest('.gear-row');
+    const gearBtn = row.querySelector('.gear');
+    const value = e.target.value;
+    const index = gearBtn.dataset.index;
+    if (value && value !== "") {
+      gearBtn.textContent = "";
+      gearBtn.style.backgroundImage = `url("gear-power/${value}.png")`;
+      gearBtn.style.backgroundSize = "110% 110%";
+      gearBtn.style.backgroundRepeat = "no-repeat";
+      gearBtn.style.backgroundPosition = "center";
+      gearPowers_set[index - 1] = value;
+      localStorage.setItem("gearPowers", JSON.stringify(gearPowers_set));
+    } else {
+      gearBtn.style.backgroundImage = "";
+      gearBtn.textContent = index;
+      gearPowers_set[index - 1] = "";
+      localStorage.setItem("gearPowers", JSON.stringify(gearPowers_set));
+    }
+  });
+});
+
+const gears = document.querySelectorAll(".gear");
+gears.forEach(gear => {
+  gear.addEventListener("click", () => {
+    gears.forEach(g => g.classList.remove("active"));
+    gear.classList.add("active");
+  });
+});
+
+
+// ギアパワーのリストをローカルストレージから取得(リスト配列)
+let gearPowers_set = ["", "", ""];
+try {
+  gearPowers_set = JSON.parse(localStorage.getItem("gearPowers")) || [];
+  // ギアパワーのリストを各セレクトボックスに追加
+  for (let i = 0; i < 3; i++) {
+    const gearPower = gearPowers_set[i];
+    if (gearPower) {
+      console.log(gearPower);
+      document.querySelector(`div:nth-child(${i + 1}) > select`).value = gearPower;
+      const gearBtn = document.querySelector(`.gear[data-index="${i + 1}"]`);
+      gearBtn.textContent = "";
+      gearBtn.style.backgroundImage = `url("gear-power/${gearPower}.png")`;
+      gearBtn.style.backgroundSize = "110% 110%";
+      gearBtn.style.backgroundRepeat = "no-repeat";
+      gearBtn.style.backgroundPosition = "center";
+    }
+  }
+} catch (e) {
+  console.error(e)
 }
