@@ -232,8 +232,8 @@ function game() {
             if (RatingSystem.getItem("total-point") > 5500 && !window.SrankerList.includes(window.enemy_name)) {
                 win_point = 30;
             }
-            RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
-            RatingSystem.setItem("win-count", String(Number(RatingSystem.getItem("win-count")) + 1));
+            localStorage.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
+            localStorage.setItem("win-count", String(Number(RatingSystem.getItem("win-count")) + 1));
             RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + win_point));
         }
         return false;
