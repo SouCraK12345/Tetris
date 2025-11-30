@@ -500,9 +500,10 @@ function line_delete() {
     } else {
         if (deleted_lines > 0) {
             rewrite_attackType(["", "Single", "Double", "Triple", "Tetris"][deleted_lines])
-            if (deleted_lines < 4) {
+            console.log(deleted_lines, gearPowers_set.filter(x => x === "BTB継続").length)
+            if (deleted_lines < 4 && deleted_lines > gearPowers_set.filter(x => x === "BTB継続").length) {
                 BTB = 0;
-            } else {
+            } else if (deleted_lines === 4) {
                 BTB++;
                 document.querySelector(".tetris").currentTime = 0;
                 document.querySelector(".tetris").play();
@@ -562,11 +563,16 @@ function _for_rising_(value) {
     map.splice(12, 0, value);
 }
 function rising() {
-    if (waiting_damage < 30) {
+    if (waiting_damage < [30, 60, 150, 300][gearPowers_set.filter(x => x === "おじゃま遅延").length]) {
         return;
     }
     let random_number = last_hole;
-    for (let i = 0; i < damage; i++) {
+    let delete_hole = [20, 15, 10, 5][gearPowers_set.filter(x => x === "おじゃまカット").length];
+    if (damage > delete_hole) {
+        damage = delete_hole;
+    }
+    let max_hole = [20, 7, 3, 1][gearPowers_set.filter(x => x === "おじゃま制限").length];
+    for (let i = 0; damage > 0 && i < max_hole; i++) {
         document.querySelector(".damage").currentTime = 0;
         document.querySelector(".damage").play();
         shaking_x += 10;
@@ -584,9 +590,10 @@ function rising() {
             }
         }
         _for_rising_(1);
+        damage--;
     }
     last_hole = random_number;
-    damage = 0;
+    waiting_damage = 0;
 }
 function rewrite_attackType(text) {
     let node = document.querySelector("label#attack_type");
@@ -839,8 +846,10 @@ let isGameover = false;
 
 function damage_interval() {
     return setInterval(function () {
+        if (damage == 0) {
+            waiting_damage = 0;
+        }
         damage += Math.floor(Math.random() * 5) + 1
-        waiting_damage = 0;
         virtual_enemy_hp -= attack_to_enemy;
         attack_to_enemy = 0;
         virtual_enemy_hp += 3;
@@ -904,13 +913,14 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
         restart();
+        serial_hole_max = 5 + gearPowers_set.filter(x => x === "おじゃま直列追加").length - gearPowers_set.filter(x => x === "おじゃま直列減少").length;
         waiting_damage = -300;
         draw();
         document.querySelector(".tile-card-container").style.display = "none";
         document.querySelector("#chart-container").style.display = "none";
         document.querySelector("#psb-body").style.display = "none";
         document.querySelector("p.ready").style.display = "block";
-        document.querySelector("canvas.battle-start").style.display = "block";
+        if (gearPowers_set[0] != "シンプルスタート(アタマ)") document.querySelector("canvas.battle-start").style.display = "block";
         setTimeout(function () {
             battle_start_update();
             document.querySelector("canvas#tetris").classList.add("show");
@@ -944,8 +954,9 @@ function back_to_menu() {
         document.querySelector(".tile-card-container").style.display = "block";
         document.querySelector("#chart-container").style.display = "block";
         document.querySelector("#psb-body").style.display = "flex";
-        try{
-        document.querySelector("#psb-matches").scrollTo(0, -1000)}catch{}
+        try {
+            document.querySelector("#psb-matches").scrollTo(0, -1000)
+        } catch { }
         document.querySelector(".wipe-in-box").classList.remove("boxWipein");
         if (user_name) RatingSystem.update();
     } else {

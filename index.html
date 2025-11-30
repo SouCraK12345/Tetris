@@ -180,6 +180,27 @@
   <button class="long-button request" onclick="beforeSendRequest()">対戦する!</button>
   <dialog class="setting-dialog">
     <h2 style="width: 100%; text-align: center;">設定</h2>
+    <div style="width: 100%; text-align: center;">ギアパワー</div>
+    <div class="gear-container">
+
+      <div class="gear-row">
+        <button class="gear" data-index="1">1</button>
+        <select></select>
+      </div>
+
+      <div class="gear-row">
+        <button class="gear" data-index="2">2</button>
+        <select></select>
+      </div>
+
+      <div class="gear-row">
+        <button class="gear" data-index="3">3</button>
+        <select></select>
+      </div>
+
+    </div>
+    <hr>
+    <div style="width: 100%; text-align: center;">ハンドリング</div>
     <div class="slider-container center">
       <input type="range" min="1" max="10" value="10" class="slider" id="arr" />
       <p class="slider-value">ARR: <span id="arr-label">0</span></p>
@@ -262,7 +283,6 @@
     <div class="rank-up-total-point"></div>
     <div class="rank-up-point"></div>
   </div>
-
 
   <div class="log" style="position:fixed; font-family: System;"></div>
 
