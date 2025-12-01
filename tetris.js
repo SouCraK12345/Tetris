@@ -513,6 +513,9 @@ function line_delete() {
                 }
             }
             attack += deleted_lines - 1 + (deleted_lines == 4) + (BTB > 1);
+            if (deleted_lines == 4) {
+                attack += gearPowers_set.filter(x => x === "テトリス火力アップ").length;
+            }
         }
     }
     // パーフェクトクリア
@@ -536,6 +539,9 @@ function line_delete() {
         document.querySelector(".line-delete").currentTime = 0;
         document.querySelector(".line-delete").play();
         REN += 1;
+        if (REN === 1) {
+            REN += gearPowers_set.filter(x => x === "REN回数アップ").length;
+        }
         if (REN > 4) {
             document.querySelector(".tetris").currentTime = 0;
             document.querySelector(".tetris").play();
@@ -567,7 +573,7 @@ function rising() {
         return;
     }
     let random_number = last_hole;
-    let delete_hole = [20, 15, 10, 5][gearPowers_set.filter(x => x === "おじゃまカット").length];
+    let delete_hole = [20, 10, 8, 5][gearPowers_set.filter(x => x === "おじゃまカット").length];
     if (damage > delete_hole) {
         damage = delete_hole;
     }
@@ -593,7 +599,11 @@ function rising() {
         damage--;
     }
     last_hole = random_number;
-    waiting_damage = 0;
+    if (gearPowers_set.filter(x => x === "おじゃま制限").length > 0) {
+        waiting_damage = 30;
+    } else {
+        waiting_damage = 0;
+    }
 }
 function rewrite_attackType(text) {
     let node = document.querySelector("label#attack_type");
@@ -632,6 +642,19 @@ function restart() {
     let isGameover = false;
     clearInterval(attack_interval);
     if (gamemode == "VirtualBattle") attack_interval = damage_interval();
+    if (gearPowers_set.filter(x => x === "開幕TST").length > 0) {
+        for (let i = 0; i < gearPowers_set.filter(x => x === "開幕TST").length * 3; i++) {
+            _for_rising_(1);
+            for (let j = 0; j < 10; j++) {
+                if (j == 7 || (j == 8 && i % 3 == 1)) {
+                    _for_rising_(0);
+                } else {
+                    _for_rising_(9);
+                }
+            }
+            _for_rising_(1);
+        }
+    }
 }
 function formatSecondsToMinutes(totalSeconds) {
 
