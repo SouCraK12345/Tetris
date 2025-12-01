@@ -513,6 +513,9 @@ function line_delete() {
                 }
             }
             attack += deleted_lines - 1 + (deleted_lines == 4) + (BTB > 1);
+            if (deleted_lines == 4) {
+                attack += gearPowers_set.filter(x => x === "テトリス火力アップ").length;
+            }
         }
     }
     // パーフェクトクリア
@@ -593,9 +596,9 @@ function rising() {
         damage--;
     }
     last_hole = random_number;
-    if (gearPowers_set.filter(x => x === "おじゃま制限").length > 0){
+    if (gearPowers_set.filter(x => x === "おじゃま制限").length > 0) {
         waiting_damage = 30;
-    }else{
+    } else {
         waiting_damage = 0;
     }
 }
