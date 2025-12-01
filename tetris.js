@@ -567,7 +567,7 @@ function rising() {
         return;
     }
     let random_number = last_hole;
-    let delete_hole = [20, 15, 10, 5][gearPowers_set.filter(x => x === "おじゃまカット").length];
+    let delete_hole = [20, 10, 8, 5][gearPowers_set.filter(x => x === "おじゃまカット").length];
     if (damage > delete_hole) {
         damage = delete_hole;
     }
@@ -593,7 +593,11 @@ function rising() {
         damage--;
     }
     last_hole = random_number;
-    waiting_damage = 0;
+    if (gearPowers_set.filter(x => x === "おじゃま制限").length > 0){
+        waiting_damage = 30;
+    }else{
+        waiting_damage = 0;
+    }
 }
 function rewrite_attackType(text) {
     let node = document.querySelector("label#attack_type");
