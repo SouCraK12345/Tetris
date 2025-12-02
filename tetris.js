@@ -1024,12 +1024,6 @@ function battle_start_update() {
     bctx.lineWidth = 10;
     document.querySelector("p.battle-start").style.webkitTextStrokeWidth = `${(bsf - 10) ** 1.5}px`;
     document.querySelector("p.battle-start").style.opacity = 1 - (bsf - 10) / 30;
-    if (bsf < 10) {
-        bctx.fillStyle = "#ffffff";
-        bctx.beginPath();
-        bctx.rect(0, 0, 1000, 1000);
-        bctx.fill();
-    }
     if (bsf > 0 && bsf < 40) {
         for (let i of line_angle) {
 
