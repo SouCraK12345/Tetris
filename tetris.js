@@ -110,6 +110,7 @@ function game() {
         if (v1 === 1) {
             tet_y -= 1;
             t_spin_type = 0;
+            is_t_spin = false;
         }
     }
 
@@ -178,6 +179,7 @@ function game() {
                 if (v1 === 1) {
                     tet_y -= 1;
                     G = 0;
+                    is_t_spin = false;
                 } else {
                     // rockdown_f += 3 / SDF;
                 }
@@ -188,6 +190,7 @@ function game() {
         if (key_list[4] === true) {
             if (key_down[4] === 0) {
                 rotate(-1);
+                is_t_spin = true;
                 document.querySelector(".move").currentTime = 0;
                 document.querySelector(".move").play();
             }
@@ -200,6 +203,7 @@ function game() {
         if (key_list[5] === true) {
             if (key_down[5] === 0) {
                 rotate(1);
+                is_t_spin = true;
                 document.querySelector(".move").currentTime = 0;
                 document.querySelector(".move").play();
             }
@@ -460,12 +464,12 @@ function line_delete() {
         if (row.every(cell => cell !== 0)) {
             deleted_lines += 1;
             // T-Spinの判定
-            if (tet_type === 8 && isFirst) { // Tミノの場合のみ
+            if (tet_type === 8 && isFirst && is_t_spin) { // Tミノの場合のみ
                 let corners = [
-                    (tet_y + 1) * 12 + (tet_x),     // 左上
-                    (tet_y + 1) * 12 + (tet_x + 2), // 右上
-                    (tet_y - 1) * 12 + (tet_x),     // 左下
-                    (tet_y - 1) * 12 + (tet_x + 2)  // 右下
+                    (tet_y + 1) * 12 + (tet_x - 1),     // 左上
+                    (tet_y + 1) * 12 + (tet_x + 1), // 右上
+                    (tet_y - 1) * 12 + (tet_x - 1),     // 左下
+                    (tet_y - 1) * 12 + (tet_x + 1)  // 右下
                 ];
                 let occupiedCorners = corners.filter(corner => map[corner] !== 0).length;
                 if (occupiedCorners >= 3) {
@@ -839,6 +843,7 @@ let tet_y = 0;
 let hold = "";
 let able_hold = 1;
 let t_spin_type = "";
+let is_t_spin = false;
 let touch = 0;
 let G = 0;
 let BTB = 0;
