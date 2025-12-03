@@ -511,7 +511,6 @@ function line_delete() {
     } else {
         if (deleted_lines > 0) {
             rewrite_attackType(["", "Single", "Double", "Triple", "Tetris"][deleted_lines])
-            console.log(deleted_lines, gearPowers_set.filter(x => x === "BTB継続").length)
             if (deleted_lines < 4 && deleted_lines > gearPowers_set.filter(x => x === "BTB継続").length) {
                 BTB = 0;
             } else if (deleted_lines === 4) {
@@ -572,8 +571,8 @@ function line_delete() {
     damage -= (attack - attack_before);
     if (damage < 0) {
         damage = 0;
-        attack_to_enemy += (attack - attack_before) - damage;
-        attack2 += (attack - attack_before) - damage;
+        attack_to_enemy += ((attack - attack_before) - damage) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
+        attack2 += ((attack - attack_before) - damage) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
     }
 }
 function _for_rising_(value) {
@@ -884,7 +883,7 @@ function damage_interval() {
         if (damage == 0) {
             waiting_damage = 0;
         }
-        damage += Math.floor(Math.random() * 5) + 1
+        damage += (Math.floor(Math.random() * 5) + 1) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
         virtual_enemy_hp -= attack_to_enemy;
         attack_to_enemy = 0;
         virtual_enemy_hp += 3;

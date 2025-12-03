@@ -107,7 +107,8 @@ const gearPowers = [
   "シンプルスタート(アタマ)",
   "テトニンジャ(フク)",
   "テトリス火力アップ",
-  "開幕TST"
+  "開幕TST",
+  "バトルが激化(クツ)"
 ];
 
 const gearRestrictions = {
@@ -183,7 +184,6 @@ try {
   for (let i = 0; i < 3; i++) {
     const gearPower = gearPowers_set[i];
     if (gearPower) {
-      console.log(gearPower);
       document.querySelector(`div:nth-child(${i + 1}) > select`).value = gearPower;
       const gearBtn = document.querySelector(`.gear[data-index="${i + 1}"]`);
       gearBtn.textContent = "";

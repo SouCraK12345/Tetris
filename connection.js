@@ -17,7 +17,11 @@ const db = getDatabase(app);
 
 // 書き込み（例: ボタン押したら送信）
 function sendData() {
-    const text = map;
+    let text = map;
+    if (gearPowers_set.filter(x => x === "おじゃま遅延").length > 0) {
+        // 配列内をすべて9に置換
+        text = map.map(row => row.map(() => 9));
+    }
     // try {
     if (user_name) {
         set(ref(db, "messages/" + user_name), {
@@ -221,7 +225,7 @@ function get_enemy_data() {
             waiting_damage = 0;
         }
     }
-    damage += enemy_data.attack - last_attack;
+    damage += (enemy_data.attack - last_attack) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
     last_attack = enemy_data.attack;
     // } catch (e) {
     //     return null;
@@ -240,8 +244,6 @@ const RatingSystem = {
                 SrankerList.push(key)
             }
         }
-        console.log("S-ranker")
-        console.log(SrankerList);
 
         const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
         const userData = data && data[user_name] ? data[user_name] : null;
