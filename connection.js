@@ -54,7 +54,7 @@ function sendRequest(address) {
 // 読み込み（リアルタイムで更新）
 const msgRef = ref(db, "messages/");
 onValue(msgRef, (snapshot) => {
-    document.querySelector(".Watch").disabled = false;
+    if (document.querySelector(".Watch")) document.querySelector(".Watch").disabled = false;
     window.cloudData = snapshot.val();
     // const data = snapshot.val();
     // document.getElementById("output").innerText =
@@ -158,6 +158,7 @@ function start_match_dialog(from, to) {
         RatingSystem.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) + 1));
         restart();
         draw();
+        show_iframe();
         document.querySelector("p.ready").style.display = "block";
         document.querySelector("canvas.battle-start").style.display = "block";
         setTimeout(function () {
@@ -191,7 +192,8 @@ function isAccepted(from) {
     // try {
     if (window.requests[from].accepted) {
         battle_started = true;
-
+        gamemode = "Battle";
+        back_to_menu();
         start_match_dialog(from, user_name);
         set(ref(db, "requests/" + window.sendTo), {});
         return true;

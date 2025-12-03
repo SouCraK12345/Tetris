@@ -1,5 +1,5 @@
 function log_to_html(...args){
-    if(localStorage["user_name"] == "-SouCraK12345-"){
+    if(localStorage["user_name"] == "-SouCraK12345-" || localStorage["user_name"] == "なんざん"){
         document.querySelector(".log").innerHTML += "<br>" + args;
         document.querySelector(".log").style.display = "block";
         setTimeout(function(){

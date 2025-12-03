@@ -1125,3 +1125,19 @@ select {
     color: #000000;
     font-size: 14px;
 }
+
+
+#floating-iframe {
+    position: fixed;
+    bottom: 20px;
+    /* 下から20px */
+    right: 20px;
+    /* 右から20px */
+    width: 300px;
+    height: 200px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    z-index: 9999;
+    /* 一番前に表示 */
+}

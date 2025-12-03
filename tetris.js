@@ -72,6 +72,9 @@ function game() {
         }
         mino_set();
         if (enable(0) === 0 || (gamemode == "Battle" && !window.navigator.onLine)) {
+            setTimeout(function () {
+                hide_iframe();
+            }, 2000);
             Finish(true, false);
             isGameover = true;
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
@@ -231,6 +234,9 @@ function game() {
         document.querySelector(".bgm-battle").pause();
         document.querySelector(".virtualbattle-clear").currentTime = 0;
         document.querySelector(".virtualbattle-clear").play();
+        setTimeout(function () {
+            hide_iframe();
+        }, 2000);
         if (gamemode == "Battle") {
             var win_point = 50;
             if (RatingSystem.getItem("total-point") > 5500 && !window.SrankerList.includes(window.enemy_name)) {
@@ -1062,3 +1068,12 @@ function battle_start_update() {
 }
 
 let user_name, sendData_interval;
+
+function show_iframe() {
+    document.querySelector("#floating-iframe").style.display = "block";
+    document.querySelector("#floating-iframe").src = `show_cloud.html?user=${window.enemy_name}`
+}
+function hide_iframe() {
+    document.querySelector("#floating-iframe").style.display = "none";
+    document.querySelector("#floating-iframe").src = `about:blank`
+}

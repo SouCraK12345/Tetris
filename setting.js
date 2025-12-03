@@ -34,6 +34,7 @@ slider3.oninput = function () {
 const slider4 = document.getElementById("virtualbattle-apm");
 const output4 = document.getElementById("virtualbattle-apm-label");
 slider4.value = localStorage.getItem("virtualbattle_apm") || slider4.value;
+virtualbattle_apm = slider4.value;
 output4.innerHTML = slider4.value;
 slider4.oninput = function () {
   output4.innerHTML = this.value;
