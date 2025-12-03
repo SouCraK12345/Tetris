@@ -18,9 +18,9 @@ const db = getDatabase(app);
 // 書き込み（例: ボタン押したら送信）
 function sendData() {
     let text = map;
-    if (gearPowers_set.filter(x => x === "おじゃま遅延").length > 0) {
+    if (gearPowers_set.filter(x => x === "テトニンジャ(フク)").length > 0) {
         // 配列内をすべて9に置換
-        text = map.map(row => row.map(() => 9));
+        text = map.map(row => 9);
     }
     // try {
     if (user_name) {
