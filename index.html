@@ -13,6 +13,24 @@
 
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="player-stats.css">
+  <style>
+    dialog.challange-result {
+      position: relative;
+      padding: 2.2rem 1.2rem;
+    }
+
+    dialog.challange-result .dialog-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 6px 8px;
+    }
+  </style>
 </head>
 
 <body>
@@ -179,8 +197,8 @@
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
   <button class="long-button request" onclick="beforeSendRequest()">対戦する!</button>
   <dialog class="setting-dialog">
-    <h2 style="width: 100%; text-align: center;">設定</h2>
-    <div style="width: 100%; text-align: center;">ギアパワー</div>
+    <h2 style="width: 100%; text-align: center; column-span: all;">設定</h2>
+    <div style="width: 100%; text-align: center; border-top: 1px solid;">ギアパワー</div>
     <div class="gear-container">
 
       <div class="gear-row">
@@ -199,47 +217,46 @@
       </div>
 
     </div>
-    <hr>
-    <div style="width: 100%; text-align: center;">ハンドリング</div>
-    <div class="slider-container center">
-      <input type="range" min="1" max="10" value="10" class="slider" id="arr" />
-      <p class="slider-value">ARR: <span id="arr-label">0</span></p>
-    </div>
+    <div style="break-inside: avoid;">
+      <div style="width: 100%; text-align: center; border-top: 1px solid;">ハンドリング</div>
+      <div class="slider-container center">
+        <input type="range" min="1" max="10" value="10" class="slider" id="arr" />
+        <p class="slider-value">ARR: <span id="arr-label">0</span></p>
+      </div>
 
-    <div class="slider-container center">
-      <input type="range" min="0" max="20" value="6" class="slider" id="das" />
-      <p class="slider-value">DAS: <span id="das-label">6</span></p>
-    </div>
+      <div class="slider-container center">
+        <input type="range" min="0" max="20" value="6" class="slider" id="das" />
+        <p class="slider-value">DAS: <span id="das-label">6</span></p>
+      </div>
 
-    <div class="slider-container center">
-      <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
-      <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
+      <div class="slider-container center">
+        <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
+        <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
+      </div>
+      <div class="toggle_button">
+        リトライ
+        <input id="toggle" class="toggle_input retry" type='checkbox' checked />
+        <label for="toggle" class="toggle_label"></label>
+      </div>
     </div>
-    <div class="toggle_button">
-      リトライ
-      <input id="toggle" class="toggle_input retry" type='checkbox' checked />
-      <label for="toggle" class="toggle_label"></label>
-    </div>
-
-    <hr>
-    <div style="width: 100%; text-align: center;">Virtual Battle</div>
+    <div style="width: 100%; text-align: center; border-top: 1px solid;">Virtual Battle</div>
 
     <div class="slider-container center">
       <input type="range" min="20" max="200" value="40" class="slider" id="virtualbattle-apm" />
       <p class="slider-value">APM: <span id="virtualbattle-apm-label">75</span></p>
     </div>
 
-    <hr>
 
-    <div style="width: 100%; text-align: center;">BGM</div>
+    <div style="width: 100%; text-align: center; border-top: 1px solid;">BGM</div>
     <button style="width: 100%; margin-bottom: 10px;" class="bgm-button" onclick="bgm_change()"></button>
     <hr>
-    <div style="width: 100%; text-align: center;">アカウント設定</div>
+    <div style="width: 100%; text-align: center; border-top: 1px solid;">アカウント設定</div>
     <button style="width: 100%; margin-bottom: 10px;"
       onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
     <button style="width: 100%; margin-bottom: 10px;" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
-    <hr>
-    <button style="width: 100%;" onclick="document.querySelector('.setting-dialog').close()">閉じる</button>
+    <button
+      style="position: absolute; top: 27px; right: 8px; width: auto; min-width: 60px; padding: 6px 12px; background: transparent; border: none; font-size: 1em; cursor: pointer;font-size: 40px;font-weight: bold;"
+      onclick="document.querySelector('.setting-dialog').close()">×</button>
   </dialog>
   <dialog class="login">
     <h1 class="title" style="color: white;">Login</h1>
@@ -258,7 +275,7 @@
       <td class="lose-count"></td>
     </table>
     TOTAL: <label style="font-size: 50px" class="point">342pt</label>
-    <button onclick="document.querySelector('.challange-result').close()">閉じる</button>
+    <button class="dialog-close" onclick="document.querySelector('.challange-result').close()">閉じる</button>
   </dialog>
 
 

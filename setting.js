@@ -1,37 +1,55 @@
-var slider1 = document.getElementById("arr")
-var output1 = document.getElementById("arr-label")
-output1.innerHTML = slider1.value // 初期値を表示
 
+// --- ハンドリング設定の自動保存・復元 ---
+const slider1 = document.getElementById("arr");
+const output1 = document.getElementById("arr-label");
+slider1.value = localStorage.getItem("arr") || slider1.value;
+output1.innerHTML = slider1.value;
 slider1.oninput = function () {
-  output1.innerHTML = this.value
+  output1.innerHTML = this.value;
   ARR = this.value;
-}
+  localStorage.setItem("arr", this.value);
+};
 
-var slider2 = document.getElementById("das")
-var output2 = document.getElementById("das-label")
-output2.innerHTML = slider2.value
-
+const slider2 = document.getElementById("das");
+const output2 = document.getElementById("das-label");
+slider2.value = localStorage.getItem("das") || slider2.value;
+output2.innerHTML = slider2.value;
 slider2.oninput = function () {
-  output2.innerHTML = this.value
+  output2.innerHTML = this.value;
   DAS = this.value;
-}
+  localStorage.setItem("das", this.value);
+};
 
-var slider3 = document.getElementById("sdf")
-var output3 = document.getElementById("sdf-label")
-output3.innerHTML = slider3.value
-
+const slider3 = document.getElementById("sdf");
+const output3 = document.getElementById("sdf-label");
+slider3.value = localStorage.getItem("sdf") || slider3.value;
+output3.innerHTML = slider3.value;
 slider3.oninput = function () {
-  output3.innerHTML = this.value
+  output3.innerHTML = this.value;
   SDF = this.value;
-}
-var slider4 = document.getElementById("virtualbattle-apm")
-var output4 = document.getElementById("virtualbattle-apm-label")
-output4.innerHTML = slider4.value
+  localStorage.setItem("sdf", this.value);
+};
 
+// --- VirtualBattle APMの自動保存・復元 ---
+const slider4 = document.getElementById("virtualbattle-apm");
+const output4 = document.getElementById("virtualbattle-apm-label");
+slider4.value = localStorage.getItem("virtualbattle_apm") || slider4.value;
+output4.innerHTML = slider4.value;
 slider4.oninput = function () {
-  output4.innerHTML = this.value
+  output4.innerHTML = this.value;
   virtualbattle_apm = this.value;
+  localStorage.setItem("virtualbattle_apm", this.value);
+};
+
+// --- リトライトグルの自動保存・復元 ---
+const retryToggle = document.getElementById("toggle");
+const retrySaved = localStorage.getItem("retry_toggle");
+if (retrySaved !== null) {
+  retryToggle.checked = retrySaved === "true";
 }
+retryToggle.addEventListener("change", function () {
+  localStorage.setItem("retry_toggle", this.checked);
+});
 
 function regist_mail() {
   let address = prompt("メールアドレスを入力してください");
