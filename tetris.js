@@ -502,8 +502,10 @@ function line_delete() {
         rewrite_attackType("T-Spin<br>" + ["", "Single", "Double", "Triple"][deleted_lines])
         BTB++;
         if (BTB > 1) {
-            document.querySelector(".btb").currentTime = 0;
-            document.querySelector(".btb").play();
+            setTimeout(() => {
+                document.querySelector(".btb").currentTime = 0;
+                document.querySelector(".btb").play();
+            }, 500);
         }
         attack += deleted_lines * 2 + (BTB > 1);
         document.querySelector(".t-spin").currentTime = 0;
@@ -518,8 +520,10 @@ function line_delete() {
                 document.querySelector(".tetris").currentTime = 0;
                 document.querySelector(".tetris").play();
                 if (BTB > 1) {
-                    document.querySelector(".btb").currentTime = 0;
-                    document.querySelector(".btb").play();
+                    setTimeout(() => {
+                        document.querySelector(".btb").currentTime = 0;
+                        document.querySelector(".btb").play();
+                    }, 500);
                 }
             }
             attack += deleted_lines - 1 + (deleted_lines == 4) + (BTB > 1);
