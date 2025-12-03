@@ -582,7 +582,7 @@ function rising() {
     if (damage > delete_hole) {
         damage = delete_hole;
     }
-    let max_hole = [20, 7, 3, 2][gearPowers_set.filter(x => x === "おじゃま制限").length];
+    let max_hole = [20, 4, 3, 2][gearPowers_set.filter(x => x === "おじゃま制限").length];
     for (let i = 0; damage > 0 && i < max_hole; i++) {
         document.querySelector(".damage").currentTime = 0;
         document.querySelector(".damage").play();
