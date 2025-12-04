@@ -706,6 +706,7 @@ function Finish(bool = true, clear = true) {
     clearInterval(attack_interval);
     setTimeout(function () { clearInterval(sendData_interval) }, 1500)
     if (bool) {
+        document.querySelector(".header").style.animation = "slideOutToTop 0.3s forwards";
         setTimeout(function () {
             battle_started = false;
         }, 5000)
@@ -719,6 +720,7 @@ function Finish(bool = true, clear = true) {
         document.querySelector(".wipe-in-box").classList.add("boxWipein");
         setTimeout(function () {
             canvas.style.display = "none";
+            document.querySelector(".header").style.animation = "none";
         }, 4000);
         setTimeout(function () {
             document.querySelector(".result").style.display = "block";

@@ -1126,7 +1126,6 @@ select {
     font-size: 14px;
 }
 
-
 #floating-iframe {
     position: fixed;
     bottom: 20px;
@@ -1140,4 +1139,14 @@ select {
     background: white;
     z-index: 9999;
     /* 一番前に表示 */
+}
+@keyframes slideOutToTop{
+    0%{
+        transform: none;
+        opacity: 1;
+    }
+    100%{
+        transform: translateY(-100%);
+        opacity: 0;
+    }
 }
