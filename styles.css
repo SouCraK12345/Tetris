@@ -389,7 +389,7 @@ p.message-text {
     transition: width 1s linear;
 }
 
-.notification-banner::after {
+#myNotificationBanner::after {
     font-family: 'Russo One', sans-serif;
     content: "R";
     position: absolute;
