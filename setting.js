@@ -59,7 +59,8 @@ function regist_mail() {
     xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     const body = JSON.stringify({
-      username: localStorage["username"],
+      username: localStorage["user_name"],
+      address: address,
       type: "mail_address",
     });
     xhr.onload = () => {
