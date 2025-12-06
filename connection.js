@@ -1,3 +1,17 @@
+const owner = "SouCraK12345";    // ←リポジトリのオーナー名
+const repo = "Tetris"; // ←リポジトリ名
+
+fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=closed`)
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(issue => {
+      console.log(`#${issue.number}: ${issue.title}`);
+    });
+  })
+  .catch(err => console.error(err));
+
+
+
 // Firebase SDK 読み込み (サーバー2)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
@@ -124,8 +138,8 @@ function start_match_dialog(from, to) {
     }
     document.querySelector("#MatchUserCardRight").style.backgroundImage = `url(${image_url_dict && image_url_dict[window.enemy_name] ? image_url_dict[window.enemy_name] : ""})`;
     document.querySelector("#MatchUserCardRight").style.backgroundSize = "cover";
-    document.querySelector("#MatchUserCardLeft").innerText = user_name;
-    document.querySelector("#MatchUserCardRight").innerText = window.enemy_name;
+    document.querySelector("#MatchUserCardLeft").innerHTML = user_name + "<br>" + Math.round(RatingSystem.getItem("total-point")) + "pt";
+    document.querySelector("#MatchUserCardRight").innerHTML = window.enemy_name + "<br>" + (RateDict && RateDict[window.enemy_name] ? RateDict[window.enemy_name] : "0") + "pt";
     document.querySelector(".accept_dialog").close();
     setTimeout(function () {
         let dialog = document.querySelector(".match-start-dialog");
@@ -235,6 +249,7 @@ function get_enemy_data() {
 const RatingSystem = {
     receive: function (e = null, data = null) {
         SrankerList = [];
+        RateDict = {};
         for (var key in data) {
             if (data[key]["image"] && (!image_url_dict || !image_url_dict[key])) {
                 if (!image_url_dict) image_url_dict = {};
@@ -243,8 +258,8 @@ const RatingSystem = {
             if (data[key]["Sranker"] == "1") {
                 SrankerList.push(key)
             }
+            RateDict[key] = data[key]["total-point"];
         }
-
         const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
         const userData = data && data[user_name] ? data[user_name] : null;
 
@@ -401,4 +416,6 @@ window.RatingSystem = RatingSystem;
 window.draw_challange = draw_challange;
 window.getRank = getRank;
 window.update_frame = update_frame;
-window.SrankerList = []
+window.SrankerList = [];
+window.RateDict = [];
+window.start_match_dialog = start_match_dialog;
