@@ -1,14 +1,88 @@
 const owner = "SouCraK12345";    // ←リポジトリのオーナー名
 const repo = "Tetris"; // ←リポジトリ名
 
-fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=closed`)
-  .then(res => res.json())
-  .then(data => {
-    data.forEach(issue => {
-      console.log(`#${issue.number}: ${issue.title}`);
+// GitHub issues の新着チェック（ページを開くごとに実行）
+async function checkNewIssues() {
+    try {
+        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=closed`);
+        if (!res.ok) {
+            console.error(`GitHub API error: ${res.status}`);
+            return;
+        }
+        const data = await res.json();
+        // issue 番号の配列
+        const fetchedNumbers = data.map(i => i.number);
+
+        // 既知の issue を localStorage から取得
+        const knownJson = localStorage.getItem('known_issues');
+        if (!knownJson) {
+            // 初回は基準として保存して通知は出さない
+            localStorage.setItem('known_issues', JSON.stringify(fetchedNumbers));
+            return;
+        }
+        let known = [];
+        try {
+            known = JSON.parse(knownJson) || [];
+        } catch (e) {
+            known = [];
+        }
+
+        // 新しい issue を検出
+        const newNums = fetchedNumbers.filter(n => !known.includes(n));
+        if (newNums.length > 0) {
+            const newIssues = data.filter(i => newNums.includes(i.number));
+            showIssueDialog(newIssues);
+            // 既知リストを更新して保存
+            const merged = Array.from(new Set([...known, ...fetchedNumbers]));
+            localStorage.setItem('known_issues', JSON.stringify(merged));
+        }
+        // デバッグログ
+        data.forEach(issue => console.log(`#${issue.number}: ${issue.title}`));
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+function showIssueDialog(issues) {
+    // シンプルなダイアログを動的に生成して表示
+    const dialog = document.createElement('dialog');
+    dialog.className = 'issue-notice-dialog';
+    const title = document.createElement('h3');
+    title.innerText = `${issues.length}件のプログラムが更新されました。`;
+    dialog.appendChild(title);
+
+    const list = document.createElement('ul');
+    issues.forEach(issue => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = issue.html_url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.innerText = `#${issue.number}: ${issue.title}`;
+        li.appendChild(a);
+        list.appendChild(li);
     });
-  })
-  .catch(err => console.error(err));
+    dialog.appendChild(list);
+
+    const btn = document.createElement('button');
+    btn.innerText = '閉じる';
+    btn.addEventListener('click', () => {
+        try { dialog.close(); } catch (e) {}
+        dialog.remove();
+    });
+    dialog.appendChild(btn);
+
+    document.body.appendChild(dialog);
+    // showModal が使える場合はモーダル表示
+    try {
+        dialog.showModal();
+    } catch (e) {
+        alert(`新しいIssueが ${issues.length} 件あります`);
+    }
+}
+
+// ページ読み込み時にチェック
+checkNewIssues();
 
 
 
