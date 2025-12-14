@@ -41,7 +41,7 @@ function notification(user_name){
             </div>
         </div>`
     document.querySelector("body").appendChild(el);
-    el.childNodes[1].classList.add("show"); // hiddenクラスを追加
+    el.childNodes[1].classList.add("show");
     setTimeout(()=>{
         document.querySelectorAll(".dm-notification").forEach((e)=>{e.remove()})
     }, 10000)

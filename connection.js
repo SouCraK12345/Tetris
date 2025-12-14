@@ -334,7 +334,7 @@ function get_rate_data(first = false) {
             const key_name = [0, 1, 2, "win-count", "lose-count", "point", "total-point", "Sranker"];
             // それぞれのユーザーデータを確認して、Srankerを抽出(リストの7番目が"1"のもの)
             data.forEach(item => {
-                console.log(item);
+                // console.log(item);
                 if (item[7] == "1" && !window.SrankerList.includes(item[0])) {
                     window.SrankerList.push(item[0]);
                 }
