@@ -245,7 +245,7 @@ function game() {
             localStorage.setItem("lose-count", String(Number(RatingSystem.getItem("lose-count")) - 1));
             localStorage.setItem("win-count", String(Number(RatingSystem.getItem("win-count")) + 1));
             RatingSystem.setItem("point", String(Number(RatingSystem.getItem("point")) + win_point));
-            console.log("RatingSystem Updated");
+            // console.log("RatingSystem Updated");
         }
         return false;
     }
@@ -761,7 +761,7 @@ function Finish(bool = true, clear = true) {
                         document.querySelector(".LINES").innerHTML.replace("Lines: ", ""),
                         document.querySelector(".TIME").innerHTML.replace("Time: ", ""),
                         clear,
-                        virtualbattle_apm,
+                        gamemode=="VirtualBattle" ? virtualbattle_apm : window.enemy_name,
                     ],
                 });
                 xhr.onload = () => {
