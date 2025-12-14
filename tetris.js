@@ -640,7 +640,11 @@ function restart() {
     tet_type = "";
     hold = "";
     able_hold = 1;
-    start_time = new Date();
+    if (((new Date() - start_time) / 1000) < 10 && gearPowers_set[0] == "スタートダッシュ(アタマ)") {
+        console.log("シンプルスタートでのやり直し")
+    } else {
+        start_time = new Date();
+    }
     attack = 0;
     attack2 = 0;
     blocks = 0;
@@ -761,7 +765,7 @@ function Finish(bool = true, clear = true) {
                         document.querySelector(".LINES").innerHTML.replace("Lines: ", ""),
                         document.querySelector(".TIME").innerHTML.replace("Time: ", ""),
                         clear,
-                        gamemode=="VirtualBattle" ? virtualbattle_apm : window.enemy_name,
+                        gamemode == "VirtualBattle" ? virtualbattle_apm : window.enemy_name,
                     ],
                 });
                 xhr.onload = () => {
@@ -825,7 +829,7 @@ document.addEventListener("keydown", (event) => {
         const banner = document.getElementById("myNotificationBanner");
         banner.click();
     }
-    if (event.key == "f" && document.querySelector("input.retry").checked && gamemode != "Battle") {
+    if (event.key == "f" && document.querySelector("input.retry").checked && gamemode != "Battle" || event.key == "f" && ((new Date() - start_time) / 1000) < 10 && gearPowers_set[0] == "スタートダッシュ(アタマ)") {
         restart();
     }
 });
@@ -960,7 +964,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector("#chart-container").style.display = "none";
         document.querySelector("#psb-body").style.display = "none";
         document.querySelector("p.ready").style.display = "block";
-        if (gearPowers_set[0] != "シンプルスタート(アタマ)") document.querySelector("canvas.battle-start").style.display = "block";
+        if (gearPowers_set[0] != "スタートダッシュ(アタマ)") document.querySelector("canvas.battle-start").style.display = "block";
         setTimeout(function () {
             battle_start_update();
             document.querySelector("canvas#tetris").classList.add("show");
@@ -968,7 +972,6 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         setTimeout(function () {
             document.querySelector(".launch").play();
             document.querySelector(".details").style.display = "block";
-            start_time = new Date();
             mainloop();
             if (gamemode != "Watch") {
                 sendData_interval = setInterval(sendData, 750);
