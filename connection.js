@@ -342,6 +342,7 @@ function get_rate_data(first = false) {
 
             const userData = data.filter(item => item[0] === localStorage.getItem("user_name"))[0];
             if (userData) {
+                console.log(userData);
                 keys.forEach((k) => {
                     try {
                         const v = userData[k];
@@ -357,9 +358,9 @@ function get_rate_data(first = false) {
             } else {
                 keys.forEach((k) => localStorage.setItem(k, "0"));
             }
-            if (first) {
+    //        if (first) {
                 RatingSystem.update();
-            }
+    //    }
             if (localStorage.getItem("Sranker") == "1") {
                 document.querySelector("body").style.background = "lightblue";
             }
