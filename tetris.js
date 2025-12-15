@@ -1001,7 +1001,7 @@ function back_to_menu() {
             document.querySelector("#psb-matches").scrollTo(0, -1000)
         } catch { }
         document.querySelector(".wipe-in-box").classList.remove("boxWipein");
-        if (user_name) RatingSystem.update();
+        // if (user_name) RatingSystem.update();
     } else {
         document.querySelector(".tile-card-container").style.display = "none";
         document.querySelector("#chart-container").style.display = "none";
