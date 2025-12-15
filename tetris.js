@@ -770,7 +770,9 @@ function Finish(bool = true, clear = true) {
                 });
                 xhr.onload = () => {
                     if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log(xhr);
                         fetch_player_stats();
+                        RatingSystem.update();
                     } else {
                         alert(`Error: ${xhr.status}`);
                     }
