@@ -385,7 +385,7 @@ const RatingSystem = {
             RateDict[key] = data[key]["total-point"];
         }
         // const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
-        // const userData = data && data[user_name] ? data[user_name] : null;
+        const userData = data && data[user_name] ? data[user_name] : null;
 
         // if (userData) {
         //     keys.forEach((k) => {
@@ -406,10 +406,10 @@ const RatingSystem = {
         // if (e == "first") {
         //     this.update();
         // }
-        // if (localStorage["image"] != "0") {
-        //     document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${localStorage["image"]})`;
-        //     document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
-        // }
+        if (localStorage["image"] != "0") {
+            document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${userData["image"]})`;
+            document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
+        }
         // this.setItem();
     },
     getItem: function (key) {
