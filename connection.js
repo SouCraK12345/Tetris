@@ -360,7 +360,6 @@ const RatingSystem = {
             document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${localStorage["image"]})`;
             document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
         }
-        this.setItem();
     },
     getItem: function (key) {
         return localStorage.getItem(key);
