@@ -35,89 +35,55 @@ set(ref(db, "load/"), {
     time: new Date(getServerTime()).getTime()
 });
 
-function get_user_rate_data(bool = false){
-    const url = "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec";
-    const payload = {
-      type: "get_rate",
-    };
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded" // GASはJSON型で送るとCORSエラーが出やすい場合があります。この形式推奨です。
-        // または "Content-Type": "application/json" で送り、GAS側で JSON.parse(e.postData.contents) する方法もあります。
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(response => response.json())
-      .then(res_data => {
-        if(bool){
-            document.querySelector(".init").classList.add("fadeout");
-            document.querySelector(".init").addEventListener("animationend", function () {
-                document.querySelector(".init").style.display = "none";
-            }, { once: true });
-            let data = {};
-            for(let i of res_data){
-                data[i[0]] = {
-                    Sranker: i[7],
-                    "total-point": i[6],
-                    point: i[5],
-                    image: window.player_data[i[0]] ? window.player_data[i[0]].image : "",
-                };
-            }
-            // "total-point"でソート
-            const sortedKeys = Object.keys(data).sort((a, b) => data[b]["total-point"] - data[a]["total-point"]);
-            let interval = 0;
-            for (var i of sortedKeys) {
-                interval += 25;
-                if (i == "undefined" || i == "null") {
-                    continue;
-                }
-                let i_copy = i;
-                setTimeout(function () {
-                    let child = document.createElement("div");
-                    // wrapper div — inner .user-block is used for layout
-                    child.innerHTML = `
-                        <div class="user-block">
-                            <div class="user-name">${i_copy}</div>
-                            <div class="user-point">${Math.round(data[i_copy]["total-point"])}pt</div>
-                            <div class="user-rank">${getRank(data[i_copy]["total-point"])}</div>
-                        </div>
-                    `
-                    child.querySelector(".user-block").style.backgroundColor = window.active_list.includes(i_copy) ? "#55925aff" : "#424452"
-                    child.addEventListener("click", function () {
-                        document.querySelector(".show-chat").style.display = "block";
-                        document.querySelector("iframe").style.display = "none";
-                        document.querySelector(".show-chat").style.display = localStorage["user_name"] == undefined ? "none" : "block";
-                        document.querySelector(".user-data-container").classList.add("show");
-                        let name = this.querySelector("div.user-name").innerHTML;
-                        document.querySelector(".image-tile").style.backgroundImage = `url(${data[name]["image"]})`;
-                        document.querySelector(".user-name-label").innerHTML = name;
-                        document.querySelector(".rank").innerHTML = getRank(data[name]["total-point"]);
-                        document.querySelector(".point").innerHTML = `${Math.round(data[name]["total-point"])}pt (${data[name]["point"] >= 0 ? "+" : ""}${Math.round(data[name]["point"])}pt)`;
-                        document.querySelector(".online").style.display = window.active_list.includes(name) ? "inline-block" : "none";
-                    })
-                    document.querySelector(".user-container").appendChild(child);
-                    // If there's an active search query, re-apply filtering so newly added items respect it
-                    if (typeof filterUsers === "function") {
-                        const input = document.getElementById('user-search');
-                        filterUsers(input ? input.value : "");
-                    }
-                }, interval)
-            }
-        }
-    })
-    .catch(error => console.error("Error:", error));
-    setTimeout(get_user_rate_data, 10000);
-}
-
-get_user_rate_data(true);
-
 const msgRef = ref(db, "rate/");
 onValue(msgRef, (snapshot) => {
     if (first) {
+        document.querySelector(".init").classList.add("fadeout");
+        document.querySelector(".init").addEventListener("animationend", function () {
+            document.querySelector(".init").style.display = "none";
+        }, { once: true });
         window.player_data = snapshot.val();
         let data = window.player_data;
-        console.log(data);
+        // "total-point"でソート
+        const sortedKeys = Object.keys(data).sort((a, b) => data[b]["total-point"] - data[a]["total-point"]);
+        let interval = 0;
+        for (var i of sortedKeys) {
+            interval += 25;
+            if (i == "undefined" || i == "null") {
+                continue;
+            }
+            let i_copy = i;
+            setTimeout(function () {
+                let child = document.createElement("div");
+                // wrapper div — inner .user-block is used for layout
+                child.innerHTML = `
+                    <div class="user-block">
+                        <div class="user-name">${i_copy}</div>
+                        <div class="user-point">${Math.round(data[i_copy]["total-point"])}pt</div>
+                        <div class="user-rank">${getRank(data[i_copy]["total-point"])}</div>
+                    </div>
+                `
+                child.querySelector(".user-block").style.backgroundColor = window.active_list.includes(i_copy) ? "#55925aff" : "#424452"
+                child.addEventListener("click", function () {
+                    document.querySelector(".show-chat").style.display = "block";
+                    document.querySelector("iframe").style.display = "none";
+                    document.querySelector(".show-chat").style.display = localStorage["user_name"] == undefined ? "none" : "block";
+                    document.querySelector(".user-data-container").classList.add("show");
+                    let name = this.querySelector("div.user-name").innerHTML;
+                    document.querySelector(".image-tile").style.backgroundImage = `url(${data[name]["image"]})`;
+                    document.querySelector(".user-name-label").innerHTML = name;
+                    document.querySelector(".rank").innerHTML = getRank(data[name]["total-point"]);
+                    document.querySelector(".point").innerHTML = `${Math.round(data[name]["total-point"])}pt (${data[name]["point"] >= 0 ? "+" : ""}${Math.round(data[name]["point"])}pt)`;
+                    document.querySelector(".online").style.display = window.active_list.includes(name) ? "inline-block" : "none";
+                })
+                document.querySelector(".user-container").appendChild(child);
+                // If there's an active search query, re-apply filtering so newly added items respect it
+                if (typeof filterUsers === "function") {
+                    const input = document.getElementById('user-search');
+                    filterUsers(input ? input.value : "");
+                }
+            }, interval)
+        }
     }
     first = false;
 });

@@ -37,7 +37,7 @@ async function checkNewIssues() {
             localStorage.setItem('known_issues', JSON.stringify(merged));
         }
         // デバッグログ
-        // data.forEach(issue => console.log(`#${issue.number}: ${issue.title}`));
+        data.forEach(issue => console.log(`#${issue.number}: ${issue.title}`));
     } catch (err) {
         console.error(err);
     }
@@ -67,7 +67,7 @@ function showIssueDialog(issues) {
     const btn = document.createElement('button');
     btn.innerText = '閉じる';
     btn.addEventListener('click', () => {
-        try { dialog.close(); } catch (e) { }
+        try { dialog.close(); } catch (e) {}
         dialog.remove();
     });
     dialog.appendChild(btn);
@@ -170,6 +170,10 @@ onValue(msgRef3, (snapshot) => {
     window.rating_data = data;
     if (user_name) {
         RatingSystem.receive(rating_first ? "first" : null, data);
+
+        if (localStorage.getItem("Sranker") == "1") {
+            document.querySelector("body").style.background = "lightblue";
+        }
     }
     rating_first = false;
 });
@@ -315,102 +319,48 @@ function get_enemy_data() {
     //     return null;
     // }
 }
-function get_rate_data(first = false) {
-    if (localStorage.getItem("user_name")) {
-        // Fetchでhttps://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/execにPOST(パラメータ{type: "get_rate"})
-        fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: JSON.stringify({
-                type: "get_rate"
-            })
-        }).then(response => {
-            return response.json(); // 読み込むデータをJSONに設定
-        }).then(data => {
-            // console.log("Rating data fetched:", data);
-            const keys = [3, 4, 5, 6, 7];
-            const key_name = [0, 1, 2, "win-count", "lose-count", "point", "total-point", "Sranker"];
-            // それぞれのユーザーデータを確認して、Srankerを抽出(リストの7番目が"1"のもの)
-            data.forEach(item => {
-                // console.log(item);
-                if (item[7] == "1" && !window.SrankerList.includes(item[0])) {
-                    window.SrankerList.push(item[0]);
-                }
-            });
 
-            const userData = data.filter(item => item[0] === localStorage.getItem("user_name"))[0];
-            if (userData) {
-                console.log(userData);
-                keys.forEach((k) => {
-                    try {
-                        const v = userData[k];
-                        if (v === undefined || v === null) {
-                            localStorage.setItem(key_name[k], "0");
-                        } else {
-                            localStorage.setItem(key_name[k], String(v));
-                        }
-                    } catch (err) {
-                        localStorage.setItem(key_name[k], "0");
-                    }
-                });
-            } else {
-                keys.forEach((k) => localStorage.setItem(k, "0"));
-            }
-    //        if (first) {
-                RatingSystem.update();
-    //    }
-            if (localStorage.getItem("Sranker") == "1") {
-                document.querySelector("body").style.background = "lightblue";
-            }
-        }).catch(error => {
-            console.error("Error:", error);
-        });
-    }
-}
-get_rate_data(true);
-
-if (localStorage.getItem("Sranker") == "1") {
-    document.querySelector("body").style.background = "lightblue";
-}
 const RatingSystem = {
     receive: function (e = null, data = null) {
+        SrankerList = [];
         RateDict = {};
         for (var key in data) {
             if (data[key]["image"] && (!image_url_dict || !image_url_dict[key])) {
                 if (!image_url_dict) image_url_dict = {};
                 image_url_dict[key] = data[key]["image"];
             }
+            if (data[key]["Sranker"] == "1") {
+                SrankerList.push(key)
+            }
             RateDict[key] = data[key]["total-point"];
         }
-        // const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
+        const keys = ["win-count", "lose-count", "point", "total-point", "Sranker", "image"];
         const userData = data && data[user_name] ? data[user_name] : null;
 
-        // if (userData) {
-        //     keys.forEach((k) => {
-        //         try {
-        //             const v = userData[k];
-        //             if (v === undefined || v === null) {
-        //                 localStorage.setItem(k, "0");
-        //             } else {
-        //                 localStorage.setItem(k, String(v));
-        //             }
-        //         } catch (err) {
-        //             localStorage.setItem(k, "0");
-        //         }
-        //     });
-        // } else {
-        //     keys.forEach((k) => localStorage.setItem(k, "0"));
-        // }
-        // if (e == "first") {
-        //     this.update();
-        // }
+        if (userData) {
+            keys.forEach((k) => {
+                try {
+                    const v = userData[k];
+                    if (v === undefined || v === null) {
+                        localStorage.setItem(k, "0");
+                    } else {
+                        localStorage.setItem(k, String(v));
+                    }
+                } catch (err) {
+                    localStorage.setItem(k, "0");
+                }
+            });
+        } else {
+            keys.forEach((k) => localStorage.setItem(k, "0"));
+        }
+        if (e == "first") {
+            this.update();
+        }
         if (localStorage["image"] != "0") {
-            document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${userData["image"]})`;
+            document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${localStorage["image"]})`;
             document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
         }
-        // this.setItem();
+        this.setItem();
     },
     getItem: function (key) {
         return localStorage.getItem(key);
@@ -433,14 +383,14 @@ const RatingSystem = {
         //     value: value
         // });
         // xhr.send(body);
-        // set(ref(db, "rate/" + user_name), {
-        //     "win-count": localStorage.getItem("win-count"),
-        //     "lose-count": localStorage.getItem("lose-count"),
-        //     "point": localStorage.getItem("point"),
-        //     "total-point": localStorage.getItem("total-point"),
-        //     "Sranker": localStorage.getItem("Sranker"),
-        //     "image": localStorage.getItem("image")
-        // });
+        set(ref(db, "rate/" + user_name), {
+            "win-count": localStorage.getItem("win-count"),
+            "lose-count": localStorage.getItem("lose-count"),
+            "point": localStorage.getItem("point"),
+            "total-point": localStorage.getItem("total-point"),
+            "Sranker": localStorage.getItem("Sranker"),
+            "image": localStorage.getItem("image")
+        });
     },
     update: function () {
         if (localStorage["win-count"] >= 5 || localStorage["lose-count"] >= 3) {
@@ -452,7 +402,6 @@ const RatingSystem = {
             localStorage.setItem("lose-count", "0");
             localStorage.setItem("total-point", Number(this.getItem("total-point")) + Number(this.getItem("point")));
             this.setItem("point", (-convertGradeToPoints(getRank(localStorage["total-point"]))).toString());
-            get_rate_data();
         }
         document.querySelector("label.rank").innerHTML = getRank(localStorage.getItem("total-point"));
         document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(${Math.round(localStorage.getItem("point")) >= 0 ? "+" : ""}${Math.round(localStorage.getItem("point"))}pt)`;

@@ -1,11 +1,12 @@
+const url = "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec";
+const payload = {
+  type: "get_chat",
+  username: "-SouCraK12345-" // ここに実際のユーザー名が入ります
+};
+
 let last_chat_data_length;
 
 function get_chat_data(bool = true){
-    const url = "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec";
-    const payload = {
-      type: "get_chat",
-      username: localStorage["user_name"] // ここに実際のユーザー名が入ります
-    };
     fetch(url, {
       method: "POST",
       headers: {
@@ -40,7 +41,7 @@ function notification(user_name){
             </div>
         </div>`
     document.querySelector("body").appendChild(el);
-    el.childNodes[1].classList.add("show");
+    el.childNodes[1].classList.add("show"); // hiddenクラスを追加
     setTimeout(()=>{
         document.querySelectorAll(".dm-notification").forEach((e)=>{e.remove()})
     }, 10000)
