@@ -73,7 +73,7 @@ function regist_mail() {
   }
 }
 
-let folder = localStorage["sound_folder"] || "Splatoon";
+let folder = localStorage["sound_folder"] || "Original";
 function updateBgmSources(folderName) {
   const ultra = document.querySelector(".bgm-ultra");
   const battle = document.querySelector(".bgm-battle");
@@ -91,6 +91,8 @@ function bgm_change() {
   if (folder === "Splatoon") {
     folder = "Undertale";
   } else if (folder === "Undertale") {
+    folder = "Original";
+  } else if (folder === "Original") {
     folder = "Splatoon";
   }
   localStorage["sound_folder"] = folder;
