@@ -624,6 +624,11 @@ function rewrite_attackType(text) {
     node.innerHTML = "<span id='#attack_type'>" + text + "</span>";
 }
 function restart() {
+    if(gearPowers_set[0] == "スタートダッシュ(アタマ)" && Date.now() - start_time < 10000){
+        console.log("シンプルスタート発動");
+    }else{
+        start_time = new Date();
+    }
     document.querySelector(".bgm-ultra").currentTime = 0.5;
     map = Array(12).fill(1);
     for (let i = 0; i < 30; i++) {
@@ -640,7 +645,6 @@ function restart() {
     tet_type = "";
     hold = "";
     able_hold = 1;
-    start_time = new Date();
     attack = 0;
     attack2 = 0;
     blocks = 0;
@@ -825,7 +829,7 @@ document.addEventListener("keydown", (event) => {
         const banner = document.getElementById("myNotificationBanner");
         banner.click();
     }
-    if (event.key == "f" && document.querySelector("input.retry").checked && gamemode != "Battle") {
+    if (event.key == "f" && document.querySelector("input.retry").checked && gamemode != "Battle" || event.key == "f" && gearPowers_set[0] == "スタートダッシュ(アタマ)" && Date.now() - start_time < 10000) {
         restart();
     }
 });
@@ -960,7 +964,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector("#chart-container").style.display = "none";
         document.querySelector("#psb-body").style.display = "none";
         document.querySelector("p.ready").style.display = "block";
-        if (gearPowers_set[0] != "シンプルスタート(アタマ)") document.querySelector("canvas.battle-start").style.display = "block";
+        if (gearPowers_set[0] != "スタートダッシュ(アタマ)") document.querySelector("canvas.battle-start").style.display = "block";
         setTimeout(function () {
             battle_start_update();
             document.querySelector("canvas#tetris").classList.add("show");
