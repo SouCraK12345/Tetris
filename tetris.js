@@ -470,7 +470,7 @@ function line_delete() {
         if (row.every(cell => cell !== 0)) {
             deleted_lines += 1;
             // T-Spinの判定
-            if (tet_type === 8 && isFirst && is_t_spin) { // Tミノの場合のみ
+            if (tet_type === 8 && isFirst && (is_t_spin && gearPowers_set[1] != "T-Not-Spin有効化(フク)" || !is_t_spin && gearPowers_set[1] == "T-Not-Spin有効化(フク)")) { // Tミノの場合のみ
                 let corners = [
                     (tet_y + 1) * 12 + (tet_x - 1),     // 左上
                     (tet_y + 1) * 12 + (tet_x + 1), // 右上

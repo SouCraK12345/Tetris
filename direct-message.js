@@ -21,7 +21,6 @@ function get_chat_data(bool = true){
             let new_data = data.slice(last_chat_data_length);
             if(new_data.length > 0){
                 new_data.forEach((e)=>{
-                    console.log(e);
                     notification(e[0])
                 })
             }
