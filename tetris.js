@@ -629,6 +629,7 @@ function restart() {
     }else{
         start_time = new Date();
         virtual_enemy_hp = 20;
+        attack_to_enemy = 0;
     }
     document.querySelector(".bgm-ultra").currentTime = 0.5;
     map = Array(12).fill(1);
@@ -653,7 +654,6 @@ function restart() {
     REN = 0;
     score = 0;
     lines = 0;
-    attack_to_enemy = 0;
     damage = 0;
     for (let i = 0; i < gearPowers_set.filter(x => x === "開幕テトリス").length * 4; i++) {
         _for_rising_(1);
