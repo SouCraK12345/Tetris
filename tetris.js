@@ -628,6 +628,7 @@ function restart() {
         console.log("シンプルスタート発動");
     }else{
         start_time = new Date();
+        virtual_enemy_hp = 20;
     }
     document.querySelector(".bgm-ultra").currentTime = 0.5;
     map = Array(12).fill(1);
@@ -668,7 +669,6 @@ function restart() {
     if (gearPowers_set.filter(x => x === "開幕テトリス").length > 0) {
         next.unshift(2);
     }
-    virtual_enemy_hp = 20;
     last_hole = Math.floor(Math.random() * 10);
     last_attack = 0;
     let isGameover = false;
