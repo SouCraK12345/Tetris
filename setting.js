@@ -112,7 +112,8 @@ const gearPowers = [
   "テトリス火力アップ",
   "開幕TST",
   "バトルが激化(クツ)",
-  "T-Not-Spin有効化(フク)"
+  "T-Not-Spin有効化(フク)",
+  "開幕テトリス"
 ];
 
 const gearRestrictions = {

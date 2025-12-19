@@ -654,6 +654,20 @@ function restart() {
     lines = 0;
     attack_to_enemy = 0;
     damage = 0;
+    for (let i = 0; i < gearPowers_set.filter(x => x === "開幕テトリス").length * 4; i++) {
+        _for_rising_(1);
+        for (let j = 0; j < 10; j++) {
+            if (j == 4) {
+                _for_rising_(0);
+            } else {
+                _for_rising_(9);
+            }
+        }
+        _for_rising_(1);
+    }
+    if (gearPowers_set.filter(x => x === "開幕テトリス").length > 0) {
+        next.unshift(2);
+    }
     virtual_enemy_hp = 20;
     last_hole = Math.floor(Math.random() * 10);
     last_attack = 0;
