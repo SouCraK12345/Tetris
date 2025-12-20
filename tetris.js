@@ -630,6 +630,11 @@ function restart() {
         start_time = new Date();
         virtual_enemy_hp = 20;
         attack_to_enemy = 0;
+        clearInterval(attack_interval);
+        if (gamemode == "VirtualBattle") attack_interval = damage_interval();
+        score = 0;
+        lines = 0;
+        damage = 0;
     }
     document.querySelector(".bgm-ultra").currentTime = 0.5;
     map = Array(12).fill(1);
@@ -652,10 +657,7 @@ function restart() {
     blocks = 0;
     BTB = 0;
     REN = 0;
-    score = 0;
-    lines = 0;
-    damage = 0;
-    for (let i = 0; i < gearPowers_set.filter(x => x === "開幕テトリス").length * 4; i++) {
+    for (let i = 0; i < gearPowers_set.filter(x => x === "開幕テトリス").length * 6; i++) {
         _for_rising_(1);
         for (let j = 0; j < 10; j++) {
             if (j == 4) {
@@ -672,8 +674,6 @@ function restart() {
     last_hole = Math.floor(Math.random() * 10);
     last_attack = 0;
     let isGameover = false;
-    clearInterval(attack_interval);
-    if (gamemode == "VirtualBattle") attack_interval = damage_interval();
     if (gearPowers_set.filter(x => x === "開幕TST").length > 0) {
         for (let i = 0; i < gearPowers_set.filter(x => x === "開幕TST").length * 3; i++) {
             _for_rising_(1);
@@ -970,6 +970,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         document.querySelector(".header-title-span").innerHTML = "< " + gamemode;
         document.querySelector(".login-button").style.display = "none";
         canvas.style.display = "block";
+        start_time = new Date(0);
         restart();
         serial_hole_max = 5 + gearPowers_set.filter(x => x === "おじゃま直列追加").length - gearPowers_set.filter(x => x === "おじゃま直列減少").length;
         waiting_damage = -300;
@@ -986,7 +987,6 @@ document.querySelectorAll(".tile-card").forEach((e) => {
         setTimeout(function () {
             document.querySelector(".launch").play();
             document.querySelector(".details").style.display = "block";
-            start_time = new Date();
             mainloop();
             if (gamemode != "Watch") {
                 sendData_interval = setInterval(sendData, 750);
