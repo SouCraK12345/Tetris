@@ -6,6 +6,7 @@ document.querySelector(".virtualbattle-clear").volume = 0.8;
 // ----関数----
 
 function mainloop() {
+    update_timer_label(Math.floor((new Date() - start_time) / 1000));
     if (battle_started && solo) {
         Finish(false);
         gamemode = "Battle";
@@ -623,10 +624,30 @@ function rewrite_attackType(text) {
     let node = document.querySelector("label#attack_type");
     node.innerHTML = "<span id='#attack_type'>" + text + "</span>";
 }
+
+function update_timer_label(seconds) {
+    const timerElement = document.getElementById('timer-label');
+    if (!timerElement) return;
+
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+
+    // 0埋め処理 (2桁)
+    const displayMin = String(min).padStart(2, '0');
+    const displaySec = String(sec).padStart(2, '0');
+
+    timerElement.textContent = `${displayMin}:${displaySec}`;
+}
+
+// 初期表示を00:00に設定
+window.onload = () => {
+    update_timer_label(0);
+};
 function restart() {
-    if(gearPowers_set[0] == "スタートダッシュ(アタマ)" && Date.now() - start_time < 10000){
+    document.querySelector("#timer-label").style.display = "block";
+    if (gearPowers_set[0] == "スタートダッシュ(アタマ)" && Date.now() - start_time < 10000) {
         console.log("シンプルスタート発動");
-    }else{
+    } else {
         start_time = new Date();
         virtual_enemy_hp = 20;
         attack_to_enemy = 0;
@@ -740,6 +761,7 @@ function Finish(bool = true, clear = true) {
             canvas.style.display = "none";
             document.querySelector(".header").style.animation = "none";
         }, 4000);
+            document.querySelector("#timer-label").style.display = "none";
         setTimeout(function () {
             document.querySelector(".result").style.display = "block";
             document.querySelector(".result").classList.add("FloatIn");
@@ -997,6 +1019,8 @@ document.querySelectorAll(".tile-card").forEach((e) => {
 })
 
 function back_to_menu() {
+    update_timer_label(0);
+    document.querySelector("#timer-label").style.display = "none";
     console.log("Back to menu");
     gamemode = "";
     document.querySelector(".user").style.display = "none";
