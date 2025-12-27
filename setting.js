@@ -88,12 +88,14 @@ function updateBgmSources(folderName) {
 
 updateBgmSources(folder);
 function bgm_change() {
-  if (folder === "Splatoon") {
+  if (folder === "なし") {
     folder = "Undertale";
   } else if (folder === "Undertale") {
     folder = "Original";
   } else if (folder === "Original") {
     folder = "Splatoon";
+  } else if (folder == "Splatoon") {
+    folder = "なし";
   }
   localStorage["sound_folder"] = folder;
   updateBgmSources(folder);

@@ -233,8 +233,10 @@ function game() {
         Finish();
         document.querySelector(".bgm-virtualbattle").pause();
         document.querySelector(".bgm-battle").pause();
-        document.querySelector(".virtualbattle-clear").currentTime = 0;
-        document.querySelector(".virtualbattle-clear").play();
+        if (localStorage["sound_folder"] != "なし") {
+            document.querySelector(".virtualbattle-clear").currentTime = 0;
+            document.querySelector(".virtualbattle-clear").play();
+        }
         setTimeout(function () {
             hide_iframe();
         }, 2000);
@@ -761,7 +763,7 @@ function Finish(bool = true, clear = true) {
             canvas.style.display = "none";
             document.querySelector(".header").style.animation = "none";
         }, 4000);
-            document.querySelector("#timer-label").style.display = "none";
+        document.querySelector("#timer-label").style.display = "none";
         setTimeout(function () {
             document.querySelector(".result").style.display = "block";
             document.querySelector(".result").classList.add("FloatIn");
