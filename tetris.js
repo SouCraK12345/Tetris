@@ -215,6 +215,19 @@ function game() {
         } else {
             key_down[5] = 0;
         }
+
+        // 180度回転
+        if (key_list[7] === true) {
+            if (key_down[7] === 0) {
+                rotate(2);
+                is_t_spin = true;
+                document.querySelector(".move").currentTime = 0;
+                document.querySelector(".move").play();
+            }
+            key_down[7] = 1;
+        } else {
+            key_down[7] = 0;
+        }
     }
     if (stop && gamemode != "Battle") {
         back_to_menu();
@@ -851,7 +864,7 @@ function bgm_stop() {
 
 // ----初期設定----
 // 変数セット
-const keyname = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c"];
+const keyname = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c", "Shift"];
 let key_list = Array(7).fill(false);
 let key_down = Array(7).fill(0);
 // イベント
