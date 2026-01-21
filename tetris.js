@@ -90,6 +90,8 @@ function game() {
     // ホールド処理
     if (key_list[6] === true) {
         if (able_hold === 1) {
+            document.querySelector(".t-notice").currentTime = 0;
+            document.querySelector(".t-notice").play();
             able_hold = 0;
             tet_x = 5;
             tet_y = 22;
