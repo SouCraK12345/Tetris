@@ -1,0 +1,132 @@
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <style>
+        #music-list-container {
+            background-color: #c9ffd8;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            margin: 20px;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        #music-list-container>div:first-child {
+            border-bottom: 2px solid black;
+            font-family: 'Russo One', sans-serif;
+            letter-spacing: 2px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #music-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        #music-list li {
+            border-bottom: 1px solid;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        #audioList {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="folderInput" webkitdirectory multiple>
+    <div id="audioList"></div>
+    <div id="music-list-container">
+        <div>BGM LIST</div>
+        <ul id="music-list">
+        </ul>
+    </div>
+
+    <script>
+        function loadMusicList(music_list) {
+            const el_music_list = document.querySelector("#music-list");
+            const music_name_list = music_list.map(x => x.name);
+            for (var i of music_name_list) {
+                const el = document.createElement("li");
+                el.innerHTML = i.replace(/\.[^/.]+$/, "");
+                el_music_list.appendChild(el);
+                el.addEventListener("click", ((musicName) => {
+                    return () => {
+                        const audios = document.querySelectorAll("audio");
+                        audios.forEach(audio => {
+                            if (audio.getAttribute("data-title") === musicName.replace(/\.[^/.]+$/, "")) {
+                                audio.play();
+                                console.log("Playing:", musicName);
+                            } else {
+                                audio.pause();
+                            }
+                        });
+                    };
+                })(i));
+            }
+
+            document.querySelectorAll("#audioList > audio").forEach(audio => {
+                audio.addEventListener("ended", () => {
+                    play_random_music();
+                });
+            });
+
+
+        }
+        function play_random_music() {
+            const el_music_list = document.querySelectorAll("#music-list li");
+            const random_index = Math.floor(Math.random() * el_music_list.length);
+            el_music_list[random_index].click();
+        }
+
+        const folderInput = document.getElementById("folderInput");
+        const audioList = document.getElementById("audioList");
+
+        folderInput.addEventListener("change", () => {
+            audioList.innerHTML = "";
+
+            [...folderInput.files].forEach(file => {
+                // 音楽ファイルだけ処理
+                if (!file.type.startsWith("audio/")) return;
+
+                // タイトル（基本はファイル名）
+                const title = file.name.replace(/\.[^/.]+$/, "");
+
+                // audioタグ作成
+                const audio = document.createElement("audio");
+                audio.controls = true;
+                audio.src = URL.createObjectURL(file);
+                audio.setAttribute("data-title", title);
+
+                // タイトル表示
+                const label = document.createElement("p");
+                label.textContent = title;
+
+                audioList.appendChild(label);
+                audioList.appendChild(audio);
+            });
+
+            loadMusicList([...folderInput.files].filter(file => file.type.startsWith("audio/")));
+        });
+
+    </script>
+</body>
+
+</html>

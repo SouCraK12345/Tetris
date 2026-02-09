@@ -169,7 +169,7 @@ span.online::before {
     /* 丸の大きさ */
     height: 10px;
     /* 丸の大きさ */
-    background-color: green;
+    background-color: #6fff6f;
     /* 緑色 */
     border-radius: 50%;
     /* 丸にする */
