@@ -1,7 +1,11 @@
-document.querySelector(".hard-drop").volume = 0.6;
-document.querySelector(".bgm-virtualbattle").volume = 0.8;
-document.querySelector(".virtualbattle-clear").volume = 0.8;
+// document.querySelector(".hard-drop").volume = 0.6;
+// document.querySelector(".bgm-virtualbattle").volume = 0.8;
+// document.querySelector(".virtualbattle-clear").volume = 0.8;
 // document.querySelector(".t-spin").volume = 0.7;
+
+if (localStorage["user_name"] != undefined) {
+    document.querySelector("body > div.tile-card-container > button.tile-card.Discord").style.display = "flex";
+}
 
 // ----関数----
 
@@ -81,7 +85,7 @@ function game() {
             document.querySelector(".wipe-in-box").innerHTML = "Failure...";
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
-            document.querySelector(".bgm-virtualbattle").pause();
+            // document.querySelector(".bgm-virtualbattle").pause();
             document.querySelector(".bgm-battle").pause();
             return false;
         }
@@ -246,8 +250,8 @@ function game() {
             alert("相手からの応答がなくなりました");
         }
         Finish();
-        document.querySelector(".bgm-virtualbattle").pause();
-        document.querySelector(".bgm-battle").pause();
+        // document.querySelector(".bgm-virtualbattle").pause();
+        // document.querySelector(".bgm-battle").pause();
         if (localStorage["sound_folder"] != "なし") {
             document.querySelector(".virtualbattle-clear").currentTime = 0;
             document.querySelector(".virtualbattle-clear").play();
@@ -674,7 +678,7 @@ function restart() {
         lines = 0;
         damage = 0;
     }
-    document.querySelector(".bgm-ultra").currentTime = 0.5;
+    // document.querySelector(".bgm-ultra").currentTime = 0.5;
     map = Array(12).fill(1);
     for (let i = 0; i < 30; i++) {
         map.push(1);
@@ -842,26 +846,35 @@ function Finish(bool = true, clear = true) {
     }
 }
 function bgm() {
-    if (gamemode == "Ultra") {
-        document.querySelector(".bgm-ultra").currentTime = 0.5;
-        document.querySelector(".bgm-ultra").play();
-    }
-    if (gamemode == "40 Line") {
-        document.querySelector(".bgm-40line").currentTime = 0;
-        document.querySelector(".bgm-40line").play();
-    }
-    if (gamemode == "VirtualBattle") {
-        document.querySelector(".bgm-virtualbattle").currentTime = 0;
-        document.querySelector(".bgm-virtualbattle").play();
-    }
-    if (gamemode == "Battle") {
-        document.querySelector(".bgm-battle").currentTime = 0;
-        document.querySelector(".bgm-battle").play();
+    // if (gamemode == "Ultra") {
+    //     document.querySelector(".bgm-ultra").currentTime = 0.5;
+    //     document.querySelector(".bgm-ultra").play();
+    // }
+    // if (gamemode == "40 Line") {
+    //     document.querySelector(".bgm-40line").currentTime = 0;
+    //     document.querySelector(".bgm-40line").play();
+    // }
+    // if (gamemode == "VirtualBattle") {
+    //     document.querySelector(".bgm-virtualbattle").currentTime = 0;
+    //     document.querySelector(".bgm-virtualbattle").play();
+    // }
+    // if (gamemode == "Battle") {
+    //     document.querySelector(".bgm-battle").currentTime = 0;
+    //     document.querySelector(".bgm-battle").play();
+    // }
+    if (!playing_music) {
+        play_random_music();
     }
 }
 function bgm_stop() {
-    document.querySelector(".bgm-ultra").pause();
-    document.querySelector(".bgm-40line").pause();
+    // document.querySelector(".bgm-ultra").pause();
+    // document.querySelector(".bgm-40line").pause();
+    if (document.querySelector("input.stop-music").checked) {
+        document.querySelectorAll(".music-item").forEach((element) => {
+            element.pause();
+        });
+        playing_music = false;
+    }
 }
 
 // ----初期設定----
@@ -895,6 +908,7 @@ document.addEventListener("keyup", (event) => {
         key_list[0] = false;
     }
 });
+let playing_music = false;
 let size = 30;
 let canvas = document.getElementById("tetris");
 canvas.width = 20 * size;
@@ -994,6 +1008,10 @@ canvas.style.display = "none";
 document.querySelector(".details").style.display = "none";
 document.querySelectorAll(".tile-card").forEach((e) => {
     e.addEventListener("click", function () {
+        if (e.children[0].innerText == "Discord") {
+            window.open("https://discord.gg/np3DBBap", "_blank");
+            return;
+        }
         console.log("Selected gamemode: " + e.children[0].innerText);
         if (e.children[0].innerText.includes("Setting")) {
             return document.querySelector(".setting-dialog").showModal();

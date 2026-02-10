@@ -100,10 +100,10 @@
     <audio src="sound/damage.mp3" class="damage"></audio>
     <audio src="sound/t-notice.mp3" class="t-notice"></audio>
     <audio src="virtualbattle-clear.wav" class="virtualbattle-clear"></audio>
-    <audio src="bgm-ultra.mp3" class="bgm-ultra"></audio>
+    <!-- <audio src="bgm-ultra.mp3" class="bgm-ultra"></audio>
     <audio src="bgm-battle.mp3" class="bgm-battle"></audio>
     <audio src="bgm-40line.mp3" class="bgm-40line" loop></audio>
-    <audio src="bgm-virtualbattle.mp3" class="bgm-virtualbattle" loop></audio>
+    <audio src="bgm-virtualbattle.mp3" class="bgm-virtualbattle" loop></audio> -->
   </div>
   <label id="attack_type"></label>
   <div class="details">
@@ -150,6 +150,12 @@
     <button class="tile-card Watch" disabled="true">
       <div class="tile-content">
         <h3>Watch</h3>
+      </div>
+    </button>
+
+    <button class="tile-card Discord">
+      <div class="tile-content">
+        <h3>Discord</h3>
       </div>
     </button>
 
@@ -251,7 +257,18 @@
 
 
     <div style="width: 100%; text-align: center; border-top: 1px solid;">BGM</div>
-    <button style="width: 100%; margin-bottom: 10px;" class="bgm-button" onclick="bgm_change()"></button>
+    <!-- <button style="width: 100%; margin-bottom: 10px;" class="bgm-button" onclick="bgm_change()"></button> -->
+    <input type="file" id="folderInput" webkitdirectory multiple>
+    <div id="audioList"></div>
+    <div id="music-list-container">
+      <ul id="music-list">
+      </ul>
+      <div class="toggle_button">
+        バトル終了時に曲を停止
+        <input id="toggle" class="toggle_input stop-music" type='checkbox' checked />
+        <label for="toggle" class="toggle_label"></label>
+      </div>
+    </div>
     <hr>
     <div style="width: 100%; text-align: center; border-top: 1px solid;">アカウント設定</div>
     <button style="width: 100%; margin-bottom: 10px;"
@@ -303,6 +320,8 @@
     <div class="rank-up-total-point"></div>
     <div class="rank-up-point"></div>
   </div>
+
+  <div id="music-title"></div>
 
   <div class="log" style="position:fixed; font-family: System;"></div>
 

@@ -18,15 +18,38 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        #music-list-container.collapsed {
+            transform: translateX(-330px);
         }
 
         #music-list-container>div:first-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 2px solid black;
             font-family: 'Russo One', sans-serif;
             letter-spacing: 2px;
             font-size: 1.5em;
             font-weight: bold;
             margin-bottom: 5px;
+            padding-bottom: 5px;
+        }
+
+        #collapse-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0;
+            margin-left: 10px;
+        }
+
+        #collapse-btn:hover {
+            opacity: 0.7;
         }
 
         #music-list {
@@ -54,19 +77,92 @@
     <input type="file" id="folderInput" webkitdirectory multiple>
     <div id="audioList"></div>
     <div id="music-list-container">
-        <div>BGM LIST</div>
+        <div>
+            <span>BGM LIST</span>
+            <button id="collapse-btn">|&lt;</button>
+        </div>
         <ul id="music-list">
         </ul>
     </div>
 
     <script>
+        // IndexedDB初期化
+        let db;
+        const dbName = "MusicDB";
+        const storeName = "musicFiles";
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(dbName, 1);
+
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName, { keyPath: "id" });
+                    }
+                };
+            });
+        }
+
+        function saveToIndexedDB(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const transaction = db.transaction([storeName], "readwrite");
+                    const store = transaction.objectStore(storeName);
+                    const id = file.name;
+                    const musicData = {
+                        id: id,
+                        name: file.name,
+                        blob: reader.result,
+                        type: file.type
+                    };
+                    const request = store.put(musicData);
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                };
+                reader.onerror = () => reject(reader.error);
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        function loadFromIndexedDB() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], "readonly");
+                const store = transaction.objectStore(storeName);
+                const request = store.getAll();
+
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function clearIndexedDB() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], "readwrite");
+                const store = transaction.objectStore(storeName);
+                const request = store.clear();
+
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
         function loadMusicList(music_list) {
             const el_music_list = document.querySelector("#music-list");
+            el_music_list.innerHTML = "";
             const music_name_list = music_list.map(x => x.name);
             for (var i of music_name_list) {
                 const el = document.createElement("li");
                 el.innerHTML = i.replace(/\.[^/.]+$/, "");
                 el_music_list.appendChild(el);
+                el.classList.add("music-item");
                 el.addEventListener("click", ((musicName) => {
                     return () => {
                         const audios = document.querySelectorAll("audio");
@@ -87,45 +183,83 @@
                     play_random_music();
                 });
             });
-
-
         }
+
         function play_random_music() {
             const el_music_list = document.querySelectorAll("#music-list li");
             const random_index = Math.floor(Math.random() * el_music_list.length);
             el_music_list[random_index].click();
         }
 
+        function renderAudio(musicData) {
+            const audioList = document.getElementById("audioList");
+            const blob = new Blob([musicData.blob], { type: musicData.type });
+            const url = URL.createObjectURL(blob);
+
+            const label = document.createElement("p");
+            label.textContent = musicData.name.replace(/\.[^/.]+$/, "");
+
+            const audio = document.createElement("audio");
+            audio.controls = true;
+            audio.src = url;
+            audio.setAttribute("data-title", musicData.name.replace(/\.[^/.]+$/, ""));
+
+            audioList.appendChild(label);
+            audioList.appendChild(audio);
+        }
+
         const folderInput = document.getElementById("folderInput");
         const audioList = document.getElementById("audioList");
 
-        folderInput.addEventListener("change", () => {
+        folderInput.addEventListener("change", async () => {
+            // 前回のデータを破棄
+            try {
+                await clearIndexedDB();
+            } catch (error) {
+                console.error("Error clearing IndexedDB:", error);
+            }
+
             audioList.innerHTML = "";
+            const audioFiles = [...folderInput.files].filter(file => file.type.startsWith("audio/"));
 
-            [...folderInput.files].forEach(file => {
-                // 音楽ファイルだけ処理
-                if (!file.type.startsWith("audio/")) return;
+            // ファイルをIndexedDBに保存
+            for (const file of audioFiles) {
+                try {
+                    await saveToIndexedDB(file);
+                } catch (error) {
+                    console.error("Error saving file to IndexedDB:", error);
+                }
+            }
 
-                // タイトル（基本はファイル名）
-                const title = file.name.replace(/\.[^/.]+$/, "");
-
-                // audioタグ作成
-                const audio = document.createElement("audio");
-                audio.controls = true;
-                audio.src = URL.createObjectURL(file);
-                audio.setAttribute("data-title", title);
-
-                // タイトル表示
-                const label = document.createElement("p");
-                label.textContent = title;
-
-                audioList.appendChild(label);
-                audioList.appendChild(audio);
-            });
-
-            loadMusicList([...folderInput.files].filter(file => file.type.startsWith("audio/")));
+            // 保存したファイルを読み込んで表示
+            const savedMusic = await loadFromIndexedDB();
+            savedMusic.forEach(musicData => renderAudio(musicData));
+            loadMusicList(savedMusic);
         });
 
+        // ページロード時に保存された曲を復元
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                await initDB();
+                const savedMusic = await loadFromIndexedDB();
+                if (savedMusic.length > 0) {
+                    savedMusic.forEach(musicData => renderAudio(musicData));
+                    loadMusicList(savedMusic);
+                    console.log("Loaded", savedMusic.length, "music files from storage");
+                }
+            } catch (error) {
+                console.error("Error loading from IndexedDB:", error);
+            }
+        });
+
+        // 折りたたみボタンの機能
+        const collapseBtn = document.getElementById("collapse-btn");
+        const musicContainer = document.getElementById("music-list-container");
+
+        collapseBtn.addEventListener("click", () => {
+            musicContainer.classList.toggle("collapsed");
+            collapseBtn.textContent = musicContainer.classList.contains("collapsed") ? ">|" : "|<";
+        });
     </script>
 </body>
 
