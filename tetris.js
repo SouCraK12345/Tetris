@@ -86,7 +86,6 @@ function game() {
             document.querySelector(".wipe-in-box").style.background = "#ff4949ff";
             bgm_stop();
             // document.querySelector(".bgm-virtualbattle").pause();
-            document.querySelector(".bgm-battle").pause();
             return false;
         }
     }
@@ -238,8 +237,6 @@ function game() {
     if (stop && gamemode != "Battle") {
         back_to_menu();
         Finish(false);
-        document.querySelector(".bgm-virtualbattle").pause();
-        document.querySelector(".bgm-battle").pause();
         bgm_stop();
         stop = false;
         return false;
