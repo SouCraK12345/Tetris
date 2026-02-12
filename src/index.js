@@ -1,4 +1,4 @@
-import indexHtml from "./index.html";
+import indexHtml from "../index.html";
 
 export default {
   async fetch(request) {
