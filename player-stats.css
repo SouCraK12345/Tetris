@@ -38,7 +38,7 @@
 }
 
 .psb-match-btn {
-    background: #a5afc5;
+    background: #ffffff54;
     border: 0;
     padding: 10px;
     border-radius: 8px;
@@ -47,11 +47,12 @@
     cursor: pointer;
     display: block;
     width: 250px;
-    text-align: center
+    text-align: center;
+    box-shadow: #ffffff54 0px 0px 5px;
 }
 
 .psb-match-btn:hover {
-    background: #90b1ff
+    background: #ffffff70;
 }
 
 .psb-btn-type {

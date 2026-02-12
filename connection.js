@@ -172,7 +172,7 @@ onValue(msgRef3, (snapshot) => {
         RatingSystem.receive(rating_first ? "first" : null, data);
 
         if (localStorage.getItem("Sranker") == "1") {
-            document.querySelector("body").style.background = "lightblue";
+            document.querySelector("body").style.background = "#add8e6a6";
         }
     }
     rating_first = false;
