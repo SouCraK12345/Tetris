@@ -1,6 +1,7 @@
 name = "tetris"
 main = "src/index.js"
 compatibility_date = "2026-02-12"
+assets = { directory = "./", binding = "ASSETS" }
 
 [build]
 command = ""
