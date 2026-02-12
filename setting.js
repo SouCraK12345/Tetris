@@ -391,12 +391,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error loading from IndexedDB:", error);
   }
 });
-
-// 折りたたみボタンの機能
-const collapseBtn = document.getElementById("collapse-btn");
-const musicContainer = document.getElementById("music-list-container");
-
-collapseBtn.addEventListener("click", () => {
-  musicContainer.classList.toggle("collapsed");
-  collapseBtn.textContent = musicContainer.classList.contains("collapsed") ? ">|" : "|<";
-});

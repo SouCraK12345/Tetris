@@ -1,0 +1,4 @@
+name = "online-tetris"
+main = "index.py"
+compatibility_date = "2026-02-12
+compatibility_flags = ["python_workers"]
