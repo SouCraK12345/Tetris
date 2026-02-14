@@ -67,7 +67,7 @@ function showIssueDialog(issues) {
     const btn = document.createElement('button');
     btn.innerText = '閉じる';
     btn.addEventListener('click', () => {
-        try { dialog.close(); } catch (e) {}
+        try { dialog.close(); } catch (e) { }
         dialog.remove();
     });
     dialog.appendChild(btn);
@@ -133,10 +133,23 @@ function sendData() {
 function sendRequest(address) {
     // try {
     if (user_name) {
-        set(ref(db, "requests/" + address), {
-            from: user_name,
-            accepted: false,
-            time: new Date(getServerTime()).getTime()
+        // set(ref(db, "requests/" + address), {
+        //     from: user_name,
+        //     accepted: false,
+        //     time: new Date(getServerTime()).getTime()
+        // });
+        fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: JSON.stringify({
+                type: "create_match",
+                to: address,
+                username: user_name
+            })
+        }).then(response => response.text()).then(data => {
+            battle_id = data;
         });
     }
     window.sendTo = address;
@@ -148,21 +161,97 @@ const msgRef = ref(db, "messages/");
 onValue(msgRef, (snapshot) => {
     if (document.querySelector(".Watch")) document.querySelector(".Watch").disabled = false;
     window.cloudData = snapshot.val();
-    // const data = snapshot.val();
-    // document.getElementById("output").innerText =
-    // data ? `${data.message} (${new Date(data.time).toLocaleTimeString()})` : "データなし";
 });
 
-const msgRef2 = ref(db, "requests/");
-onValue(msgRef2, (snapshot) => {
-    var data = snapshot.val();
-    for (const key in data) {
-        if (new Date(getServerTime()).getTime() - data[key].time > 30000) {
-            delete data[key];
-        }
+// const msgRef2 = ref(db, "requests/");
+// onValue(msgRef2, (snapshot) => {
+//     var data = snapshot.val();
+//     for (const key in data) {
+//         if (new Date(getServerTime()).getTime() - data[key].time > 30000) {
+//             delete data[key];
+//         }
+//     }
+//     window.requests = data;
+// });
+
+function get_match_data(bool = false) {
+    if (stop_getting_match_data) return;
+    try {
+        fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: JSON.stringify({
+                type: "get_match",
+                username: user_name
+            })
+        }).then(response => response.json()).then(data => {
+            let count = -1;
+            data.forEach(match => {
+                count += 1;
+                if (matched_list.includes(match[0])) {
+                    return;
+                }
+                if (gamemode == "Battle" && match[0] == battle_id) {
+                    return;
+                }
+                if (match[0] == battle_id && match[2] == user_name && match[3]) {
+                    rejected_list.push(match[0]);
+                    setTimeout(() => {
+                        start_match_dialog(match[1], match[2]);
+                        stop_getting_match_data = false;
+                        matched_list.push(match[0]);
+                    }, match_start_date - Date.now())
+                    console.log(match_start_date - Date.now());
+                    showMatchMaking()
+                    stop_getting_match_data = true;
+                    return;
+                }
+                if (match[0] == battle_id && match[1] == user_name && match[4]) {
+                    fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: JSON.stringify({
+                            type: "accept",
+                            id: battle_id,
+                            username: user_name
+                        })
+                    }).then(response => response.text()).then(data => {
+                        setTimeout(() => {
+                            start_match_dialog(match[1], match[2]);
+                            stop_getting_match_data = false;
+                            matched_list.push(match[0]);
+                        }, data - Date.now())
+                        console.log(data);
+                        showMatchMaking()
+                    });
+                    rejected_list.push(match[0]);
+                    stop_getting_match_data = true;
+                    return;
+                }
+                if (rejected_list.includes(match[0])) {
+                    return;
+                }
+                if (bool) {
+                    rejected_list.push(match[0]);
+                    return;
+                }
+                requests[match[2]] = {
+                    from: match[1],
+                    id: match[0],
+                };
+            });
+        });
+    } catch (e) {
     }
-    window.requests = data;
-});
+}
+let stop_getting_match_data = false;
+setInterval(get_match_data, 5000);
+get_match_data(true);
+let match_start_date = 0;
 
 const msgRef3 = ref(db, "rate/");
 onValue(msgRef3, (snapshot) => {
@@ -178,26 +267,38 @@ onValue(msgRef3, (snapshot) => {
     rating_first = false;
 });
 
-function accept(from, to) {
+function accept() {
     if (user_name) {
-        RatingSystem.update();
-        battle_started = true;
-        back_to_menu();
-        gamemode = "Battle";
-        set(ref(db, "requests/" + from), {
-            from: to,
-            accepted: true,
-            time: new Date(getServerTime()).getTime()
+        fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: JSON.stringify({
+                type: "accept",
+                id: requests[user_name].id,
+                username: user_name
+            })
+        }).then(response => response.text()).then(data => {
+            match_start_date = data;
         });
-        start_match_dialog(from, to);
-        closeNotification();
+        battle_id = requests[user_name].id;
+        close_accept();
+        showMatchMaking();
     }
 }
 
 function start_match_dialog(from, to) {
+    document.querySelectorAll(".music-item").forEach((element) => {
+        element.pause();
+    });
+    playing_music = false;
     console.log("Start match between " + from + " and " + to);
-    back_to_menu();
     gamemode = "Battle";
+    window.gamemode = "Battle";
+    document.querySelector("body > div.header > div.match-making").classList.remove("show");
+    stop = true;
+    back_to_menu(false);
     document.querySelector(".battle-start").currentTime = 0;
     document.querySelector(".battle-start").play();
     setTimeout(function () {
@@ -280,44 +381,28 @@ function vsBoomPlay() {
     document.querySelector("#MatchUserCardRight").classList.add("right");
 }
 
-function isAccepted(from) {
-    // try {
-    if (window.requests[from].accepted) {
-        battle_started = true;
-        gamemode = "Battle";
-        back_to_menu();
-        start_match_dialog(from, user_name);
-        set(ref(db, "requests/" + window.sendTo), {});
-        return true;
-    } else {
-        return false;
-    }
-    // } catch (e) {
-    //     return false;
-    // }
-}
-
 function get_enemy_data() {
-    // try {
-    let enemy_data = window.cloudData[window.enemy_name];
-    if (enemy_data != window.last_enemy_data) {
-        window.update_frame = 0;
-    }
-    window.last_enemy_data = enemy_data;
-    virtual_enemy_hp = enemy_data.hp;
-    if (enemy_data < 0) {
+    if (gamemode != "Battle") return;
+    try {
+        let enemy_data = window.cloudData[window.enemy_name];
+        if (enemy_data != window.last_enemy_data) {
+            window.update_frame = 0;
+        }
+        window.last_enemy_data = enemy_data;
+        virtual_enemy_hp = enemy_data.hp;
+        if (enemy_data < 0) {
+            return null;
+        }
+        if (enemy_data.attack - last_attack > 0) {
+            if (window.damage == 0) {
+                waiting_damage = 0;
+            }
+        }
+        damage += (enemy_data.attack - last_attack) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
+        last_attack = enemy_data.attack;
+    } catch (e) {
         return null;
     }
-    if (enemy_data.attack - last_attack > 0) {
-        if (window.damage == 0) {
-            waiting_damage = 0;
-        }
-    }
-    damage += (enemy_data.attack - last_attack) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
-    last_attack = enemy_data.attack;
-    // } catch (e) {
-    //     return null;
-    // }
 }
 
 const RatingSystem = {
@@ -440,10 +525,9 @@ function draw_challange() {
 }
 
 let cloudData;
-let requests;
 let rating_data;
 let sendTo = null;
-let enemy_name = null;
+let enemy_name = "";
 let rating_first = true;
 let image_url_dict = null;
 let update_frame = 0;
@@ -472,15 +556,43 @@ function send_active() {
 }
 
 if (localStorage["user_name"]) {
-    setInterval(send_active, 60000)
+    setInterval(send_active, 5000)
     send_active();
 }
+
+
+window.active_users = {};
+window.active_list = [];
+
+// Firebase の active/ を監視して window に保存する
+const activeRef = ref(db, "active/");
+onValue(activeRef, (snap) => {
+    const raw = snap.val() || {};
+    window.active_users = raw;
+    const THRESH = 10000; // 10秒
+    const now = getServerTime();
+    const list = [];
+    for (const [name, obj] of Object.entries(raw)) {
+        // obj: {date: timestamp} 形式
+        const t = obj && typeof obj.date === 'number' ? obj.date : Number(obj && obj.date);
+        if (!Number.isNaN(t) && (now - t) <= THRESH) {
+            list.push(name);
+        }
+    }
+    active_list = list;
+});
+
+function getActiveUsers() {
+    return Array.isArray(window.active_list) ? window.active_list.slice() : [];
+}
+window.getActiveUsers = getActiveUsers;
+
 
 // グローバル関数化
 window.sendData = sendData;
 window.sendRequest = sendRequest;
 window.accept = accept;
-window.isAccepted = isAccepted;
+// window.isAccepted = isAccepted;
 window.sendTo = sendTo;
 window.enemy_name = enemy_name;
 window.get_enemy_data = get_enemy_data;

@@ -1,8 +1,3 @@
-// document.querySelector(".hard-drop").volume = 0.6;
-// document.querySelector(".bgm-virtualbattle").volume = 0.8;
-// document.querySelector(".virtualbattle-clear").volume = 0.8;
-// document.querySelector(".t-spin").volume = 0.7;
-
 if (localStorage["user_name"] != undefined) {
     document.querySelector("body > div.tile-card-container > button.tile-card.Discord").style.display = "flex";
 }
@@ -11,18 +6,13 @@ if (localStorage["user_name"] != undefined) {
 
 function mainloop() {
     update_timer_label(Math.floor((new Date() - start_time) / 1000));
-    if (battle_started && solo) {
+    if (stop) {
+        back_to_menu(gamemode != "Battle");
         Finish(false);
-        gamemode = "Battle";
+        stop = false;
         return false;
     }
     if (gamemode == "Watch") {
-        if (stop) {
-            back_to_menu();
-            Finish(false);
-            stop = false;
-            return false;
-        }
         requestAnimationFrame(mainloop);
         try {
             for (var i in cloudData) {
@@ -44,7 +34,7 @@ function mainloop() {
         draw();
         return false;
     }
-    if (!solo && battle_started) { get_enemy_data(); }
+    get_enemy_data();
     if (game()) {
         draw();
         requestAnimationFrame(mainloop);
@@ -234,25 +224,16 @@ function game() {
             key_down[7] = 0;
         }
     }
-    if (stop && gamemode != "Battle") {
-        back_to_menu();
-        Finish(false);
-        bgm_stop();
-        stop = false;
-        return false;
-    }
     window.update_frame++;
-    if (virtual_enemy_hp < 1 || (window.update_frame > 600 && gamemode == "Battle")) {
-        if (window.update_frame > 600 && gamemode == "Battle") {
-            alert("相手からの応答がなくなりました");
-        }
+    if ((window.update_frame > 600 && gamemode == "Battle")) { }
+    if (virtual_enemy_hp < 1 || (!active_list.includes(enemy_name) && gamemode == "Battle")) {
         Finish();
         // document.querySelector(".bgm-virtualbattle").pause();
         // document.querySelector(".bgm-battle").pause();
-        if (localStorage["sound_folder"] != "なし") {
-            document.querySelector(".virtualbattle-clear").currentTime = 0;
-            document.querySelector(".virtualbattle-clear").play();
-        }
+        // if (localStorage["sound_folder"] != "なし") {
+        //     document.querySelector(".virtualbattle-clear").currentTime = 0;
+        //     document.querySelector(".virtualbattle-clear").play();
+        // }
         setTimeout(function () {
             hide_iframe();
         }, 2000);
@@ -331,7 +312,9 @@ function draw() {
         document.querySelector(".request").style.display = "none";
         return false;
     } else if (gamemode == "Watch") {
-        document.querySelector(".request").style.display = "block";
+        if (user_name) {
+            document.querySelector(".request").style.display = "block";
+        }
     }
 
     // 盤面上のミノ描画
@@ -951,6 +934,7 @@ let serial_hole = 0;
 let serial_hole_max = 5;
 let last_attack = 0;
 let isGameover = false;
+var gamemode = "";
 
 function damage_interval() {
     return setInterval(function () {
@@ -1050,11 +1034,10 @@ document.querySelectorAll(".tile-card").forEach((e) => {
     })
 })
 
-function back_to_menu() {
+function back_to_menu(bool = true) {
     update_timer_label(0);
     document.querySelector("#timer-label").style.display = "none";
     console.log("Back to menu");
-    gamemode = "";
     document.querySelector(".user").style.display = "none";
     document.querySelector(".header-title-span").innerHTML = "Online Tetris";
     document.querySelector(".reBattle").style.display = "none";
@@ -1064,7 +1047,7 @@ function back_to_menu() {
     }
     canvas.style.display = "none";
     document.querySelector(".result").style.display = "none";
-    if (!battle_started) {
+    if (bool) {
         document.querySelector(".tile-card-container").style.display = "block";
         document.querySelector("#chart-container").style.display = "block";
         document.querySelector("#psb-body").style.display = "flex";
@@ -1146,7 +1129,8 @@ function battle_start_update() {
     requestAnimationFrame(battle_start_update);
 }
 
-let user_name, sendData_interval;
+let user_name = "";
+let sendData_interval;
 
 function show_iframe() {
     document.querySelector("#floating-iframe").style.display = "block";
