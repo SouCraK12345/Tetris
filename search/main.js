@@ -154,7 +154,7 @@ onValue(activeRef, (snap) => {
     window.active_users = raw;
 
     // 最近アクティブ（2分以内）を抽出
-    const THRESH = 2 * 60 * 1000; // 2分
+    const THRESH = 10000; // 10秒
     const now = getServerTime();
     const list = [];
     for (const [name, obj] of Object.entries(raw)) {
