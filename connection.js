@@ -77,7 +77,7 @@ function showIssueDialog(issues) {
     try {
         dialog.showModal();
     } catch (e) {
-        alert(`新しいIssueが ${issues.length} 件あります`);
+        alert(`新しい更新が ${issues.length} 件あります`);
     }
 }
 
@@ -438,9 +438,9 @@ const RatingSystem = {
         } else {
             keys.forEach((k) => localStorage.setItem(k, "0"));
         }
-        if (e == "first") {
-            this.update();
-        }
+        // if (e == "first") {
+        //     this.update();
+        // }
         if (localStorage["image"] != "0") {
             document.querySelector("#MatchUserCardLeft").style.backgroundImage = `url(${localStorage["image"]})`;
             document.querySelector("#MatchUserCardLeft").style.backgroundSize = "cover";
@@ -485,11 +485,12 @@ const RatingSystem = {
             localStorage.setItem("win-count", "0");
             localStorage.setItem("lose-count", "0");
             localStorage.setItem("total-point", Number(this.getItem("total-point")) + Number(this.getItem("point")));
-            this.setItem("point", (-convertGradeToPoints(getRank(localStorage["total-point"]))).toString());
+            localStorage.setItem("point", (-convertGradeToPoints(getRank(localStorage["total-point"]))).toString());
         }
         document.querySelector("label.rank").innerHTML = getRank(localStorage.getItem("total-point"));
         document.querySelector("label.point").innerHTML = `${Math.round(localStorage.getItem("total-point"))}pt(${Math.round(localStorage.getItem("point")) >= 0 ? "+" : ""}${Math.round(localStorage.getItem("point"))}pt)`;
         draw_challange();
+        this.setItem();
     }
 };
 function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; if (e <= 699) return "C"; if (e <= 1199) return "C+"; if (e <= 1799) return "B-"; if (e <= 2499) return "B"; if (e <= 3499) return "B+"; if (e <= 4499) { if (e >= 3500) return "A"; return "A-" } if (e <= 5499) return "A+"; if (e >= 5500) { const s = Math.floor((e - 5500) / 1e3); if (0 === s) return "S"; if (s >= 1 && s <= 30) return `S+${s}`; if (s > 30) return "S+30" } return "範囲外" }

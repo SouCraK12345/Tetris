@@ -488,7 +488,7 @@ p.message-text {
     display: none;
 }
 
-.match-making.show{
+.match-making.show {
     display: flex;
     animation: slideInFromTop 0.5s ease forwards;
 }
@@ -1048,7 +1048,7 @@ img.challange-lose {
 }
 
 .footer {
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -1285,6 +1285,55 @@ select {
     bottom: 20px;
 }
 
-.rank{
+.rank {
     margin-left: 15%;
 }
+
+.title-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000bb;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  gap: 20px;
+  border: 0;
+  border: 3px black solid;
+  z-index: 2;
+}
+
+dialog.title-cover[open]{
+  display: flex;
+}
+
+dialog.title-cover::backdrop{
+  display: none;
+}
+
+.title-cover.hide {
+  animation: title_close 0.5s;
+}
+
+.title-text {
+  font-size: 4em;
+  font-family: 'Russo One', "Stick", sans-serif;
+}
+
+div.title-username {
+  font-size: 1em;
+}
+
+@keyframes title_close {
+  from {
+    transform: none;
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
