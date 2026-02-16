@@ -10,7 +10,7 @@ let recorder;
 let chunks = [];
 
 let start_recording = () => {
-  const stream = canvas.captureStream(60);
+  const stream = canvas.captureStream(10);
 
   recorder = new MediaRecorder(stream, {
     mimeType: "video/webm"
