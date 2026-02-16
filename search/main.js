@@ -67,7 +67,7 @@ onValue(msgRef, (snapshot) => {
                 child.addEventListener("click", function () {
                     document.querySelector(".show-chat").style.display = "block";
                     document.querySelector("iframe").style.display = "none";
-                    document.querySelector(".show-chat").style.display = localStorage["user_name"] == undefined ? "none" : "block";
+                    document.querySelector(".show-chat").style.display = user_name == undefined ? "none" : "block";
                     document.querySelector(".user-data-container").classList.add("show");
                     let name = this.querySelector("div.user-name").innerHTML;
                     document.querySelector(".image-tile").style.backgroundImage = `url(${data[name]["image"]})`;
@@ -130,12 +130,12 @@ function getRank(e) { if (e < 0) return "範囲外"; if (e <= 299) return "C-"; 
 let first = true;
 
 function send_active() {
-    set(ref(db, "active/" + localStorage["user_name"]), {
+    set(ref(db, "active/" + user_name), {
         date: new Date(getServerTime()).getTime(),
     });
 }
 
-if (localStorage["user_name"]) {
+if (user_name) {
     setInterval(send_active, 60000)
     send_active();
 }

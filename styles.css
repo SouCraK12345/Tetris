@@ -1290,50 +1290,55 @@ select {
 }
 
 .title-cover {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000000bb;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  gap: 20px;
-  border: 0;
-  border: 3px black solid;
-  z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000bb;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    gap: 20px;
+    border: 0;
+    border: 3px black solid;
+    z-index: 2;
 }
 
-dialog.title-cover[open]{
-  display: flex;
+dialog.title-cover[open] {
+    display: flex;
 }
 
-dialog.title-cover::backdrop{
-  display: none;
+dialog.title-cover::backdrop {
+    display: none;
 }
 
 .title-cover.hide {
-  animation: title_close 0.5s;
+    animation: title_close 0.5s;
 }
 
 .title-text {
-  font-size: 4em;
-  font-family: 'Russo One', "Stick", sans-serif;
+    font-size: 4em;
+    font-family: 'Russo One', "Stick", sans-serif;
 }
 
 div.title-username {
-  font-size: 1em;
+    font-size: 1em;
 }
 
 @keyframes title_close {
-  from {
-    transform: none;
-  }
+    from {
+        transform: none;
+    }
 
-  to {
-    transform: translateY(-100%);
-  }
+    to {
+        transform: translateY(-100%);
+    }
 }
 
+
+.save_replay {
+    text-align: center;
+    display: block;
+}

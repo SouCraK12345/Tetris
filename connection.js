@@ -551,7 +551,7 @@ function getServerTime() {
 
 
 function send_active() {
-    set(ref(db, "active/" + localStorage["user_name"]), {
+    set(ref(db, "active/" + user_name), {
         date: new Date(getServerTime()).getTime(),
     });
 }
