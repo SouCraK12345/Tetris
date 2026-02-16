@@ -174,37 +174,43 @@
     </div>
   </div>
   <div class="result">
-    <h3 class="title">Result</h3>
-    <table style="margin:0 auto;font-size: 1.2em;">
-      <tr>
-        <th>APM</th>
-        <td class="result-apm">0</td>
-      </tr>
-      <tr>
-        <th>Attack</th>
-        <td class="result-attack">0</td>
-      </tr>
-      <tr>
-        <th>PPS</th>
-        <td class="result-pps">0</td>
-      </tr>
-      <tr>
-        <th>Lines</th>
-        <td class="result-lines">0</td>
-      </tr>
-      <tr>
-        <th>Score</th>
-        <td class="result-score">0</td>
-      </tr>
-      <tr>
-        <th>Time</th>
-        <td class="result-time">0</td>
-      </tr>
-    </table>
-    <button style="width: 100px; display: block; margin:0 auto;"
-      onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
-    <button style="width: 100px; display: block; margin:0 auto; display: none;"
-      onclick="beforeSendRequest2();back_to_menu();" class="reBattle">再戦</button>
+    <div style="grid-column: 1;">
+      <video id="preview" controls width="640" loop></video>
+    </div>
+    <div style="grid-column: 2;">
+      <h3 class="title">Result</h3>
+      <table style="margin:0 auto;font-size: 1.2em;" cellpadding="5">
+        <tr>
+          <th>APM</th>
+          <td class="result-apm">0</td>
+        </tr>
+        <tr>
+          <th>Attack</th>
+          <td class="result-attack">0</td>
+        </tr>
+        <tr>
+          <th>PPS</th>
+          <td class="result-pps">0</td>
+        </tr>
+        <tr>
+          <th>Lines</th>
+          <td class="result-lines">0</td>
+        </tr>
+        <tr>
+          <th>Score</th>
+          <td class="result-score">0</td>
+        </tr>
+        <tr>
+          <th>Time</th>
+          <td class="result-time">0</td>
+        </tr>
+      </table>
+      <a class="save_replay" target="_blank">リプレイを保存</a>
+      <button style="width: 100px; display: block; margin:0 auto;"
+        onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
+      <button style="width: 100px; display: block; margin:0 auto; display: none;"
+        onclick="beforeSendRequest2();back_to_menu();" class="reBattle">再戦</button>
+    </div>
   </div>
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
   <button class="long-button request" onclick="beforeSendRequest()">対戦する!</button>
@@ -352,6 +358,7 @@
   <script src="log.js"></script>
   <script src="rank-up.js"></script>
   <script src="direct-message.js"></script>
+  <script src="record.js"></script>
 </body>
 
 </html>

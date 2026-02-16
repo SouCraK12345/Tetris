@@ -743,6 +743,7 @@ function formatSecondsToMinutes(totalSeconds) {
 }
 
 function Finish(bool = true, clear = true) {
+    stop_recording();
     clearInterval(attack_interval);
     setTimeout(function () { clearInterval(sendData_interval) }, 1500)
     if (bool) {
@@ -764,7 +765,8 @@ function Finish(bool = true, clear = true) {
         }, 4000);
         document.querySelector("#timer-label").style.display = "none";
         setTimeout(function () {
-            document.querySelector(".result").style.display = "block";
+            video.play();
+            document.querySelector(".result").style.display = "grid";
             document.querySelector(".result").classList.add("FloatIn");
             document.querySelector(".result-apm").innerText = apm;
             document.querySelector(".result-attack").innerText = attack;
@@ -1026,6 +1028,7 @@ document.querySelectorAll(".tile-card").forEach((e) => {
             document.querySelector(".launch").play();
             document.querySelector(".details").style.display = "block";
             mainloop();
+            start_recording();
             if (gamemode != "Watch") {
                 sendData_interval = setInterval(sendData, 750);
             }
