@@ -1,3 +1,5 @@
+const user_name = localStorage["user_name"];
+
 // Firebase SDK 読み込み (サーバー2)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
