@@ -174,12 +174,12 @@
     </div>
   </div>
   <div class="result">
-    <div style="grid-column: 1;">
+    <div class="result-preview">
       <video id="preview" controls width="640" loop></video>
     </div>
-    <div style="grid-column: 2;">
+    <div class="result-summary">
       <h3 class="title">Result</h3>
-      <table style="margin:0 auto;font-size: 1.2em;" cellpadding="5">
+      <table class="result-table" cellpadding="5">
         <tr>
           <th>APM</th>
           <td class="result-apm">0</td>
@@ -206,10 +206,10 @@
         </tr>
       </table>
       <a class="save_replay" target="_blank">リプレイを保存</a>
-      <button style="width: 100px; display: block; margin:0 auto;"
+      <button class="result-action"
         onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
-      <button style="width: 100px; display: block; margin:0 auto; display: none;"
-        onclick="beforeSendRequest2();back_to_menu();" class="reBattle">再戦</button>
+      <button class="result-action reBattle"
+        onclick="beforeSendRequest2();back_to_menu();" hidden>再戦</button>
     </div>
   </div>
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
