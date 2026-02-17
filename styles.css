@@ -668,7 +668,7 @@ body {
 
 .tile-card-container {
     /* margin: 0 auto; */
-    width: 50%;
+    width: 45%;
 }
 
 .title {
@@ -1341,6 +1341,7 @@ div.title-username {
 .save_replay {
     text-align: center;
     display: block;
+    color: white;
 }
 
 /* ===== design refresh ===== */
@@ -1349,24 +1350,6 @@ div.title-username {
     --surface-border: rgba(255, 255, 255, 0.14);
     --text-bright: #eef7ff;
     --glow-shadow: 0 20px 45px rgba(6, 12, 30, 0.35);
-}
-
-body {
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 20% 0%, rgba(88, 160, 255, 0.18), transparent 42%),
-        radial-gradient(circle at 80% 10%, rgba(137, 80, 255, 0.14), transparent 45%),
-        linear-gradient(160deg, #111a2f 0%, #1f2a48 55%, #111827 100%);
-    color: var(--text-bright);
-}
-
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 25;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(90deg, rgba(32, 87, 205, 0.82), rgba(34, 146, 104, 0.85));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .header-title-span {
@@ -1380,8 +1363,8 @@ body {
 }
 
 .tile-card-container {
-    width: min(560px, 92%);
-    margin: 34px auto 0;
+    /* width: min(560px, 92%); */
+    margin: 34px auto 0 20px;
     padding: 22px;
     border-radius: 18px;
     background: var(--surface-bg);
@@ -1441,6 +1424,7 @@ body {
 .result-table {
     margin: 0 auto 12px;
     font-size: 1.1em;
+    color: white;
 }
 
 .result-action {
@@ -1454,6 +1438,10 @@ body {
     color: #fff;
     font-weight: 700;
     cursor: pointer;
+}
+
+.reBattle{
+    display: none;
 }
 
 .result-action:hover {
