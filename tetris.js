@@ -366,12 +366,27 @@ function draw() {
         ctx.fillRect(530, 640 - 20 * virtual_enemy_hp, 20, 20 * attack_to_enemy);
     }
 
+    // 攻撃量表示
+    if (attack_power > 0) {
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = "40px 'Russo One'";
+        ctx.lineWidth = 6;
+        ctx.strokeText(attack_power, 100, (24 - attack_place) * 25);
+        ctx.fillText(attack_power, 100, (24 - attack_place) * 25);
+    }
+
     document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
     document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
     document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
     document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
     document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
     document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
+}
+function reset_attack_power() {
+    attack_power = 0;
 }
 function mino_set() {
     if (tet_type !== "") {
@@ -496,6 +511,7 @@ function line_delete() {
             map.push(1);
             // iを増やさず、同じインデックスを再度チェック（行が下にずれるため）
             shaking_y += 5;
+            attack_place = i;
         } else {
             i += 1;
         }
@@ -579,6 +595,11 @@ function line_delete() {
         damage = 0;
         attack_to_enemy += ((attack - attack_before) - damage) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
         attack2 += ((attack - attack_before) - damage) * (1 + gearPowers_set.filter(x => x === "バトルが激化(クツ)").length * 0.2);
+    }
+    if (attack - attack_before > 0) {
+        attack_power += attack - attack_before;
+        clearTimeout(timeout_attack_power);
+        timeout_attack_power = setTimeout(reset_attack_power, 1500);
     }
 }
 function _for_rising_(value) {
@@ -936,6 +957,9 @@ let serial_hole = 0;
 let serial_hole_max = 5;
 let last_attack = 0;
 let isGameover = false;
+let attack_power = 0;
+let attack_place = 0;
+let timeout_attack_power;
 var gamemode = "";
 
 function damage_interval() {
