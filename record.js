@@ -10,6 +10,9 @@ let recorder;
 let chunks = [];
 
 let start_recording = () => {
+  if (!retryToggle.checked) { return; }
+  alert(retryToggle.checked
+  )
   const stream = canvas.captureStream(10);
 
   recorder = new MediaRecorder(stream, {
@@ -36,5 +39,6 @@ let start_recording = () => {
 };
 
 let stop_recording = () => {
+  if (!retryToggle.checked) { return; }
   recorder.stop();
 };

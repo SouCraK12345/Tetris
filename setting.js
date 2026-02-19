@@ -52,6 +52,16 @@ retryToggle.addEventListener("change", function () {
   localStorage.setItem("retry_toggle", this.checked);
 });
 
+const recordToggle = document.getElementById("record_toggle");
+const recordSaved = localStorage.getItem("record_toggle");
+if (recordSaved !== null) {
+  recordToggle.checked = retrySaved === "true";
+}
+recordToggle.addEventListener("change", function () {
+  localStorage.setItem("record_toggle", this.checked);
+});
+
+
 const musicStopToggle = document.querySelector("input.stop-music");
 const musicStopSaved = localStorage.getItem("music_stop_toggle");
 if (musicStopSaved !== null) {

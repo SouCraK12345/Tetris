@@ -206,10 +206,8 @@
         </tr>
       </table>
       <a class="save_replay" target="_blank">リプレイを保存</a>
-      <button class="result-action"
-        onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
-      <button class="result-action reBattle"
-        onclick="beforeSendRequest2();back_to_menu();" hidden>再戦</button>
+      <button class="result-action" onclick="battle_started = false;solo= true;back_to_menu();">もどる</button>
+      <button class="result-action reBattle" onclick="beforeSendRequest2();back_to_menu();" hidden>再戦</button>
     </div>
   </div>
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
@@ -256,7 +254,14 @@
         <input id="toggle" class="toggle_input retry" type='checkbox' checked />
         <label for="toggle" class="toggle_label"></label>
       </div>
+
+      <div class="toggle_button">
+        録画
+        <input id="record_toggle" class="toggle_input record" type='checkbox' checked />
+        <label for="toggle" class="toggle_label"></label>
+      </div>
     </div>
+
     <div style="width: 100%; text-align: center; border-top: 1px solid;">Virtual Battle</div>
 
     <div class="slider-container center">
