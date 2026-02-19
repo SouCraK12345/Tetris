@@ -11,8 +11,6 @@ let chunks = [];
 
 let start_recording = () => {
   if (!retryToggle.checked) { return; }
-  alert(retryToggle.checked
-  )
   const stream = canvas.captureStream(10);
 
   recorder = new MediaRecorder(stream, {
