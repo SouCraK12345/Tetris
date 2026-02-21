@@ -213,92 +213,103 @@
   <input type="range" value="0" min="0" style="width: 100%; display: none" class="user">
   <button class="long-button request" onclick="beforeSendRequest()">対戦する!</button>
   <dialog class="setting-dialog">
-    <h2 style="width: 100%; text-align: center; column-span: all;">設定</h2>
-    <div style="width: 100%; text-align: center; border-top: 1px solid;">ギアパワー</div>
-    <div class="gear-container">
-
-      <div class="gear-row">
-        <button class="gear" data-index="1">1</button>
-        <select></select>
+    <div class="setting-dialog-header">
+      <h2 class="title" style="margin: 0;">設定</h2>
+      <button class="close-btn" onclick="document.querySelector('.setting-dialog').close()">×</button>
+    </div>
+    <div class="setting-content">
+      <div class="setting-section">
+        <h3 class="setting-section-title">ギアパワー</h3>
+        <div class="gear-container">
+          <div class="gear-row">
+            <button class="gear" data-index="1">1</button>
+            <select></select>
+          </div>
+          <div class="gear-row">
+            <button class="gear" data-index="2">2</button>
+            <select></select>
+          </div>
+          <div class="gear-row">
+            <button class="gear" data-index="3">3</button>
+            <select></select>
+          </div>
+        </div>
       </div>
 
-      <div class="gear-row">
-        <button class="gear" data-index="2">2</button>
-        <select></select>
+      <div class="setting-section">
+        <h3 class="setting-section-title">ハンドリング</h3>
+        <div class="slider-container center">
+          <input type="range" min="1" max="10" value="10" class="slider" id="arr" />
+          <p class="slider-value">ARR: <span id="arr-label">0</span></p>
+        </div>
+        <div class="slider-container center">
+          <input type="range" min="0" max="20" value="6" class="slider" id="das" />
+          <p class="slider-value">DAS: <span id="das-label">6</span></p>
+        </div>
+        <div class="slider-container center">
+          <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
+          <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
+        </div>
       </div>
 
-      <div class="gear-row">
-        <button class="gear" data-index="3">3</button>
-        <select></select>
+      <div class="setting-section">
+        <h3 class="setting-section-title">ゲーム設定</h3>
+        <div class="setting-row">
+          <span>リトライ</span>
+          <div class="toggle_button">
+            <input id="retry_toggle" class="toggle_input retry" type='checkbox' checked />
+            <label for="retry_toggle" class="toggle_label"></label>
+          </div>
+        </div>
+        <div class="setting-row">
+          <span>録画</span>
+          <div class="toggle_button">
+            <input id="record_toggle" class="toggle_input record" type='checkbox' checked />
+            <label for="record_toggle" class="toggle_label"></label>
+          </div>
+        </div>
+        <div class="setting-row">
+          <span>オンライン通知</span>
+          <div class="toggle_button">
+            <input id="notification_toggle" class="toggle_input notification" type='checkbox' checked />
+            <label for="notification_toggle" class="toggle_label"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="setting-section">
+        <h3 class="setting-section-title">Virtual Battle</h3>
+        <div class="slider-container center">
+          <input type="range" min="20" max="200" value="40" class="slider" id="virtualbattle-apm" />
+          <p class="slider-value">APM: <span id="virtualbattle-apm-label">75</span></p>
+        </div>
+      </div>
+
+      <div class="setting-section">
+        <h3 class="setting-section-title">BGM</h3>
+        <input type="file" id="folderInput" webkitdirectory multiple class="file-input">
+        <div id="audioList"></div>
+        <div id="music-list-container">
+          <ul id="music-list">
+          </ul>
+          <div class="setting-row" style="margin-top: 15px;">
+            <span>バトル終了時に曲を停止</span>
+            <div class="toggle_button">
+              <input id="stop_music_toggle" class="toggle_input stop-music" type='checkbox' checked />
+              <label for="stop_music_toggle" class="toggle_label"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setting-section" id="account-settings">
+        <h3 class="setting-section-title">アカウント設定</h3>
+        <button class="setting-action-btn"
+          onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
+        <button class="setting-action-btn" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
       </div>
 
     </div>
-    <div style="break-inside: avoid;">
-      <div style="width: 100%; text-align: center; border-top: 1px solid;">ハンドリング</div>
-      <div class="slider-container center">
-        <input type="range" min="1" max="10" value="10" class="slider" id="arr" />
-        <p class="slider-value">ARR: <span id="arr-label">0</span></p>
-      </div>
-
-      <div class="slider-container center">
-        <input type="range" min="0" max="20" value="6" class="slider" id="das" />
-        <p class="slider-value">DAS: <span id="das-label">6</span></p>
-      </div>
-
-      <div class="slider-container center">
-        <input type="range" min="1" max="20" value="20" class="slider" id="sdf" />
-        <p class="slider-value">SDF: <span id="sdf-label">75</span></p>
-      </div>
-      <div class="toggle_button">
-        リトライ
-        <input id="toggle" class="toggle_input retry" type='checkbox' checked />
-        <label for="toggle" class="toggle_label"></label>
-      </div>
-
-      <div class="toggle_button">
-        録画
-        <input id="record_toggle" class="toggle_input record" type='checkbox' checked />
-        <label for="record_toggle" class="toggle_label"></label>
-      </div>
-
-      <div class="toggle_button">
-        オンライン通知
-        <input id="notification_toggle" class="toggle_input notification" type='checkbox' checked />
-        <label for="notification_toggle" class="toggle_label"></label>
-      </div>
-    </div>
-
-    <div style="width: 100%; text-align: center; border-top: 1px solid;">Virtual Battle</div>
-
-    <div class="slider-container center">
-      <input type="range" min="20" max="200" value="40" class="slider" id="virtualbattle-apm" />
-      <p class="slider-value">APM: <span id="virtualbattle-apm-label">75</span></p>
-    </div>
-
-
-    <div style="width: 100%; text-align: center; border-top: 1px solid;">BGM</div>
-    <!-- <button style="width: 100%; margin-bottom: 10px;" class="bgm-button" onclick="bgm_change()"></button> -->
-    <input type="file" id="folderInput" webkitdirectory multiple>
-    <div id="audioList"></div>
-    <div id="music-list-container">
-      <ul id="music-list">
-      </ul>
-      <div class="toggle_button">
-        バトル終了時に曲を停止
-        <input id="toggle" class="toggle_input stop-music" type='checkbox' checked />
-        <label for="toggle" class="toggle_label"></label>
-      </div>
-    </div>
-    <div id="account-settings">
-      <hr>
-      <div style="width: 100%; text-align: center; border-top: 1px solid;">アカウント設定</div>
-      <button style="width: 100%; margin-bottom: 10px;"
-        onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
-      <button style="width: 100%; margin-bottom: 10px;" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
-    </div>
-    <button
-      style="position: absolute; top: 27px; right: 8px; width: auto; min-width: 60px; padding: 6px 12px; background: transparent; border: none; font-size: 1em; cursor: pointer;font-size: 40px;font-weight: bold;"
-      onclick="document.querySelector('.setting-dialog').close()">×</button>
   </dialog>
   <dialog class="login">
     <h1 class="title" style="color: white;">Login</h1>

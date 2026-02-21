@@ -43,7 +43,7 @@ slider4.oninput = function () {
 };
 
 // --- リトライトグルの自動保存・復元 ---
-const retryToggle = document.getElementById("toggle");
+const retryToggle = document.getElementById("retry_toggle");
 const retrySaved = localStorage.getItem("retry_toggle");
 if (retrySaved !== null) {
   retryToggle.checked = retrySaved === "true";
@@ -93,7 +93,7 @@ musicStopToggle.addEventListener("change", function () {
 
 function regist_mail() {
   let address = prompt("メールアドレスを入力してください");
-  if (address != "") {
+  if (address) {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -321,25 +321,36 @@ function loadMusicList(music_list) {
     const el = document.createElement("li");
     el.innerHTML = i.replace(/\.[^/.]+$/, "");
     el_music_list.appendChild(el);
-    el.addEventListener("click", ((musicName) => {
+    el.addEventListener("click", ((musicName, listItem) => {
       return () => {
         playing_music = true;
+
+        // Remove class from all, add to this one
+        document.querySelectorAll("#music-list li").forEach(item => item.classList.remove("playing"));
+        listItem.classList.add("playing");
+
         const audios = document.querySelectorAll("audio");
         audios.forEach(audio => {
           if (audio.getAttribute("data-title") === musicName.replace(/\.[^/.]+$/, "")) {
             audio.currentTime = 0;
             audio.play();
             console.log("Playing:", musicName);
-            document.querySelector("#music-title").innerText = `♪ ${musicName.replace(/\.[^/.]+$/, "")}`;
-            setTimeout(() => {
-              document.querySelector("#music-title").innerText = "";
-            }, 5000);
+            const titleEl = document.querySelector("#music-title");
+            if (titleEl) {
+              titleEl.innerText = `♪ ${musicName.replace(/\.[^/.]+$/, "")}`;
+              setTimeout(() => {
+                // Only clear if another song hasn't started playing
+                if (titleEl.innerText === `♪ ${musicName.replace(/\.[^/.]+$/, "")}`) {
+                  titleEl.innerText = "";
+                }
+              }, 5000);
+            }
           } else {
             audio.pause();
           }
         });
       };
-    })(i));
+    })(i, el));
   }
 
   document.querySelectorAll("#audioList > audio").forEach(audio => {
