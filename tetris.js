@@ -524,8 +524,9 @@ function line_delete() {
                 document.querySelector(".btb").currentTime = 0;
                 document.querySelector(".btb").play();
             }, 500);
+            attack += 1;
         }
-        attack += deleted_lines * 2 + (BTB > 1);
+        attack += deleted_lines * 2;
         document.querySelector(".t-spin").currentTime = 0;
         document.querySelector(".t-spin").play();
     } else {
@@ -542,9 +543,10 @@ function line_delete() {
                         document.querySelector(".btb").currentTime = 0;
                         document.querySelector(".btb").play();
                     }, 500);
+                    attack += 1;
                 }
             }
-            attack += deleted_lines - 1 + (deleted_lines == 4) + (BTB > 1);
+            attack += deleted_lines - 1 + (deleted_lines == 4);
             if (deleted_lines == 4) {
                 attack += gearPowers_set.filter(x => x === "テトリス火力アップ").length;
             }
