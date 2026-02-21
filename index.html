@@ -289,11 +289,13 @@
         <label for="toggle" class="toggle_label"></label>
       </div>
     </div>
-    <hr>
-    <div style="width: 100%; text-align: center; border-top: 1px solid;">アカウント設定</div>
-    <button style="width: 100%; margin-bottom: 10px;"
-      onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
-    <button style="width: 100%; margin-bottom: 10px;" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
+    <div id="account-settings">
+      <hr>
+      <div style="width: 100%; text-align: center; border-top: 1px solid;">アカウント設定</div>
+      <button style="width: 100%; margin-bottom: 10px;"
+        onclick='window.open("upload_image.html", "new_window", "width=500,height=300,scrollbars=yes")'>画像をアップロード</button>
+      <button style="width: 100%; margin-bottom: 10px;" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
+    </div>
     <button
       style="position: absolute; top: 27px; right: 8px; width: auto; min-width: 60px; padding: 6px 12px; background: transparent; border: none; font-size: 1em; cursor: pointer;font-size: 40px;font-weight: bold;"
       onclick="document.querySelector('.setting-dialog').close()">×</button>

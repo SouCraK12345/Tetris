@@ -419,3 +419,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error loading from IndexedDB:", error);
   }
 });
+
+// アカウント設定の表示制御
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof user_name === "undefined" || !user_name) {
+    const accountSettings = document.getElementById("account-settings");
+    if (accountSettings) {
+      accountSettings.style.display = "none";
+    }
+  }
+});
