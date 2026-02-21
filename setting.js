@@ -54,8 +54,9 @@ retryToggle.addEventListener("change", function () {
 
 const recordToggle = document.getElementById("record_toggle");
 const recordSaved = localStorage.getItem("record_toggle");
+recordToggle.checked = "true";
 if (recordSaved !== null) {
-  recordToggle.checked = retrySaved === "true";
+  recordToggle.checked = recordSaved === "true";
 }
 recordToggle.addEventListener("change", function () {
   localStorage.setItem("record_toggle", this.checked);

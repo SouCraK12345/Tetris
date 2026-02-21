@@ -37,6 +37,6 @@ let start_recording = () => {
 };
 
 let stop_recording = () => {
-  if (!retryToggle.checked) { return; }
+  if (!recordToggle.checked) { return; }
   recorder.stop();
 };
