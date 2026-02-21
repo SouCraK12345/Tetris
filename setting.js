@@ -62,6 +62,23 @@ recordToggle.addEventListener("change", function () {
   localStorage.setItem("record_toggle", this.checked);
 });
 
+// --- オンライン通知トグルの自動保存・復元 ---
+const notificationToggle = document.getElementById("notification_toggle");
+const notificationSaved = localStorage.getItem("notification_toggle");
+if (notificationSaved !== null) {
+  notificationToggle.checked = notificationSaved === "true";
+} else {
+  // デフォルトはオン
+  notificationToggle.checked = false;
+}
+notificationToggle.addEventListener("change", function () {
+  localStorage.setItem("notification_toggle", this.checked);
+  // もしオンにした時に通知許可がなければリクエストする
+  if (this.checked && Notification.permission !== "granted" && Notification.permission !== "denied") {
+    Notification.requestPermission();
+  }
+});
+
 
 const musicStopToggle = document.querySelector("input.stop-music");
 const musicStopSaved = localStorage.getItem("music_stop_toggle");

@@ -564,6 +564,7 @@ if (localStorage["user_name"]) {
 
 window.active_users = {};
 window.active_list = [];
+let previous_active_list = null; // 初回判定用
 
 // Firebase の active/ を監視して window に保存する
 const activeRef = ref(db, "active/");
@@ -580,6 +581,26 @@ onValue(activeRef, (snap) => {
             list.push(name);
         }
     }
+
+    if (previous_active_list !== null) {
+        const newPlayers = list.filter(name => !previous_active_list.includes(name));
+        newPlayers.forEach((playerName) => {
+            if (playerName !== window.user_name && localStorage.getItem("notification_toggle") !== "false") {
+                if (Notification.permission === "granted") {
+                    try {
+                        const notification = new Notification("Online Tetris", {
+                            body: `${playerName} がオンラインになりました`
+                        });
+                        setTimeout(() => notification.close(), 5000);
+                    } catch (e) {
+                        console.error("通知の送信に失敗しました", e);
+                    }
+                }
+            }
+        });
+    }
+
+    previous_active_list = list;
     active_list = list;
 });
 
