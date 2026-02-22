@@ -858,7 +858,7 @@ body {
 }
 
 .setting-dialog {
-    width: 92vw;
+    width: min(92vw, 1290px);
     max-height: 85vh;
     padding: 0;
     border: none;
