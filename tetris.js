@@ -884,23 +884,20 @@ function bgm_stop() {
 
 // ----初期設定----
 // 変数セット
-const keyname = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c", "Shift"];
-let key_list = Array(7).fill(false);
-let key_down = Array(7).fill(0);
+let keyname = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "Shift", "c", "f"];
+let key_list = Array(9).fill(false);
+let key_down = Array(9).fill(0);
 // イベント
 document.addEventListener("keydown", (event) => {
     let v1 = keyname.indexOf(event.key);
     if (v1 !== -1) {
         key_list[v1] = true;
     }
-    if (event.key == " ") {
-        key_list[0] = true;
-    }
     if (event.key == "r" && !battle_started) {
         const banner = document.getElementById("myNotificationBanner");
         banner.click();
     }
-    if (event.key == "f" && document.querySelector("input.retry").checked && gamemode != "Battle" || event.key == "f" && gearPowers_set[0] == "スタートダッシュ(アタマ)" && Date.now() - start_time < 10000) {
+    if (event.key == keyname[8] && document.querySelector("input.retry").checked && gamemode != "Battle" || event.key == keyname[8] && gearPowers_set[0] == "スタートダッシュ(アタマ)" && Date.now() - start_time < 10000) {
         restart();
     }
 });
@@ -908,9 +905,6 @@ document.addEventListener("keyup", (event) => {
     let v1 = keyname.indexOf(event.key);
     if (v1 !== -1) {
         key_list[v1] = false;
-    }
-    if (event.key == " ") {
-        key_list[0] = false;
     }
 });
 let playing_music = false;

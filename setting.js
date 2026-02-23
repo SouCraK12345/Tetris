@@ -440,3 +440,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+function keyconfig() {
+  const keyconfig = document.querySelector(".keyconfig");
+  keyconfig.showModal();
+}
+
+// --- キーコンフィグ設定の自動保存・復元・キャプチャ ---
+const defaultKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "x", "c", "Shift", "f"];
+let customKeys = JSON.parse(localStorage.getItem("keyconfig")) || [...defaultKeys];
+
+function updateKeyButtons() {
+  document.querySelectorAll(".key-capture-btn[data-key-index]").forEach(btn => {
+    const index = parseInt(btn.dataset.keyIndex);
+    btn.textContent = customKeys[index];
+  });
+}
+
+function initKeyConfig() {
+  const buttons = document.querySelectorAll(".key-capture-btn[data-key-index]");
+  let capturingBtn = null;
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (capturingBtn) {
+        capturingBtn.classList.remove("capturing");
+        capturingBtn.textContent = customKeys[parseInt(capturingBtn.dataset.keyIndex)];
+      }
+      capturingBtn = btn;
+      btn.classList.add("capturing");
+      btn.textContent = "Press key...";
+    });
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (capturingBtn) {
+      e.preventDefault();
+      const index = parseInt(capturingBtn.dataset.keyIndex);
+      const newKey = e.key === " " ? "Space" : e.key;
+      const keyCode = e.key; // Store actual key value
+
+      customKeys[index] = keyCode;
+      localStorage.setItem("keyconfig", JSON.stringify(customKeys));
+
+      capturingBtn.textContent = e.key === " " ? "Space" : e.key;
+      capturingBtn.classList.remove("capturing");
+      capturingBtn = null;
+
+      // tetris.jsのkeyname変数を更新
+      if (typeof keyname !== 'undefined') {
+        keyname[index] = keyCode;
+      }
+    }
+  });
+
+  updateKeyButtons();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initKeyConfig();
+
+  // ページロード時にtetris.jsのkeynameを即時更新
+  if (typeof keyname !== 'undefined') {
+    for (let i = 0; i < customKeys.length; i++) {
+      let key = customKeys[i];
+      keyname[i] = key == " " ? "Space" : key;
+    }
+  }
+});

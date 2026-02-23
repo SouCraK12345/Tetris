@@ -274,6 +274,7 @@
             <label for="notification_toggle" class="toggle_label"></label>
           </div>
         </div>
+        <button class="setting-action-btn" onclick='keyconfig()'>キーコンフィグ</button>
       </div>
 
       <div class="setting-section">
@@ -308,6 +309,60 @@
         <button class="setting-action-btn" onclick='regist_mail()'>メールアドレスを登録 (DMの通知)</button>
       </div>
 
+    </div>
+  </dialog>
+  <dialog class="keyconfig">
+    <div class="keyconfig-header">
+      <h2 class="title" style="margin: 0;">キーコンフィグ</h2>
+      <button class="close-btn" onclick="document.querySelector('.keyconfig').close()">×</button>
+    </div>
+    <div class="keyconfig-content">
+      <div class="keyconfig-section">
+        <h3 class="keyconfig-section-title">操作設定</h3>
+        <div class="keyconfig-grid">
+          <div class="keyconfig-row">
+            <span>ハードドロップ</span>
+            <button class="key-capture-btn" data-key-index="0">ArrowUp</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>ソフトドロップ</span>
+            <button class="key-capture-btn" data-key-index="1">ArrowDown</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>左移動</span>
+            <button class="key-capture-btn" data-key-index="2">ArrowLeft</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>右移動</span>
+            <button class="key-capture-btn" data-key-index="3">ArrowRight</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>左回転</span>
+            <button class="key-capture-btn" data-key-index="4">Z</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>右回転</span>
+            <button class="key-capture-btn" data-key-index="5">X</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>180度回転</span>
+            <button class="key-capture-btn" data-key-index="7">C</button>
+          </div>
+          <div class="keyconfig-row">
+            <span>ホールド</span>
+            <button class="key-capture-btn" data-key-index="6">Shift</button>
+          </div>
+        </div>
+      </div>
+      <div class="keyconfig-section">
+        <h3 class="keyconfig-section-title">基本操作</h3>
+        <div class="keyconfig-grid">
+          <div class="keyconfig-row">
+            <span>リトライ</span>
+            <button class="key-capture-btn" data-key-index="8">F</button>
+          </div>
+        </div>
+      </div>
     </div>
   </dialog>
   <dialog class="login">
