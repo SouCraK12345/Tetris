@@ -1,0 +1,20 @@
+# セキュリティ関連
+.env
+*.pem
+*.key
+id_rsa
+
+# OS関連（global設定していない場合）
+.DS_Store
+Thumbs.db
+
+# 依存関係・ビルド
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+
+# ログ・DB
+*.log
+*.sqlite3
