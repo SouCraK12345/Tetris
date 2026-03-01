@@ -37,7 +37,7 @@ async function checkNewIssues() {
             localStorage.setItem('known_issues', JSON.stringify(merged));
         }
         // デバッグログ
-        data.forEach(issue => console.log(`#${issue.number}: ${issue.title}`));
+        // data.forEach(issue => console.log(`#${issue.number}: ${issue.title}`));
     } catch (err) {
         console.error(err);
     }
