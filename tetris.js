@@ -378,13 +378,13 @@ function draw() {
         ctx.fillText(attack_power, 100, (24 - attack_place) * 25);
     }
 
-    document.querySelector(".APM").innerHTML = `APM: ${Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10}`;
-    document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
+    const apmValue = Math.round(attack / ((new Date() - start_time) / 1000) * 600) / 10;
+    const ppsValue = Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10;
+    document.querySelector(".APM").innerHTML = `APM:<br><span class="metric-value">${apmValue}</span>`;
+    document.querySelector(".PPS").innerHTML = `PPS:<br><span class="metric-value">${ppsValue}</span>`;
     document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
-    document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
-    document.querySelector(".BTB").innerHTML = `BTB: ${(BTB > 0 ? BTB - 1 : 0)}`;
+    document.querySelector(".BTB").innerHTML = `BTB×${(BTB > 0 ? BTB - 1 : 0)}`;
     document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
-    document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
 }
 function reset_attack_power() {
     attack_power = 0;
@@ -822,11 +822,11 @@ function Finish(bool = true, clear = true) {
                     data: [
                         user_name,
                         gamemode,
-                        document.querySelector(".APM").innerHTML.replace("APM: ", ""),
-                        document.querySelector(".PPS").innerHTML.replace("PPS: ", ""),
-                        document.querySelector(".SCORE").innerHTML.replace("Score: ", ""),
-                        document.querySelector(".LINES").innerHTML.replace("Lines: ", ""),
-                        document.querySelector(".TIME").innerHTML.replace("Time: ", ""),
+                        document.querySelector(".APM .metric-value")?.textContent || "0",
+                        document.querySelector(".PPS .metric-value")?.textContent || "0",
+                        document.querySelector(".SCORE").textContent.replace("Score: ", ""),
+                        document.querySelector(".LINES").textContent.replace("Lines: ", ""),
+                        formatSecondsToMinutes((new Date() - start_time) / 1000),
                         clear,
                         virtualbattle_apm,
                     ],
