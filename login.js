@@ -85,6 +85,14 @@ function title_login() {
                     }
                 });
                 RatingSystem.update();
+                
+                if (!localStorage.getItem("bugReportRequested_20260307")) {
+                    localStorage.setItem("bugReportRequested_20260307", "true");
+                    const bugDialog = document.querySelector(".bug-report-dialog");
+                    if (bugDialog) {
+                        bugDialog.showModal();
+                    }
+                }
             });
         } else {
             alert("パスワードが違います");
