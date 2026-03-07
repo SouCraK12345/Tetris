@@ -528,18 +528,48 @@ p.message-text {
     transition: background-color 0.3s ease;
 }
 
-label#attack_type,
-.left-label {
-    height: 10%;
+.details {
     position: absolute;
-    left: 10%;
-    /* ここを追加 */
-    transform: translateX(-50%);
-    /* ここを追加 */
+    inset: 0;
+    pointer-events: none;
+    color: #111;
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(18px, 1.8vw, 30px);
+}
+
+.details-left {
+    position: absolute;
+    left: calc(50% - min(16vw, 240px));
+    top: 18%;
+    transform: translateX(-100%);
+    text-align: left;
+    width: min(22vw, 260px);
 }
 
 label#attack_type {
-    top: 45%;
+    position: static;
+    display: block;
+    min-height: 170px;
+    margin-bottom: 28px;
+    line-height: 1.05;
+}
+
+.left-label,
+.status-label {
+    display: block;
+    position: static;
+    transform: none;
+    height: auto;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+}
+
+.details-right {
+    position: absolute;
+    left: calc(50% + min(16vw, 240px));
+    bottom: 18%;
+    width: min(22vw, 260px);
+    text-align: left;
 }
 
 canvas#tetris {
@@ -570,6 +600,31 @@ body {
     animation: fadeOut 2s forwards;
     animation-fill-mode: both;
     text-align: center;
+}
+
+@media (max-width: 900px) {
+    .details {
+        font-size: clamp(14px, 2.8vw, 20px);
+    }
+
+    .details-left {
+        left: calc(50% - 20vw);
+        width: min(26vw, 180px);
+    }
+
+    .details-right {
+        left: calc(50% + 20vw);
+        width: min(26vw, 180px);
+    }
+
+    label#attack_type {
+        min-height: 120px;
+        margin-bottom: 14px;
+    }
+
+    #\#attack_type {
+        font-size: 2rem;
+    }
 }
 
 @keyframes fadeOut {

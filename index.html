@@ -108,15 +108,19 @@
     <audio src="bgm-40line.mp3" class="bgm-40line" loop></audio>
     <audio src="bgm-virtualbattle.mp3" class="bgm-virtualbattle" loop></audio> -->
   </div>
-  <label id="attack_type"></label>
   <div class="details">
-    <label class="left-label BTB" style="bottom: calc(30% + 20px);">BTB: 0</label>
-    <label class="left-label APM" style="bottom: 30%;">APM: 0.0</label>
-    <label class="left-label PPS" style="bottom: calc(30% - 20px);">PPS: 0.0</label>
-    <label class="left-label LINES" style="bottom: calc(30% - 40px);">Lines: 0</label>
-    <label class="left-label REN" style="bottom: calc(30% - 60px);">REN: 0</label>
-    <label class="left-label SCORE" style="bottom: calc(30% - 80px);">Score: 0</label>
-    <label class="left-label TIME" style="bottom: calc(30% - 100px);">Time: 0</label>
+    <div class="details-left">
+      <label id="attack_type"></label>
+      <label class="left-label APM">APM: 0.0</label>
+      <label class="left-label PPS">PPS: 0.0</label>
+      <label class="left-label REN">REN: 0</label>
+      <label class="left-label TIME">Time: 0</label>
+    </div>
+    <div class="details-right">
+      <label class="status-label BTB">BTB: 0</label>
+      <label class="status-label LINES">Lines: 0</label>
+      <label class="status-label SCORE">Score: 0</label>
+    </div>
   </div>
   <div id="chart-container">
     <canvas id="myLineChart"></canvas>
