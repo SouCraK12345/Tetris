@@ -540,7 +540,7 @@ p.message-text {
 .details-left {
     position: absolute;
     left: calc(50% - min(16vw, 240px));
-    top: 24%;
+    top: 35%;
     transform: translateX(-100%);
     text-align: left;
     width: min(22vw, 260px);
@@ -572,7 +572,7 @@ label#attack_type {
 
 .details-right {
     position: absolute;
-    left: calc(50% + min(18vw, 260px));
+    left: calc(50% + min(25vw, 350px));
     bottom: 24%;
     width: min(22vw, 260px);
     text-align: left;

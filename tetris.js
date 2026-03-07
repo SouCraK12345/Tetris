@@ -383,7 +383,7 @@ function draw() {
     document.querySelector(".APM").innerHTML = `APM:<br><span class="metric-value">${apmValue}</span>`;
     document.querySelector(".PPS").innerHTML = `PPS:<br><span class="metric-value">${ppsValue}</span>`;
     document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
-    document.querySelector(".BTB").innerHTML = `BTB✖️${(BTB > 0 ? BTB - 1 : 0)}`;
+    document.querySelector(".BTB").innerHTML = `BTB×${(BTB > 0 ? BTB - 1 : 0)}`;
     document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
 }
 function reset_attack_power() {
