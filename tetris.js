@@ -382,6 +382,7 @@ function draw() {
     document.querySelector(".PPS").innerHTML = `PPS: ${Math.round(blocks / ((new Date() - start_time) / 1000) * 10) / 10}`;
     document.querySelector(".LINES").innerHTML = `Lines: ${lines}`;
     document.querySelector(".REN").innerHTML = `REN: ${(REN > 0 ? REN : 0)}`;
+    document.querySelector(".BTB").innerHTML = `BTB: ${(BTB > 0 ? BTB - 1 : 0)}`;
     document.querySelector(".SCORE").innerHTML = `Score: ${score}`;
     document.querySelector(".TIME").innerHTML = `Time: ${formatSecondsToMinutes((new Date() - start_time) / 1000)}`;
 }
