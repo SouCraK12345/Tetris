@@ -77,6 +77,31 @@ onValue(msgRef, (snapshot) => {
                     document.querySelector(".rank").innerHTML = getRank(data[name]["total-point"]);
                     document.querySelector(".point").innerHTML = `${Math.round(data[name]["total-point"])}pt (${data[name]["point"] >= 0 ? "+" : ""}${Math.round(data[name]["point"])}pt)`;
                     document.querySelector(".online").style.display = window.active_list.includes(name) ? "inline-block" : "none";
+
+                    setTimeout(async () => {
+                        try {
+                            const response = await fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                },
+                                body: JSON.stringify({
+                                    type: "get_user_data",
+                                    username: user_name,
+                                    player_name: name
+                                })
+                            });
+
+                            const resultText = await response.text();
+                            try {
+                                console.log(JSON.parse(resultText));
+                            } catch {
+                                console.log(resultText);
+                            }
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }, 1000);
                 })
                 document.querySelector(".user-container").appendChild(child);
                 // If there's an active search query, re-apply filtering so newly added items respect it
