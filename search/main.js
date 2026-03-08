@@ -67,6 +67,7 @@ onValue(msgRef, (snapshot) => {
                 `
                 child.querySelector(".user-block").style.backgroundColor = window.active_list.includes(i_copy) ? "#55925aff" : "#424452"
                 child.addEventListener("click", function () {
+                    document.querySelector(".player_status").style.display = "none";
                     document.querySelector(".show-chat").style.display = "block";
                     document.querySelector("iframe").style.display = "none";
                     document.querySelector(".show-chat").style.display = user_name == undefined ? "none" : "block";
@@ -77,6 +78,58 @@ onValue(msgRef, (snapshot) => {
                     document.querySelector(".rank").innerHTML = getRank(data[name]["total-point"]);
                     document.querySelector(".point").innerHTML = `${Math.round(data[name]["total-point"])}pt (${data[name]["point"] >= 0 ? "+" : ""}${Math.round(data[name]["point"])}pt)`;
                     document.querySelector(".online").style.display = window.active_list.includes(name) ? "inline-block" : "none";
+
+                    clearTimeout(fetch_timeout);
+                    fetch_timeout = setTimeout(async () => {
+                        try {
+                            const response = await fetch("https://script.google.com/macros/s/AKfycbwDKI_-L5Asg5e4wP_vkyWkjop1VCDaFRFgY7S_J7xV5ws0o60DZAr7tWyE0BxguO3v1Q/exec", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                },
+                                body: JSON.stringify({
+                                    type: "get_user_data",
+                                    username: user_name,
+                                    player_name: name
+                                })
+                            });
+
+                            const resultText = await response.text();
+                            try {
+                                console.log(JSON.parse(resultText));
+                            } catch {
+                                console.log(resultText);
+                            }
+                            document.querySelector(".player_status").style.display = "block";
+                            const result = JSON.parse(resultText);
+                            // Ultra
+                            const ultra = result["ultraHighestScore"] || {};
+                            document.querySelector(".ultra-score").innerHTML = ultra.score !== undefined ? `Score: ${ultra.score}` : "";
+                            document.querySelector(".ultra-lines").innerHTML = ultra.lines !== undefined ? `Lines: ${ultra.lines}` : "";
+                            document.querySelector(".ultra-time").innerHTML = ultra.time !== undefined ? `Time: ${ultra.time}` : "";
+                            document.querySelector(".ultra-apm").innerHTML = ultra.apm !== undefined ? `APM: ${ultra.apm}` : "";
+                            document.querySelector(".ultra-pps").innerHTML = ultra.pps !== undefined ? `PPS: ${ultra.pps}` : "";
+                            // 40 Line
+                            const forty = result["40lineFastestTime"] || {};
+                            document.querySelector(".forty-line-score").innerHTML = forty.score !== undefined ? `Score: ${forty.score}` : "";
+                            document.querySelector(".forty-line-lines").innerHTML = forty.lines !== undefined ? `Lines: ${forty.lines}` : "";
+                            document.querySelector(".forty-line-time").innerHTML = forty.time !== undefined ? `Time: ${forty.time}` : "";
+                            document.querySelector(".forty-line-apm").innerHTML = forty.apm !== undefined ? `APM: ${forty.apm}` : "";
+                            document.querySelector(".forty-line-pps").innerHTML = forty.pps !== undefined ? `PPS: ${forty.pps}` : "";
+                            // Virtual Battle
+                            const vb = result["virtualBattleHighestEnemyApm"] || {};
+                            document.querySelector(".virtualbattle-score").innerHTML = vb.score !== undefined ? `Score: ${vb.score}` : "";
+                            document.querySelector(".virtualbattle-lines").innerHTML = vb.lines !== undefined ? `Lines: ${vb.lines}` : "";
+                            document.querySelector(".virtualbattle-time").innerHTML = vb.time !== undefined ? `Time: ${vb.time}` : "";
+                            document.querySelector(".virtualbattle-apm").innerHTML = vb.apm !== undefined ? `APM: ${vb.apm}` : "";
+                            document.querySelector(".virtualbattle-pps").innerHTML = vb.pps !== undefined ? `PPS: ${vb.pps}` : "";
+                            document.querySelector(".virtualbattle-enemyapm").innerHTML = vb.enemyApm !== undefined ? `Enemy APM: ${vb.enemyApm}` : "";
+                            document.querySelector(".virtualbattle-battlewin").innerHTML = vb.battleWin !== undefined ? `Battle Win: ${vb.battleWin ? "○" : "×"}` : "";
+                            // ほかの要素を更新
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }, 1000);
                 })
                 document.querySelector(".user-container").appendChild(child);
                 // If there's an active search query, re-apply filtering so newly added items respect it
@@ -122,6 +175,7 @@ if (searchClear) {
 }
 
 function show_chat() {
+    document.querySelector(".player_status").style.display = "none";
     document.querySelector(".show-chat").style.display = "none"
     document.querySelector("iframe").style.display = "block"
     document.querySelector("iframe").src = "../chat.html?to=" + document.querySelector(".user-name-label").innerHTML;
@@ -187,3 +241,4 @@ window.getActiveUsers = getActiveUsers;
 
 window.player_data;
 window.show_chat = show_chat;
+let fetch_timeout;
