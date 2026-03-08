@@ -327,6 +327,37 @@ span.online {
     color: var(--text-sub);
 }
 
+
+.player_status {
+    margin: 14px 12px 0;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(143, 224, 255, 0.22);
+    background:
+        linear-gradient(180deg, rgba(20, 38, 72, 0.92), rgba(13, 24, 45, 0.9)),
+        radial-gradient(circle at 80% 10%, rgba(97, 208, 255, 0.2), transparent 45%);
+    box-shadow: 0 10px 26px rgba(2, 8, 22, 0.42);
+}
+
+.player_status .rank {
+    letter-spacing: 0.04em;
+}
+
+.player_status .point {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.player_status .online {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(111, 255, 111, 0.26);
+    color: #dfffe2;
+    background: rgba(75, 145, 84, 0.2);
+}
 span.online::before {
     content: "";
     display: inline-block;
@@ -407,6 +438,17 @@ iframe {
         border-top-right-radius: var(--radius-lg);
     }
 
+
+
+    .player_status {
+        margin: 10px 10px 0;
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .player_status .online {
+        margin-left: 0;
+    }
     iframe {
         width: calc(100% - 20px);
         height: 44vh;
