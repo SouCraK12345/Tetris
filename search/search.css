@@ -1,52 +1,68 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+:root {
+    --bg-top: #030617;
+    --bg-bottom: #0a1732;
+    --panel: rgba(18, 28, 54, 0.85);
+    --panel-strong: rgba(24, 36, 67, 0.96);
+    --card: rgba(255, 255, 255, 0.08);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --text-main: #f7f9ff;
+    --text-sub: rgba(234, 240, 255, 0.76);
+    --accent: #61d0ff;
+    --accent-soft: rgba(97, 208, 255, 0.3);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-lg: 0 18px 44px rgba(1, 4, 14, 0.46);
+}
+
 html,
 body {
-    background-color: #04071a;
-    color: white;
     width: 100%;
     height: 100%;
     margin: 0;
+    color: var(--text-main);
+    background:
+        radial-gradient(circle at 18% -4%, rgba(58, 117, 255, 0.26), transparent 38%),
+        radial-gradient(circle at 84% 10%, rgba(55, 207, 255, 0.2), transparent 38%),
+        linear-gradient(185deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
     overflow: hidden;
     scrollbar-width: thin;
+    font-family: "Roboto", sans-serif;
 }
 
 .init {
-    background-color: #04071a;
+    background: linear-gradient(180deg, #050b1f 0%, #030514 100%);
     width: 100%;
     height: 100%;
     overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .init.fadeout {
-    animation: big-fadeout 0.3s forwards linear;
+    animation: big-fadeout 0.32s forwards linear;
 }
 
 .init>span {
     display: block;
-    letter-spacing: 5px;
-    font-family: "Roboto", sans-serif;
-    color: white;
+    letter-spacing: 0.18em;
+    color: #ffffff;
     width: 100%;
     text-align: center;
     position: relative;
     top: 50%;
-    font-size: 2em;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
 }
 
 .init>hr {
     position: relative;
-    top: calc(50%);
+    top: 50%;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.48);
     animation: hr-wide 1.5s forwards cubic-bezier(0.01, -0.01, 0, 1);
-}
-
-.user-data-container.show {
-    animation: fadeIn-fromRight .5s forwards;
-    display: block;
 }
 
 @keyframes hr-wide {
@@ -95,120 +111,23 @@ body {
     }
 }
 
-.user-block {
-    background-color: #424452;
-    margin: 20px;
-    height: 70px;
-    animation: fadeIn-fromLeft 0.5s forwards ease-out;
-}
-
-.user-block>div {
-    display: inline-block;
-    position: relative;
-    color: #ffffff;
-    font-size: 20px;
-    top: 20px;
-}
-
-.user-name {
-    left: 20px;
-    width: 70%;
-}
-
-.user-point {
-    left: 0;
-    width: 20%;
-}
-
-.user-rank {
-    left: 0;
-}
-
-.user-container {
-    width: 50%;
-    overflow-y: scroll;
-    height: calc(90vh - 45px);
-    scrollbar-width: none;
-}
-
-.image-tile {
-    background-color: #424452;
-    background-size: cover;
-    height: 300px;
-    position: relative;
-}
-
-p.user-name-label {
-    position: absolute;
-    bottom: 0;
-    font-family: "Roboto", sans-serif;
-    font-size: 3em;
-    margin: 0 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-span.rank {
-    font-family: "Roboto", sans-serif;
-    font-size: 3em;
-    margin: 10px;
-}
-
-span.point,
-span.online {
-    font-family: "Roboto", sans-serif;
-    font-size: 1.25em;
-    margin: 10px;
-}
-
-span.online::before {
-    content: "";
-    display: inline-block;
-    margin-bottom: 2px;
-    margin-right: 3px;
-    width: 10px;
-    /* 丸の大きさ */
-    height: 10px;
-    /* 丸の大きさ */
-    background-color: #6fff6f;
-    /* 緑色 */
-    border-radius: 50%;
-    /* 丸にする */
-}
-
-.user-data-container {
-    display: none;
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 50%;
-    height: 100%;
-}
-
-iframe {
-    display: block;
-    width: 100%;
-    height: 60%;
-    position: absolute;
-    bottom: 10px;
-}
-
-.show-chat {
-    display: block;
-    width: 100%;
-}
-
 .header {
     margin-left: 20px;
-    margin-top: 20px;
-    font-size: min(3.5vw, 5vh);
-    width: calc(50% - 20px);
+    margin-top: 18px;
+    padding: 14px 16px;
+    font-size: min(2.8vw, 4.1vh);
+    width: calc(50% - 40px);
     overflow: hidden;
     white-space: nowrap;
-    height: calc(10vh - 20px);
+    border-radius: var(--radius-md);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28);
+    text-overflow: ellipsis;
 }
 
 .header>a {
-    color: white;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -218,47 +137,46 @@ iframe {
 
 .spacing {
     display: inline-block;
-    width: 20px;
+    width: 14px;
 }
 
-/* --- search bar styling (align with other left column elements) --- */
 .search-bar {
     margin-left: 20px;
     margin-top: 12px;
-    width: calc(50% - 20px);
+    width: calc(50% - 40px);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     box-sizing: border-box;
 }
 
 #user-search {
     flex: 1 1 auto;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background: #1f2330;
-    border: 1px solid rgba(255,255,255,0.06);
-    color: #ffffff;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: var(--radius-md);
+    background: rgba(10, 20, 43, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--text-main);
     font-size: 1rem;
-    font-family: "Roboto", sans-serif;
     outline: none;
-    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 #user-search::placeholder {
-    color: rgba(255,255,255,0.6);
+    color: rgba(233, 240, 255, 0.55);
 }
 
 #user-search:focus {
-    border-color: rgba(255,255,255,0.18);
-    box-shadow: 0 0 0 3px rgba(100,120,255,0.06);
+    border-color: rgba(97, 208, 255, 0.72);
+    box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
-/* Hide native browser clear icons for input[type=search] so only our custom button shows */
 #user-search::-webkit-search-cancel-button {
     -webkit-appearance: none;
     display: none;
 }
+
 #user-search::-ms-clear,
 #user-search::-ms-reveal {
     display: none;
@@ -270,17 +188,228 @@ iframe {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.04);
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     color: #ffffff;
-    font-size: 1.1rem;
+    font-size: 1.14rem;
     cursor: pointer;
-    margin-right: 20px;
+    transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
 }
 
 #search-clear:hover {
-    background: rgba(255,255,255,0.06);
+    transform: translateY(-1px);
+    background: rgba(97, 208, 255, 0.2);
+    border-color: rgba(97, 208, 255, 0.52);
+}
+
+.user-container {
+    width: 50%;
+    height: calc(100vh - 126px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(140, 178, 255, 0.46) rgba(255, 255, 255, 0.04);
+    margin-top: 5px;
+}
+
+.user-block {
+    margin: 12px 20px;
+    min-height: 70px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--card-border);
+    box-shadow: 0 8px 20px rgba(3, 6, 18, 0.35);
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    animation: fadeIn-fromLeft 0.4s forwards ease-out;
+    transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.user-block:hover {
+    transform: translateY(-2px);
+    border-color: rgba(97, 208, 255, 0.38);
+    background: linear-gradient(180deg, rgba(97, 208, 255, 0.16), rgba(255, 255, 255, 0.08));
+}
+
+.user-block>div {
+    color: #ffffff;
+    font-size: clamp(0.95rem, 1.75vw, 1.2rem);
+}
+
+.user-name {
+    width: 68%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-point {
+    width: 22%;
+    text-align: right;
+    color: var(--text-sub);
+}
+
+.user-rank {
+    width: 10%;
+    text-align: right;
+    font-weight: 700;
+    color: #9be2ff;
+}
+
+.user-data-container {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--panel);
+    backdrop-filter: blur(8px);
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-lg);
+}
+
+.user-data-container.show {
+    display: block;
+    animation: fadeIn-fromRight 0.42s forwards;
+}
+
+.image-tile {
+    background-color: rgba(255, 255, 255, 0.08);
+    background-size: cover;
+    background-position: center;
+    height: 280px;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.image-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 40%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+p.user-name-label {
+    position: absolute;
+    z-index: 1;
+    bottom: 10px;
+    left: 8px;
+    font-size: clamp(1.6rem, 3.1vw, 2.6rem);
+    margin: 0 10px;
+    text-shadow: 0 6px 16px rgba(0, 0, 0, 0.62);
+}
+
+.rank-point {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    background: linear-gradient(180deg, var(--panel-strong), rgba(24, 34, 64, 0.82));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+span.rank {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    margin: 0 8px 0 4px;
+    color: #8fe0ff;
+    font-weight: 700;
+}
+
+span.point,
+span.online {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    margin: 0 6px;
+    color: var(--text-sub);
+}
+
+span.online::before {
+    content: "";
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-right: 6px;
+    width: 10px;
+    height: 10px;
+    background-color: #6fff6f;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(111, 255, 111, 0.72);
+}
+
+.show-chat {
+    display: block;
+    width: calc(100% - 24px);
+    margin: 10px 12px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    color: #ecf6ff;
+    font-size: 0.95rem;
+    background: linear-gradient(180deg, rgba(97, 208, 255, 0.28), rgba(62, 135, 216, 0.22));
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.show-chat:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(40, 124, 194, 0.36);
+}
+
+iframe {
+    display: block;
+    width: calc(100% - 24px);
+    height: calc(100% - 392px);
+    margin: 12px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(8, 15, 32, 0.9);
+}
+
+@media (max-width: 980px) {
+    body {
+        overflow: auto;
+    }
+
+    .header,
+    .search-bar {
+        width: calc(100% - 40px);
+    }
+
+    .header {
+        font-size: clamp(1rem, 3.9vw, 1.4rem);
+    }
+
+    .user-container {
+        width: 100%;
+        height: auto;
+        padding-bottom: 10px;
+    }
+
+    .user-block {
+        margin: 10px 12px;
+    }
+
+    .user-data-container {
+        position: relative;
+        width: calc(100% - 24px);
+        height: auto;
+        margin: 8px 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius-lg);
+    }
+
+    .image-tile {
+        height: 220px;
+        border-top-left-radius: var(--radius-lg);
+        border-top-right-radius: var(--radius-lg);
+    }
+
+    iframe {
+        width: calc(100% - 20px);
+        height: 44vh;
+        margin: 0 10px 10px;
+    }
 }
