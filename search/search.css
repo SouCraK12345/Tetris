@@ -369,8 +369,8 @@ iframe {
 }
 
 .player_status {
-    margin: 12px 20px;
-    padding: 14px;
+    margin: 18px 20px;
+    padding: 22px;
     border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.12);
     background:
@@ -378,14 +378,14 @@ iframe {
         rgba(8, 14, 30, 0.82);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 28px rgba(4, 10, 24, 0.38);
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
 }
 
 .player_status>h1 {
-    margin: 10px 0 2px;
-    padding: 6px 2px;
-    font-size: 0.9rem;
+    margin: 16px 0 4px;
+    padding: 8px 4px;
+    font-size: 0.92rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: #9eddff;
@@ -399,13 +399,15 @@ iframe {
 }
 
 .player_status>div {
-    min-height: 34px;
-    padding: 7px 10px;
+    min-height: 44px;
+    padding: 10px 12px;
     display: flex;
     align-items: center;
-    border-radius: 9px;
+    border-radius: 10px;
     color: rgba(236, 245, 255, 0.92);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    word-break: break-word;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -460,7 +462,9 @@ iframe {
     }
 
     .player_status {
-        margin: 10px;
+        margin: 12px;
+        padding: 16px;
         grid-template-columns: 1fr;
+        gap: 10px;
     }
 }
