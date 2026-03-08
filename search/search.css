@@ -207,7 +207,7 @@ body {
 
 .user-container {
     width: 50%;
-    height: calc(100vh - 126px);
+    height: calc(100vh - 153px);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(140, 178, 255, 0.46) rgba(255, 255, 255, 0.04);
@@ -259,6 +259,7 @@ body {
     color: #9be2ff;
 }
 
+
 .user-data-container {
     display: none;
     position: fixed;
@@ -270,6 +271,9 @@ body {
     backdrop-filter: blur(8px);
     border-left: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(140, 178, 255, 0.46) rgba(255, 255, 255, 0.04);
 }
 
 .user-data-container.show {

@@ -100,7 +100,7 @@ onValue(msgRef, (snapshot) => {
                             } catch {
                                 console.log(resultText);
                             }
-                            document.querySelector(".player_status").style.display = "block";
+                            document.querySelector(".player_status").style.display = "grid";
                             const result = JSON.parse(resultText);
                             // Ultra
                             const ultra = result["ultraHighestScore"] || {};
