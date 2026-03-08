@@ -18,3 +18,9 @@ __pycache__/
 # ログ・DB
 *.log
 *.sqlite3
+
+# gemini-cli settings
+.gemini/
+
+# GitHub App credentials
+gha-creds-*.json
