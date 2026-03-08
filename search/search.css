@@ -368,6 +368,10 @@ iframe {
     background: rgba(8, 15, 32, 0.9);
 }
 
+.player_status{
+    margin: 12px 20px;
+}
+
 @media (max-width: 980px) {
     body {
         overflow: auto;
