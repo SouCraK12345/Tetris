@@ -291,6 +291,10 @@
 
       <div class="setting-section">
         <h3 class="setting-section-title">BGM</h3>
+        <div class="slider-container center">
+          <input type="range" min="0" max="100" value="100" class="slider" id="bgm-volume" />
+          <p class="slider-value">音量: <span id="bgm-volume-label">100</span>%</p>
+        </div>
         <input type="file" id="folderInput" webkitdirectory multiple class="file-input">
         <div id="audioList"></div>
         <div id="music-list-container">
