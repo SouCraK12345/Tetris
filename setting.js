@@ -80,6 +80,28 @@ notificationToggle.addEventListener("change", function () {
 });
 
 
+const bgmVolumeSlider = document.getElementById("bgm-volume");
+const bgmVolumeLabel = document.getElementById("bgm-volume-label");
+let bgmVolume = Number(localStorage.getItem("bgm_volume") || "100");
+if (Number.isNaN(bgmVolume)) {
+  bgmVolume = 100;
+}
+bgmVolumeSlider.value = String(bgmVolume);
+bgmVolumeLabel.innerHTML = String(bgmVolume);
+
+function applyBgmVolume(volume) {
+  const normalizedVolume = Math.min(1, Math.max(0, Number(volume) / 100));
+  document.querySelectorAll("audio").forEach((audio) => {
+    audio.volume = normalizedVolume;
+  });
+}
+
+bgmVolumeSlider.addEventListener("input", function () {
+  bgmVolumeLabel.innerHTML = this.value;
+  localStorage.setItem("bgm_volume", this.value);
+  applyBgmVolume(this.value);
+});
+
 const musicStopToggle = document.querySelector("input.stop-music");
 const musicStopSaved = localStorage.getItem("music_stop_toggle");
 if (musicStopSaved !== null) {
@@ -382,6 +404,7 @@ function renderAudio(musicData) {
   audio.src = url;
   audio.classList.add("music-item");
   audio.setAttribute("data-title", musicData.name.replace(/\.[^/.]+$/, ""));
+  audio.volume = Math.min(1, Math.max(0, Number(localStorage.getItem("bgm_volume") || "100") / 100));
 
   audioList.appendChild(label);
   audioList.appendChild(audio);
@@ -418,6 +441,7 @@ folderInput.addEventListener("change", async () => {
 
 // ページロード時に保存された曲を復元
 document.addEventListener("DOMContentLoaded", async () => {
+  applyBgmVolume(localStorage.getItem("bgm_volume") || "100");
   try {
     await initDB();
     const savedMusic = await loadFromIndexedDB();
