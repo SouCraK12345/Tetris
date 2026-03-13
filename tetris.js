@@ -189,7 +189,6 @@ function game() {
         if (key_list[4] === true) {
             if (key_down[4] === 0) {
                 rotate(-1);
-                is_t_spin = true;
                 document.querySelector(".move").currentTime = 0;
                 document.querySelector(".move").play();
             }
@@ -202,7 +201,6 @@ function game() {
         if (key_list[5] === true) {
             if (key_down[5] === 0) {
                 rotate(1);
-                is_t_spin = true;
                 document.querySelector(".move").currentTime = 0;
                 document.querySelector(".move").play();
             }
@@ -215,7 +213,6 @@ function game() {
         if (key_list[7] === true) {
             if (key_down[7] === 0) {
                 rotate(2);
-                is_t_spin = true;
                 document.querySelector(".move").currentTime = 0;
                 document.querySelector(".move").play();
             }
@@ -470,6 +467,8 @@ function rotate(d) {
     }
     if (end === 0) {
         tet_d = before_d;
+    }else{
+        is_t_spin = true;
     }
 }
 
